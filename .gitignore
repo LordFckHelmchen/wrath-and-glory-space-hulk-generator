@@ -1,0 +1,8 @@
+# Virtual environment
+/.venv/
+
+# Generated files from unittests
+/tests/generated_*/
+
+# IntelliJ
+/.idea/
