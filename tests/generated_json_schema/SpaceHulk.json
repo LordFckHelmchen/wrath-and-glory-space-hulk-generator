@@ -1,0 +1,162 @@
+{
+  "title": "SpaceHulk",
+  "type": "object",
+  "properties": {
+    "origins": {
+      "$ref": "#/definitions/RandomTableEventList"
+    },
+    "occupations": {
+      "$ref": "#/definitions/RandomTableEventList"
+    },
+    "purposes": {
+      "$ref": "#/definitions/RandomTableEventList"
+    },
+    "rooms": {
+      "$ref": "#/definitions/SizedRandomTableEventList"
+    },
+    "hazards": {
+      "$ref": "#/definitions/RandomTableEventList"
+    }
+  },
+  "required": [
+    "origins",
+    "occupations",
+    "purposes",
+    "rooms",
+    "hazards"
+  ],
+  "definitions": {
+    "EventCountConstraint": {
+      "title": "EventCountConstraint",
+      "type": "object",
+      "properties": {
+        "minimum": {
+          "title": "Minimum",
+          "default": 0,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "maximum": {
+          "title": "Maximum",
+          "default": 1000,
+          "minimum": 0,
+          "maximum": 1000,
+          "type": "integer"
+        }
+      }
+    },
+    "RandomTableEvent": {
+      "title": "RandomTableEvent",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "RandomTableEventList": {
+      "title": "RandomTableEventList",
+      "type": "object",
+      "properties": {
+        "event_count_constraint": {
+          "$ref": "#/definitions/EventCountConstraint"
+        },
+        "events": {
+          "title": "Events",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RandomTableEvent"
+          }
+        }
+      },
+      "required": [
+        "event_count_constraint",
+        "events"
+      ]
+    },
+    "UnitOfMeasurement": {
+      "title": "UnitOfMeasurement",
+      "description": "An enumeration.",
+      "enum": [
+        "m"
+      ]
+    },
+    "MapObjectSize": {
+      "title": "MapObjectSize",
+      "type": "object",
+      "properties": {
+        "x": {
+          "title": "X",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 500,
+          "type": "integer"
+        },
+        "y": {
+          "title": "Y",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 500,
+          "type": "integer"
+        },
+        "unit": {
+          "default": "m",
+          "allOf": [
+            {
+              "$ref": "#/definitions/UnitOfMeasurement"
+            }
+          ]
+        }
+      }
+    },
+    "SizedRandomTableEvent": {
+      "title": "SizedRandomTableEvent",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "size": {
+          "$ref": "#/definitions/MapObjectSize"
+        }
+      },
+      "required": [
+        "name",
+        "size"
+      ]
+    },
+    "SizedRandomTableEventList": {
+      "title": "SizedRandomTableEventList",
+      "type": "object",
+      "properties": {
+        "event_count_constraint": {
+          "$ref": "#/definitions/EventCountConstraint"
+        },
+        "events": {
+          "title": "Events",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SizedRandomTableEvent"
+          }
+        }
+      },
+      "required": [
+        "event_count_constraint",
+        "events"
+      ]
+    }
+  }
+}

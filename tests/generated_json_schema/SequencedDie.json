@@ -1,0 +1,20 @@
+{
+  "title": "SequencedDie",
+  "type": "object",
+  "properties": {
+    "sides": {
+      "title": "Sides",
+      "exclusiveMinimum": 0,
+      "type": "integer"
+    },
+    "number_of_dice": {
+      "title": "Number Of Dice",
+      "exclusiveMinimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "sides",
+    "number_of_dice"
+  ]
+}

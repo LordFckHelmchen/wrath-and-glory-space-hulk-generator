@@ -1,0 +1,87 @@
+graph {
+	graph [bgcolor=black center=true margin=0 pad=2 splines=ortho]
+	node [color=white fontsize=20 style=filled]
+	edge [color=white penwidth=25]
+	"Communications Array" [label="Communications
+Array
+3x3 m" fixedsize=true fontsize=23 height=3 root=false shape=rectangle width=3]
+	"Compressed Junction" [label="Compressed
+Junction
+5x5 m" fixedsize=true fontsize=25 height=5 root=false shape=rectangle width=5]
+	"Damaged Consoles" [label="Damaged
+Consoles
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Dead End" [label="Dead
+End
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Derelict Engines" [label="Derelict
+Engines
+10x10 m" fixedsize=true fontsize=32 height=10 root=false shape=rectangle width=10]
+	"Endless Labyrinth" [label="Endless
+Labyrinth
+5x5 m" fixedsize=true fontsize=25 height=5 root=false shape=rectangle width=5]
+	"Hull Breach" [label="Hull
+Breach
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Impossible Stairwells" [label="Impossible
+Stairwells
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Jammed Doorways" [label="Jammed
+Doorways
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Life Support" [label="Life
+Support
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Medical Bay" [label="Medical
+Bay
+5x5 m" fixedsize=true fontsize=25 height=5 root=false shape=rectangle width=5]
+	Reliquary [label="Reliquary
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Supply Cache" [label="Supply
+Cache
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Tangled Piping" [label="Tangled
+Piping
+5x5 m" fixedsize=true fontsize=25 height=5 root=false shape=rectangle width=5]
+	"Unknown Technology" [label="Unknown
+Technology
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Unmarked Graveyard" [label="Unmarked
+Graveyard
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Vast Hangar" [label="Vast
+Hangar
+20x20 m" fixedsize=true fontsize=46 height=20 root=true shape=rectangle width=20]
+	"Vertical Shaft" [label="Vertical
+Shaft
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Warp-Tainted Chamber" [label="Warp-Tainted
+Chamber
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Weapons Silo" [label="Weapons
+Silo
+10x10 m" fixedsize=true fontsize=32 height=10 root=false shape=rectangle width=10]
+	"Worrisome Lever" [label="Worrisome
+Lever
+2x2 m" fixedsize=true fontsize=21 height=2 root=false shape=rectangle width=2]
+	"Communications Array" -- Reliquary
+	"Compressed Junction" -- "Unmarked Graveyard"
+	"Damaged Consoles" -- "Supply Cache"
+	"Dead End" -- "Unmarked Graveyard"
+	"Derelict Engines" -- Reliquary
+	"Endless Labyrinth" -- "Supply Cache"
+	"Hull Breach" -- Reliquary
+	"Impossible Stairwells" -- "Unmarked Graveyard"
+	"Jammed Doorways" -- Reliquary
+	"Life Support" -- "Unmarked Graveyard"
+	"Medical Bay" -- "Unmarked Graveyard"
+	Reliquary -- "Unmarked Graveyard"
+	Reliquary -- "Weapons Silo"
+	"Supply Cache" -- "Tangled Piping"
+	"Supply Cache" -- "Unknown Technology"
+	"Supply Cache" -- "Unmarked Graveyard"
+	"Supply Cache" -- "Vertical Shaft"
+	"Supply Cache" -- "Warp-Tainted Chamber"
+	"Unmarked Graveyard" -- "Vast Hangar"
+	"Unmarked Graveyard" -- "Worrisome Lever"
+}
