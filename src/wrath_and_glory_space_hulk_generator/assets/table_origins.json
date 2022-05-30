@@ -1,0 +1,29 @@
+{
+  "table_name": "Origins",
+  "event_count_constraint": {
+    "minimum": 1,
+    "maximum": 4
+  },
+  "events": [
+    {
+      "range": {"minimum": 11, "maximum": 33},
+      "name": "Imperial"
+    },
+    {
+      "range": {"minimum": 34, "maximum": 46},
+      "name": "Chaos"
+    },
+    {
+      "range": {"minimum": 51, "maximum": 54},
+      "name": "Aeldari"
+    },
+    {
+      "range": {"minimum": 55, "maximum": 62},
+      "name": "Ork"
+    },
+    {
+      "range": {"minimum": 63, "maximum": 66},
+      "name": "Mixed Origin"
+    }
+  ]
+}

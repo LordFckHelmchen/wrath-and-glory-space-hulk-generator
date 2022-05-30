@@ -1,0 +1,387 @@
+{
+  "table_name": "Rooms",
+  "event_count_constraint": {
+    "minimum": 1,
+    "maximum": 100
+  },
+  "events": [
+    {
+      "range": {
+        "minimum": 11,
+        "maximum": 12
+      },
+      "name": "Supply Cache",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 13,
+        "maximum": 14
+      },
+      "name": "Reliquary",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 10
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 10
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 15,
+        "maximum": 16
+      },
+      "name": "Warp-Tainted Chamber",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 10
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 10
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 21,
+        "maximum": 22
+      },
+      "name": "Vast Hangar",
+      "size_constraint": {
+        "x": {
+          "minimum": 20,
+          "maximum": 500
+        },
+        "y": {
+          "minimum": 20,
+          "maximum": 300
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 23,
+        "maximum": 24
+      },
+      "name": "Impossible Stairwells",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 10
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 10
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 25,
+        "maximum": 26
+      },
+      "name": "Vertical Shaft",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 31,
+        "maximum": 32
+      },
+      "name": "Compressed Junction",
+      "size_constraint": {
+        "x": {
+          "minimum": 5,
+          "maximum": 20
+        },
+        "y": {
+          "minimum": 5,
+          "maximum": 10
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 33,
+        "maximum": 34
+      },
+      "name": "Weapons Silo",
+      "size_constraint": {
+        "x": {
+          "minimum": 10,
+          "maximum": 40
+        },
+        "y": {
+          "minimum": 10,
+          "maximum": 40
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 35,
+        "maximum": 36
+      },
+      "name": "Tangled Piping",
+      "size_constraint": {
+        "x": {
+          "minimum": 5,
+          "maximum": 20
+        },
+        "y": {
+          "minimum": 5,
+          "maximum": 20
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 41,
+        "maximum": 42
+      },
+      "name": "Endless Labyrinth",
+      "size_constraint": {
+        "x": {
+          "minimum": 10,
+          "maximum": 100
+        },
+        "y": {
+          "minimum": 10,
+          "maximum": 100
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 43,
+        "maximum": 44
+      },
+      "name": "Damaged Consoles",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 45,
+        "maximum": 46
+      },
+      "name": "Worrisome Lever",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 51,
+        "maximum": 51
+      },
+      "name": "Unknown Technology",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 20
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 20
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 52,
+        "maximum": 52
+      },
+      "name": "Unmarked Graveyard",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 40
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 40
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 53,
+        "maximum": 53
+      },
+      "name": "Hull Breach",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 20
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 20
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 54,
+        "maximum": 54
+      },
+      "name": "Jammed Doorways",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 55,
+        "maximum": 56
+      },
+      "name": "Communications Array",
+      "size_constraint": {
+        "x": {
+          "minimum": 3,
+          "maximum": 10
+        },
+        "y": {
+          "minimum": 3,
+          "maximum": 10
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 61,
+        "maximum": 62
+      },
+      "name": "Derelict Engines",
+      "size_constraint": {
+        "x": {
+          "minimum": 10,
+          "maximum": 100
+        },
+        "y": {
+          "minimum": 10,
+          "maximum": 100
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 63,
+        "maximum": 64
+      },
+      "name": "Dead End",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 5
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 65,
+        "maximum": 65
+      },
+      "name": "Life Support",
+      "size_constraint": {
+        "x": {
+          "minimum": 2,
+          "maximum": 10
+        },
+        "y": {
+          "minimum": 2,
+          "maximum": 10
+        },
+        "unit": "m"
+      }
+    },
+    {
+      "range": {
+        "minimum": 66,
+        "maximum": 66
+      },
+      "name": "Medical Bay",
+      "size_constraint": {
+        "x": {
+          "minimum": 5,
+          "maximum": 20
+        },
+        "y": {
+          "minimum": 5,
+          "maximum": 20
+        },
+        "unit": "m"
+      }
+    }
+  ]
+}

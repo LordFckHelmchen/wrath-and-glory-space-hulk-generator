@@ -1,0 +1,57 @@
+{
+  "table_name": "Occupations",
+  "event_count_constraint": {
+    "maximum": 100
+  },
+  "events": [
+    {
+      "range": {"minimum": 11, "maximum": 13},
+      "name": "Lost Cult",
+      "description": "A lost cult who believe the Emperor is dead"
+    },
+    {
+      "range": {"minimum": 14, "maximum": 16},
+      "name": "Aeldari",
+      "description": "Aeldari in deep meditative stasis"
+    },
+    {
+      "range": {"minimum": 21, "maximum": 22},
+      "name": "Genestealers",
+      "description": "A Genestealer cult of 4th-5th generation"
+    },
+    {
+      "range": {"minimum": 23, "maximum": 26},
+      "name": "Chaos Cultists",
+      "description": "Cultists of Chaos cursed with longevity"
+    },
+    {
+      "range": {"minimum": 31, "maximum": 34},
+      "name": "Rogue Psykers",
+      "description": "A cabal of rogue psykers hiding from the Imperium"
+    },
+    {
+      "range": {"minimum": 35, "maximum": 36},
+      "name": "Purestrain Genestealers"
+    },
+    {
+      "range": {"minimum": 41, "maximum": 43},
+      "name": "Chaos Space Marines",
+      "description": "Chaos Space Marines preparing to summon a Greater Daemon"
+    },
+    {
+      "range": {"minimum": 44, "maximum": 46},
+      "name": "Orks",
+      "description": "A band of Orks who have descended into internecine civil war"
+    },
+    {
+      "range": {"minimum": 51, "maximum": 56},
+      "name": "Feral Humans",
+      "description": "A society of feral mutant Humans"
+    },
+    {
+      "range": {"minimum": 61, "maximum": 66},
+      "name": "Explorator force",
+      "description": "An Explorator force, supported by Battle Servitors and Kastelan Robots"
+    }
+  ]
+}

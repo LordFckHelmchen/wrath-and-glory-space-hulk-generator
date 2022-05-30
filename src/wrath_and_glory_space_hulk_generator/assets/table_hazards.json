@@ -1,0 +1,28 @@
+{
+  "table_name": "Hazards",
+  "event_count_constraint": {
+    "maximum": 5
+  },
+  "events": [
+    {
+      "range": {"minimum": 1, "maximum": 2},
+      "name": "Gravitational Surges"
+    },
+    {
+      "range": {"minimum": 3, "maximum": 3},
+      "name": "Collapsing Inwards"
+    },
+    {
+      "range": {"minimum": 4, "maximum": 4},
+      "name": "Warp Twisted"
+    },
+    {
+      "range": {"minimum": 5, "maximum": 5},
+      "name": "Genestealer Trap"
+    },
+    {
+      "range": {"minimum": 6, "maximum": 6},
+      "name": "Into the Warp"
+    }
+  ]
+}

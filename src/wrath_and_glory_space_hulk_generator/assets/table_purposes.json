@@ -1,0 +1,28 @@
+{
+  "table_name": "Purposes",
+  "event_count_constraint": {
+    "maximum": 4
+  },
+  "events": [
+    {
+      "range": {"minimum": 11, "maximum": 13},
+      "name": "Escape/Hijack"
+    },
+    {
+      "range": {"minimum": 21, "maximum": 26},
+      "name": "Infect/Subsume"
+    },
+    {
+      "range": {"minimum": 31, "maximum": 45},
+      "name": "Consume/Harvest"
+    },
+    {
+      "range": {"minimum": 51, "maximum": 54},
+      "name": "Raid/Steal"
+    },
+    {
+      "range": {"minimum": 55, "maximum": 66},
+      "name": "Defend/Protect"
+    }
+  ]
+}
