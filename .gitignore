@@ -2,7 +2,7 @@
 /.venv/
 
 # Generated files from unittests
-/tests/generated_*/
+/generated_*/
 
 # IntelliJ
 /.idea/
