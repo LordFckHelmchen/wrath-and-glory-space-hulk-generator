@@ -1,8 +1,11 @@
-# Virtual environment
+# Python
 /.venv/
+**/__pycache__/
 
 # Generated files from unittests
-/generated_*/
+/tests/generated_*/
+/generated_json_schema/
 
 # IntelliJ
 /.idea/
+
