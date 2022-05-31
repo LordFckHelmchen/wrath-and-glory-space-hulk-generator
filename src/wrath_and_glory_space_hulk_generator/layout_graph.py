@@ -50,7 +50,7 @@ class LayoutGraph(Graph):
 
     @property
     def global_node_font_size(self) -> PositiveFloat:
-        return float(self.node_attr.get("fontsize",  "16"))
+        return float(self.node_attr.get("fontsize", "16"))
 
 
 class LayoutGraphCreator:

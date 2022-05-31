@@ -1,7 +1,11 @@
 from enum import Enum
-from typing import Optional, Dict
+from typing import Dict
+from typing import Optional
 
-from pydantic import BaseModel, validator, PositiveInt, ConstrainedInt
+from pydantic import BaseModel
+from pydantic import ConstrainedInt
+from pydantic import PositiveInt
+from pydantic import validator
 
 from .positive_int_range import PositiveIntRange
 
