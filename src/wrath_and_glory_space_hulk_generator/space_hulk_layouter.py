@@ -1,4 +1,3 @@
-import logging
 import random
 from copy import copy
 from enum import Enum
@@ -10,10 +9,11 @@ from typing import Union
 from pydantic import NonNegativeInt
 from pydantic import PositiveInt
 
-from .layout_graph import LayoutGraphCreator, LayoutGraph
+from .layout_graph import LayoutGraph
+from .layout_graph import LayoutGraphCreator
 from .layout_graph import Node
 from .map_object_size import GlobalMapObjectSizeConstraint
-from .random_table_event_list import SizedRandomTableEvent
+from .random_table_event_collection import RandomTableEvent
 from .space_hulk import SpaceHulk
 
 
@@ -81,9 +81,8 @@ class SpaceHulkLayouter:
         return layout_creator.create(self.DEFAULT_GRAPH_PROPERTIES | engine_attr)
 
     @staticmethod
-    def _get_other_room(current_room: SizedRandomTableEvent,
-                        space_hulk: SpaceHulk,
-                        avoid_self_connection: bool = True) -> SizedRandomTableEvent:
+    def _get_other_room(current_room: RandomTableEvent, space_hulk: SpaceHulk,
+                        avoid_self_connection: bool = True) -> RandomTableEvent:
         other_room = random.choice(space_hulk.rooms.events)
         while avoid_self_connection and other_room.name == current_room.name:
             other_room = random.choice(space_hulk.rooms.events)

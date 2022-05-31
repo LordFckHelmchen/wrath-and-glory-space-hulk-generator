@@ -58,3 +58,10 @@ class MapObjectSize(BaseModel):
     @property
     def area(self) -> PositiveInt:
         return self.x * self.y
+
+    def __lt__(self, other: "MapObjectSize") -> bool:
+        if not isinstance(other, type(self)):
+            raise TypeError(f"Unsupported type '{type(other)}'")
+        if self.unit != other.unit:
+            raise NotImplementedError("Unit conversion between size objects isn't supported yet!")
+        return self.area < other.area

@@ -7,11 +7,10 @@ from pydantic import ConstrainedInt
 from pydantic import PositiveInt
 from pydantic import conint
 
-from .exceptions import EventCountOutOfRangeError
 from .exceptions import InvalidTableEventError
 from .random_table import RandomTable
-from .random_table_event_list import RandomTableEventList
 from .random_table import RandomTableEventInfoList
+from .random_table_event_collection import RandomTableEventCollection
 from .space_hulk import SpaceHulk
 from .space_hulk_tables import SpaceHulkTables
 
@@ -63,7 +62,7 @@ class SpaceHulkGenerator:
     def _is_mixed_origin(self, origin: str) -> bool:
         return origin.casefold() == self._mixed_origin_event_string.casefold()
 
-    def _create_origin(self) -> RandomTableEventList:
+    def _create_origin(self) -> RandomTableEventCollection:
         origin = self._tables.origins.generate_single_event()
         origins = {origin.name: origin}
         while self._mixed_origin_event_string in origins:
@@ -71,8 +70,8 @@ class SpaceHulkGenerator:
             origins |= {origin.name: origin for origin in
                         self._tables.origins.generate_events(
                             number_of_events=self._minimum_number_of_origins_for_mixed_origin_event).events}
-        return RandomTableEventList(events=list(origins.values()),
-                                    event_count_constraint=self._tables.origins.event_count_constraint)
+        return RandomTableEventCollection(events=list(origins.values()),
+                                          event_count_constraint=self._tables.origins.event_count_constraint)
 
     def get_table_events(self, table_name) -> RandomTableEventInfoList:
         events = getattr(self._tables, table_name).events

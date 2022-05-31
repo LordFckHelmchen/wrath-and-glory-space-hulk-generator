@@ -12,14 +12,11 @@ from pydantic import validator
 from .map_object_size import MapObjectDimensionConstraint
 from .map_object_size import MapObjectSize
 from .map_object_size import MapObjectSizeConstraint
-from .random_table_event_list import AnyRandomTableEvent, SizedRandomTableEventList
-from .random_table_event_list import EventCountConstraint
-from .random_table_event_list import RandomTableEvent
-from .random_table_event_list import RandomTableEventList
-from .random_table_event_list import SizedRandomTableEvent
+from .random_table_event_collection import EventCountConstraint
+from .random_table_event_collection import RandomTableEvent
 from .sequenced_die import SequencedDie
 from .sequenced_die import SequencedSixSidedDieRange
-from .space_hulk import AnyRandomTableEventList
+from .space_hulk import RandomTableEventCollection
 
 
 class RandomTableEventInfo(RandomTableEvent):
@@ -39,10 +36,8 @@ class RandomTableEventInfo(RandomTableEvent):
     def has_size_constraint(self) -> bool:
         return self.size_constraint is not None
 
-    def as_event(self) -> AnyRandomTableEvent:
-        if not self.has_size_constraint():
-            return RandomTableEvent(name=self.name, description=self.description)
-        return SizedRandomTableEvent(name=self.name, description=self.description, size=self.random_size())
+    def as_event(self) -> RandomTableEvent:
+        return RandomTableEvent(name=self.name, description=self.description, size=self.random_size())
 
 
 RandomTableEventInfoList = List[RandomTableEventInfo]
@@ -76,22 +71,17 @@ class RandomTable(BaseModel):
                                  f"'{event_i.name} {event_i.range}' overlaps with '{event_j.name} {event_j.range}'")
         return events
 
-    def generate_single_event(self) -> AnyRandomTableEvent:
+    def generate_single_event(self) -> RandomTableEvent:
         while not (event_info := next((info for info in self.events if self._die.roll() in info.range), None)):
             logging.debug("Re-rolling due to result being in an non-consecutive area")
 
         return event_info.as_event()
 
-    def generate_events(self, number_of_events: PositiveInt = 1) -> AnyRandomTableEventList:
+    def generate_events(self, number_of_events: PositiveInt = 1) -> RandomTableEventCollection:
         if number_of_events > self.event_count_constraint.maximum:
             logging.warning(f"Number of events may not be larger than {self.event_count_constraint.maximum}: "
                             f"Was {number_of_events}")
             number_of_events = self.event_count_constraint.maximum
 
-        generated_events = [self.generate_single_event() for _ in range(number_of_events)]
-
-        if any(event_info.size_constraint for event_info in self.events):
-            return SizedRandomTableEventList(events=generated_events,
-                                             event_count_constraint=self.event_count_constraint)
-
-        return RandomTableEventList(events=generated_events, event_count_constraint=self.event_count_constraint)
+        return RandomTableEventCollection(events=[self.generate_single_event() for _ in range(number_of_events)],
+                                          event_count_constraint=self.event_count_constraint)

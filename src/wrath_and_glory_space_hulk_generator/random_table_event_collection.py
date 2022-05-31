@@ -1,10 +1,10 @@
 from typing import List
 from typing import Optional
-from typing import Union
 
 from pydantic import BaseModel
 from pydantic import NonNegativeInt
 from pydantic import conint
+from pydantic import validator
 
 from .exceptions import EventCountOutOfRangeError
 from .exceptions import EventTypeError
@@ -15,14 +15,25 @@ from .positive_int_range import PositiveIntRange
 class RandomTableEvent(BaseModel):
     name: str
     description: Optional[str] = None
+    size: Optional[MapObjectSize] = None
+
+    def is_sized(self) -> bool:
+        return self.size is not None
 
     @property
     def name_with_description(self) -> str:
         return f"{self.name}{f' - {self.description}' if self.description else ''}"
 
+    def __lt__(self, other: "RandomTableEvent") -> bool:
+        return self.name_with_description < other.name_with_description \
+               or (self.is_sized() and other.is_sized() and self.size < other.size)
 
-class SizedRandomTableEvent(RandomTableEvent):
-    size: MapObjectSize
+    def __gt__(self, other: "RandomTableEvent") -> bool:
+        return self.name_with_description > other.name_with_description \
+               or (self.is_sized() and other.is_sized() and other.size < self.size)
+
+    def __eq__(self, other: "RandomTableEvent") -> bool:
+        return not (self < other or self > other)
 
 
 class EventCountConstraint(PositiveIntRange):
@@ -30,12 +41,13 @@ class EventCountConstraint(PositiveIntRange):
     maximum: conint(ge=0, le=1000) = 1000
 
 
-AnyRandomTableEvent = Union[RandomTableEvent, SizedRandomTableEvent]
-
-
-class RandomTableEventList(BaseModel):
+class RandomTableEventCollection(BaseModel):
     event_count_constraint: EventCountConstraint
     events: List[RandomTableEvent]
+
+    @validator("events")
+    def assure_events_are_sorted(cls, events: List) -> List:
+        return sorted(events)
 
     def __setattr__(self, key: str, value):
         _ = getattr(self, key)  # Raise AttributeError if not present
@@ -48,12 +60,12 @@ class RandomTableEventList(BaseModel):
                 raise EventCountOutOfRangeError(f"Event count out of range. "
                                                 f"'events' must have a number of elements within "
                                                 f"{self.event_count_constraint}, was {len(value)}.")
-        else:  # key == "event_count_constraint":
-            if len(self.events) not in value:
-                raise ValueError(f"Setting an event count constraint that would invalidate the current events. "
-                                 f"Number of current events {len(self.events)}, "
-                                 f"'event_count_constraint': {value}. "
-                                 f"If this occurred during __init__, provide matching 'events'")
+
+            value.sort()
+        elif len(self.events) not in value:  # key == "event_count_constraint":
+            raise ValueError(f"Setting an event count constraint that would invalidate the current events. "
+                             f"Number of current events {len(self.events)}, 'event_count_constraint': {value}. "
+                             f"If this occurred during __init__, provide matching 'events'")
 
         object.__setattr__(self, key, value)
 
@@ -63,12 +75,3 @@ class RandomTableEventList(BaseModel):
     def __iter__(self) -> RandomTableEvent:
         for event in self.events:
             yield event
-        # yield "events", self.events
-        # yield "event_count_constraint", self.event_count_constraint
-
-
-class SizedRandomTableEventList(RandomTableEventList):
-    events: List[SizedRandomTableEvent]
-
-    def __iter__(self):
-        return super().__iter__()
