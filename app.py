@@ -1,4 +1,4 @@
-import logging
+from pathlib import Path
 
 import streamlit as st
 
@@ -130,8 +130,11 @@ if is_space_hulk_created():
 
     # TODO: Fix wrong scaling for graph (no engine arg. in proto -> Consider showing image instead)
     # TODO: Fix chart not using layout engine
-    st.graphviz_chart(str(st.session_state.layout), use_container_width=False)  # str to avoid graphviz from crashing on derived Graph class.
-
+    st.session_state.layout.format = "png"
+    file_name = Path(f"layout.{st.session_state.layout.format}")
+    st.session_state.layout.render(outfile=str(file_name), directory="space_hulk", cleanup=True, view=False)
+    st.container().image(image=str(file_name), use_column_width=True, width=20)
+    # st.graphviz_chart(str(st.session_state.layout), use_container_width=False)  # str to avoid graphviz from crashing on derived Graph class.
 
     # TODO: Add download/export buttons
     # TODO: Add user action logging
