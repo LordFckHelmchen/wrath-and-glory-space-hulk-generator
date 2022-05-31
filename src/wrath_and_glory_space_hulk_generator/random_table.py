@@ -1,7 +1,4 @@
 import logging
-from random import randint
-from typing import List
-from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import Field
@@ -9,38 +6,11 @@ from pydantic import PositiveInt
 from pydantic import PrivateAttr
 from pydantic import validator
 
-from .map_object_size import MapObjectDimensionConstraint
-from .map_object_size import MapObjectSize
-from .map_object_size import MapObjectSizeConstraint
+from .random_table_event import RandomTableEvent
+from .random_table_event import RandomTableEventInfoList
 from .random_table_event_collection import EventCountConstraint
-from .random_table_event_collection import RandomTableEvent
 from .sequenced_die import SequencedDie
-from .sequenced_die import SequencedSixSidedDieRange
 from .space_hulk import RandomTableEventCollection
-
-
-class RandomTableEventInfo(RandomTableEvent):
-    range: SequencedSixSidedDieRange
-    size_constraint: Optional[MapObjectSizeConstraint] = None
-
-    def random_size(self) -> Optional[MapObjectSize]:
-        if not self.has_size_constraint():
-            return None
-
-        size = MapObjectSize()
-        for dim in ["x", "y"]:
-            dim_size_constraint: MapObjectDimensionConstraint = getattr(self.size_constraint, dim)
-            setattr(size, dim, randint(dim_size_constraint.minimum, dim_size_constraint.maximum))
-        return size
-
-    def has_size_constraint(self) -> bool:
-        return self.size_constraint is not None
-
-    def as_event(self) -> RandomTableEvent:
-        return RandomTableEvent(name=self.name, description=self.description, size=self.random_size())
-
-
-RandomTableEventInfoList = List[RandomTableEventInfo]
 
 
 class RandomTable(BaseModel):

@@ -3,7 +3,7 @@ from dataclasses import fields
 
 from src.wrath_and_glory_space_hulk_generator.random_table_event_collection import EventCountConstraint
 from src.wrath_and_glory_space_hulk_generator.random_table import RandomTable
-from src.wrath_and_glory_space_hulk_generator.random_table import RandomTableEventInfo
+from src.wrath_and_glory_space_hulk_generator.random_table_event import RandomTableEventInfo
 from src.wrath_and_glory_space_hulk_generator.sequenced_die import SequencedSixSidedDieRange
 from src.wrath_and_glory_space_hulk_generator.space_hulk_tables import SpaceHulkTables
 

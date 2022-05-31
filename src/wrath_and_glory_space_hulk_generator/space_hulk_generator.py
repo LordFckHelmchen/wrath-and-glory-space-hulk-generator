@@ -9,7 +9,7 @@ from pydantic import conint
 
 from .exceptions import InvalidTableEventError
 from .random_table import RandomTable
-from .random_table import RandomTableEventInfoList
+from .random_table_event import RandomTableEventInfoList
 from .random_table_event_collection import RandomTableEventCollection
 from .space_hulk import SpaceHulk
 from .space_hulk_tables import SpaceHulkTables
