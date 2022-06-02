@@ -1,16 +1,27 @@
 from pathlib import Path
+from typing import Dict
+from typing import Union
 
 import streamlit as st
 
 from src.wrath_and_glory_space_hulk_generator.exceptions import EventCountOutOfRangeError
+from src.wrath_and_glory_space_hulk_generator.layout_engine import LayoutEngine
+from src.wrath_and_glory_space_hulk_generator.layout_graph import LayoutGraph
 from src.wrath_and_glory_space_hulk_generator.space_hulk_generator import RoomCount
 from src.wrath_and_glory_space_hulk_generator.space_hulk_generator import SpaceHulkGenerator
-from src.wrath_and_glory_space_hulk_generator.space_hulk_layouter import LayoutEngine
+from src.wrath_and_glory_space_hulk_generator.space_hulk_layouter import LayoutFormat
 from src.wrath_and_glory_space_hulk_generator.space_hulk_layouter import SpaceHulkLayouter
 
 # st.set_page_config(layout="wide")
 
 IS_DEBUG = True
+PREVIEW_FILE_ID = "preview_file"
+DOWNLOAD_FILE_ID = "download_file"
+LAYOUT_FILE_PROPERTIES: Dict[str, Dict[str, Union[Path, str]]] \
+    = {PREVIEW_FILE_ID: {"format": LayoutFormat.PNG.value},
+       DOWNLOAD_FILE_ID: {"format": LayoutFormat.PDF.value, "mime": "application/pdf"}}
+for sink_id, sink_props in LAYOUT_FILE_PROPERTIES.items():
+    LAYOUT_FILE_PROPERTIES[sink_id]["file"] = Path(f"space_hulks/layout.{sink_props['format']}")
 
 
 def is_space_hulk_created() -> bool:
@@ -42,8 +53,9 @@ def recreate_layout_with_new_engine_if_layout_is_created() -> None:
 
 
 def get_layout_engine() -> LayoutEngine:
-    return st.session_state.layout_engine if "layout_engine" in st.session_state else \
-        LayoutEngine(SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["engine"])
+    if "layout_engine" in st.session_state and st.session_state.layout_engine in LayoutEngine:
+        return st.session_state.layout_engine
+    return LayoutEngine(SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["engine"])
 
 
 def update_metrics() -> None:
@@ -56,7 +68,6 @@ def update_metrics() -> None:
 def on_hulk_property_change_callback(table_name: str) -> None:
     widget_name = f"{table_name}_selection"
     valid_event_counts = getattr(st.session_state.generator._tables, table_name).event_count_constraint
-    st.write(f"{len(st.session_state[widget_name])} {valid_event_counts}")
 
     try:
         new_event_infos = st.session_state[widget_name]
@@ -70,6 +81,13 @@ def on_hulk_property_change_callback(table_name: str) -> None:
         create_new_layout_if_hulk_is_created()
     elif table_name == "origins":
         st.session_state["#Origins"] = st.session_state.space_hulk.number_of_origins
+
+
+@st.cache
+def create_layout_files(layout: LayoutGraph) -> None:
+    for sink_id, sink_props in LAYOUT_FILE_PROPERTIES.items():
+        layout.format = sink_props['format']
+        layout.render(outfile=str(sink_props["file"]), cleanup=True, view=False)
 
 
 st.title("Wrath & Glory Space Hulk Generator")
@@ -130,15 +148,25 @@ if is_space_hulk_created():
 
     # TODO: Fix wrong scaling for graph (no engine arg. in proto -> Consider showing image instead)
     # TODO: Fix chart not using layout engine
-    st.session_state.layout.format = "png"
-    file_name = Path(f"layout.{st.session_state.layout.format}")
-    st.session_state.layout.render(outfile=str(file_name), directory="space_hulk", cleanup=True, view=False)
-    st.container().image(image=str(file_name), use_column_width=True, width=20)
-    # st.graphviz_chart(str(st.session_state.layout), use_container_width=False)  # str to avoid graphviz from crashing on derived Graph class.
+    with st.spinner("Rendering layout..."):
+        create_layout_files(st.session_state.layout)
 
-    # TODO: Add download/export buttons
+    # Show preview
+    st.write(LAYOUT_FILE_PROPERTIES)
+    st.image(image=str(LAYOUT_FILE_PROPERTIES[PREVIEW_FILE_ID]["file"]), use_column_width=True, width=20)
+
+    # TODO: Fix invalid download
     # TODO: Add user action logging
     # TODO: Add storing of exported hulks
+    # Prepare download
+    with LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].open("rb") as file:
+        st.write(LAYOUT_FILE_PROPERTIES)
+        st.write(file.name)
+        st.download_button(label=f"Download {LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['format'].upper()}",
+                           data=file,
+                           file_name=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].name,
+                           mime=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['mime'])
+
     if IS_DEBUG:
         st.text("JSON Source")
         st.json(st.session_state.space_hulk.json(exclude_none=True), expanded=False)

@@ -21,7 +21,7 @@ class RandomTableEventCollection(BaseModel):
     event_count_constraint: EventCountConstraint
     events: List[RandomTableEvent]
 
-    @validator("events")
+    @validator("events", allow_reuse=True)
     def assure_events_are_sorted(cls, events: List) -> List:
         return sorted(events)
 

@@ -6,9 +6,9 @@ from typing import Dict
 from typing import Optional
 from typing import Union
 
-from pydantic import NonNegativeInt
 from pydantic import PositiveInt
 
+from .layout_engine import LayoutEngine
 from .layout_graph import LayoutGraph
 from .layout_graph import LayoutGraphCreator
 from .layout_graph import Node
@@ -17,14 +17,11 @@ from .random_table_event import RandomTableEvent
 from .space_hulk import SpaceHulk
 
 
-class LayoutEngine(Enum):
-    CIRCO = "circo"
-    FDP = "fdp"
-    OSAGE = "osage"
-
-    @classmethod
-    def index(cls, value_or_member: Union[str, "LayoutEngine"]) -> NonNegativeInt:
-        return list(cls).index(LayoutEngine(value_or_member))
+class LayoutFormat(Enum):
+    DOT = "dot"
+    PDF = "pdf"
+    PNG = "png"
+    SVG = "svg"
 
 
 GraphProperties = Dict[str, Union[str, Dict[str, str]]]
@@ -32,18 +29,30 @@ GraphProperties = Dict[str, Union[str, Dict[str, str]]]
 
 class SpaceHulkLayouter:
     DEFAULT_GRAPH_PROPERTIES: GraphProperties = {"engine": LayoutEngine.FDP.value,
-                                                 "graph_attr": {"bgcolor": "black", "center": "true", "margin": "0",
-                                                                "pad": "2", "splines": "ortho"},
-                                                 "node_attr": {"color": "white", "fontsize": "20", "style": "filled"},
-                                                 "edge_attr": {"color": "white", "penwidth": "25"}}
+                                                 "graph_attr": {"bgcolor": "black",
+                                                                "center": "true",
+                                                                "dpi": "1280",
+                                                                "margin": "0",
+                                                                "pad": "2",
+                                                                "rankdir": "TD",
+                                                                "size": "1,1",
+                                                                "splines": "ortho",
+                                                                "sep": "+20",
+                                                                "esep": "+40",
+                                                                "K": "8",
+                                                                "concentrate": "true"},
+                                                 "node_attr": {"color": "gray",
+                                                               "fillcolor": "white",
+                                                               "fontsize": "20",
+                                                               "penwidth": "13",
+                                                               "style": "filled"},
+                                                 "edge_attr": {"color": "gray", "penwidth": "25"}}
     MAX_FONT_SIZE = 700
 
     def __init__(self):
         pass
 
-    def create_layout(self,
-                      space_hulk: SpaceHulk,
-                      engine: Optional[LayoutEngine] = None,
+    def create_layout(self, space_hulk: SpaceHulk, engine: Optional[LayoutEngine] = None,
                       max_number_of_connections_per_room: PositiveInt = 10) -> LayoutGraph:
         """
 
