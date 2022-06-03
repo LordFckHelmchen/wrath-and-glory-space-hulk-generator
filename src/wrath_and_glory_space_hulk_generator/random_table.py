@@ -32,8 +32,8 @@ class RandomTable(BaseModel):
                               f"'{event_j.name} {event_j.range}' -> determined die: {self._die}")
 
     @validator("events", allow_reuse=True)
-    def assure_event_ranges_are_sorted_and_non_overlapping(cls,
-                                                           events: RandomTableEventInfoList) -> RandomTableEventInfoList:
+    def assure_event_ranges_are_sorted_and_non_overlapping(cls, events: RandomTableEventInfoList) \
+            -> RandomTableEventInfoList:
         events.sort(key=lambda x: x.range.minimum)
         for event_i, event_j in zip(events[0:-2], events[1:-1]):
             if event_i.range.maximum >= event_j.range.minimum:

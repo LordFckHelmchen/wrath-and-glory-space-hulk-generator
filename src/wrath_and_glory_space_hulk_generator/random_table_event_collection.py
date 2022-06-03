@@ -1,3 +1,4 @@
+from typing import Generator
 from typing import List
 from typing import Optional
 
@@ -48,6 +49,6 @@ class RandomTableEventCollection(BaseModel):
     def __len__(self) -> NonNegativeInt:
         return len(self.events)
 
-    def __iter__(self) -> RandomTableEvent:
+    def __iter__(self) -> Generator[RandomTableEvent, None, None]:
         for event in self.events:
             yield event

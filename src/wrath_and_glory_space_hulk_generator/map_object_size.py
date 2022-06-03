@@ -1,3 +1,4 @@
+import logging
 from enum import Enum
 from random import randint
 from typing import Dict
@@ -62,7 +63,8 @@ class MapObjectSize(BaseModel):
         if not isinstance(other, type(self)):
             raise TypeError(f"Unsupported type '{type(other)}'")
         if self.unit != other.unit:
-            raise NotImplementedError("Unit conversion between size objects isn't supported yet!")
+            logging.warning("Unit conversion between size objects isn't supported yet!")
+            return NotImplemented
         return self.area < other.area
 
 

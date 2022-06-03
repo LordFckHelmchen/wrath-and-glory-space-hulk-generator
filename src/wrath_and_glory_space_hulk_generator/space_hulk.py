@@ -1,3 +1,4 @@
+from typing import Generator
 from typing import List
 from typing import Tuple
 
@@ -22,7 +23,7 @@ class SpaceHulk(BaseModel):
     def number_of_rooms(self) -> NonNegativeInt:
         return len(self.rooms)
 
-    def __iter__(self) -> Tuple[str, RandomTableEventCollection]:
+    def __iter__(self) -> Generator[Tuple[str, RandomTableEventCollection], None, None]:
         for field in self.__fields__:
             yield field, getattr(self, field)
 

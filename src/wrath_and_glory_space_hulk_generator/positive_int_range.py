@@ -1,4 +1,5 @@
 from typing import Dict
+from typing import Generator
 from typing import SupportsInt
 
 from pydantic import BaseModel
@@ -19,6 +20,6 @@ class PositiveIntRange(BaseModel):
     def __contains__(self, other: SupportsInt) -> bool:
         return self.minimum <= int(other) <= self.maximum
 
-    def __iter__(self) -> PositiveInt:
+    def __iter__(self) -> Generator[PositiveInt, None, None]:
         yield self.minimum
         yield self.maximum
