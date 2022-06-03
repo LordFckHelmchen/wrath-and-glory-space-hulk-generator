@@ -7,7 +7,6 @@ from pydantic import ConstrainedInt
 from pydantic import PositiveInt
 from pydantic import conint
 
-from .exceptions import InvalidTableEventError
 from .random_table import RandomTable
 from .random_table_event import RandomTableEventInfoList
 from .random_table_event_collection import RandomTableEventCollection
@@ -80,22 +79,3 @@ class SpaceHulkGenerator:
             events = [event for event in events if event.name != self._mixed_origin_event_string]
 
         return events
-
-    def update_space_hulk_with_events_from_info(self,
-                                                space_hulk: SpaceHulk,
-                                                table_name: str,
-                                                table_event_infos: RandomTableEventInfoList) -> None:
-        """
-        Update a space hulk instance in place to contain the new events for the given table.
-
-        :param space_hulk: The hulk to update
-        :param table_name: The event table to update on the hulk
-        :param table_event_infos: The event infos for the events to update on the table
-        """
-
-        for event_info in table_event_infos:
-            if event_info not in self._tables[table_name].events:
-                InvalidTableEventError(f"Event not in specified table: {self._tables[table_name].table_name} "
-                                       f"does not contain {event_info.name_with_description}")
-
-        space_hulk[table_name].events = [event_info.as_event() for event_info in table_event_infos]
