@@ -20,7 +20,6 @@ LAYOUT_FILE_PROPERTIES = {PREVIEW_FILE_ID: {"format": LayoutFormat.PNG.value},
                           DOWNLOAD_FILE_ID: {"format": LayoutFormat.PDF.value, "mime": "application/pdf"}}
 for sink_id, sink_props in LAYOUT_FILE_PROPERTIES.items():
     LAYOUT_FILE_PROPERTIES[sink_id]["file"] = Path(f"space_hulks/layout.{sink_props['format']}")
-NUMBER_OF_ORIGINS_METRIC_KEY = "#Origins"
 
 
 def is_space_hulk_created() -> bool:
@@ -47,21 +46,21 @@ def recreate_hulk_and_layout_if_hulk_is_created() -> None:
 
 def recreate_layout_with_new_engine_if_layout_is_created() -> None:
     if "layout" in st.session_state:
-        st.session_state.layout.engine = st.session_state.layout_engine.value
+        st.session_state.layout.LAYOUT_ENGINE_KEY = st.session_state.layout_engine.value
         create_new_layout_if_hulk_is_created()
 
 
-def get_layout_engine() -> LayoutEngine:
-    if "layout_engine" in st.session_state and st.session_state.layout_engine in LayoutEngine:
-        return st.session_state.layout_engine
-    return LayoutEngine(SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["engine"])
+NUMBER_OF_ORIGINS_METRIC_KEY = "#Origins"
+NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY = "#Rooms in Hulk"
+NUMBER_OF_ROOMS_IN_LAYOUT_METRIC_KEY = "#Rooms in Layout"
+NUMBER_OF_EDGES_METRIC_KEY = "#Connections"
 
 
 def update_metrics() -> None:
-    st.session_state["#Rooms in Hulk"] = st.session_state.space_hulk.number_of_rooms
-    st.session_state["#Rooms in Layout"] = st.session_state.layout.number_of_nodes
+    st.session_state[NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY] = st.session_state.space_hulk.number_of_rooms
+    st.session_state[NUMBER_OF_ROOMS_IN_LAYOUT_METRIC_KEY] = st.session_state.layout.number_of_nodes
     st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state.space_hulk.number_of_origins
-    st.session_state["#Connections"] = st.session_state.layout.number_of_edges
+    st.session_state[NUMBER_OF_EDGES_METRIC_KEY] = st.session_state.layout.number_of_edges
 
 
 def on_hulk_property_change_callback(table_name: str) -> None:
@@ -102,12 +101,13 @@ st.number_input("Minimum number of rooms (per origin)",
                 key="number_of_rooms_per_origin",
                 on_change=recreate_hulk_and_layout_if_hulk_is_created)
 
+LAYOUT_ENGINE_KEY = "layout_engine"
 st.selectbox("Layout engine",
              options=list(LayoutEngine),
              format_func=lambda x: x.value,
-             index=LayoutEngine.index(st.session_state.get("layout_engine",
+             index=LayoutEngine.index(st.session_state.get(LAYOUT_ENGINE_KEY,
                                                            SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["engine"])),
-             key="layout_engine",
+             key=LAYOUT_ENGINE_KEY,
              on_change=recreate_layout_with_new_engine_if_layout_is_created)
 
 if st.button("Create new hulk?"):
@@ -120,9 +120,9 @@ if is_space_hulk_created():
 
     metric_cols = st.columns(4)
     metric_cols[0].metric(NUMBER_OF_ORIGINS_METRIC_KEY, value=st.session_state.space_hulk.number_of_origins)
-    metric_cols[1].metric("#Rooms", value=st.session_state.space_hulk.number_of_rooms)
-    metric_cols[2].metric("#Rooms in Layout", value=st.session_state.layout.number_of_nodes)
-    metric_cols[3].metric("#Connections", value=st.session_state.layout.number_of_edges)
+    metric_cols[1].metric(NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY, value=st.session_state.space_hulk.number_of_rooms)
+    metric_cols[2].metric(NUMBER_OF_ROOMS_IN_LAYOUT_METRIC_KEY, value=st.session_state.layout.number_of_nodes)
+    metric_cols[3].metric(NUMBER_OF_EDGES_METRIC_KEY, value=st.session_state.layout.number_of_edges)
 
     if st.button("Create new layout?"):
         create_new_layout_if_hulk_is_created()
