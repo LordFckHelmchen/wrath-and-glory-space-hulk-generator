@@ -2,9 +2,9 @@
 /.venv/
 **/__pycache__/
 
-# Generated files from unittests
+# Generated files
 /tests/generated_*/
-/generated_json_schema/
+/space_hulks/
 
 # IntelliJ
 /.idea/
