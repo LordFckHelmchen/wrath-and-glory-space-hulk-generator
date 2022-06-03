@@ -86,8 +86,8 @@ class SpaceHulkLayouter:
             # noinspection PyUnboundLocalVariable
             room = other_room  # Assure connected graph; will always be set
 
-        engine_attr = {"engine": engine.value} if engine else {}  # Use default if None
-        return layout_creator.create(self.DEFAULT_GRAPH_PROPERTIES | engine_attr)
+        add_attr = {"comment": space_hulk.json()} | {"engine": engine.value} if engine else {}  # Use default if None
+        return layout_creator.create(self.DEFAULT_GRAPH_PROPERTIES | add_attr)
 
     @staticmethod
     def _get_other_room(current_room: RandomTableEvent, space_hulk: SpaceHulk,
