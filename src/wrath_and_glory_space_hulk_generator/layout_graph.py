@@ -52,6 +52,12 @@ class LayoutGraph(Graph):
     def global_node_font_size(self) -> PositiveFloat:
         return float(self.node_attr.get("fontsize", "16"))
 
+    def __str__(self) -> str:
+        # Add layout engine as comment
+        self.comment = f"{self.comment}\n{self._comment(f'Layout engine: {self.engine}')}"
+
+        return super().__str__()
+
 
 class LayoutGraphCreator:
     def __init__(self, get_scaled_font_size: Callable[[Node, PositiveFloat], PositiveFloat] = lambda n, s: s):
