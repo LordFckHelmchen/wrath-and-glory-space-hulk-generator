@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from typing import Dict
 from typing import Union
@@ -152,20 +153,17 @@ if is_space_hulk_created():
         create_layout_files(st.session_state.layout)
 
     # Show preview
-    st.write(LAYOUT_FILE_PROPERTIES)
     st.image(image=str(LAYOUT_FILE_PROPERTIES[PREVIEW_FILE_ID]["file"]), use_column_width=True, width=20)
 
-    # TODO: Fix invalid download
     # TODO: Add user action logging
     # TODO: Add storing of exported hulks
     # Prepare download
     with LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].open("rb") as file:
-        st.write(LAYOUT_FILE_PROPERTIES)
-        st.write(file.name)
-        st.download_button(label=f"Download {LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['format'].upper()}",
-                           data=file,
-                           file_name=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].name,
-                           mime=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['mime'])
+        if st.download_button(label=f"Download {LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['format'].upper()}",
+                              data=file,
+                              file_name=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].name,
+                              mime=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['mime']):
+            logging.info(f"Space Hulk exported\n{st.session_state.layout}")
 
     if IS_DEBUG:
         st.text("JSON Source")
