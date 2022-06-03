@@ -1,7 +1,5 @@
 import logging
 from pathlib import Path
-from typing import Dict
-from typing import Union
 
 import streamlit as st
 
@@ -18,11 +16,11 @@ from src.wrath_and_glory_space_hulk_generator.space_hulk_layouter import SpaceHu
 IS_DEBUG = True
 PREVIEW_FILE_ID = "preview_file"
 DOWNLOAD_FILE_ID = "download_file"
-LAYOUT_FILE_PROPERTIES: Dict[str, Dict[str, Union[Path, str]]] \
-    = {PREVIEW_FILE_ID: {"format": LayoutFormat.PNG.value},
-       DOWNLOAD_FILE_ID: {"format": LayoutFormat.PDF.value, "mime": "application/pdf"}}
+LAYOUT_FILE_PROPERTIES = {PREVIEW_FILE_ID: {"format": LayoutFormat.PNG.value},
+                          DOWNLOAD_FILE_ID: {"format": LayoutFormat.PDF.value, "mime": "application/pdf"}}
 for sink_id, sink_props in LAYOUT_FILE_PROPERTIES.items():
     LAYOUT_FILE_PROPERTIES[sink_id]["file"] = Path(f"space_hulks/layout.{sink_props['format']}")
+NUMBER_OF_ORIGINS_METRIC_KEY = "#Origins"
 
 
 def is_space_hulk_created() -> bool:
@@ -62,13 +60,12 @@ def get_layout_engine() -> LayoutEngine:
 def update_metrics() -> None:
     st.session_state["#Rooms in Hulk"] = st.session_state.space_hulk.number_of_rooms
     st.session_state["#Rooms in Layout"] = st.session_state.layout.number_of_nodes
-    st.session_state["#Origins"] = st.session_state.space_hulk.number_of_origins
+    st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state.space_hulk.number_of_origins
     st.session_state["#Connections"] = st.session_state.layout.number_of_edges
 
 
 def on_hulk_property_change_callback(table_name: str) -> None:
     widget_name = f"{table_name}_selection"
-    valid_event_counts = getattr(st.session_state.generator._tables, table_name).event_count_constraint
 
     try:
         new_event_infos = st.session_state[widget_name]
@@ -81,7 +78,7 @@ def on_hulk_property_change_callback(table_name: str) -> None:
     if table_name == "rooms":
         create_new_layout_if_hulk_is_created()
     elif table_name == "origins":
-        st.session_state["#Origins"] = st.session_state.space_hulk.number_of_origins
+        st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state.space_hulk.number_of_origins
 
 
 @st.cache
@@ -108,7 +105,8 @@ st.number_input("Minimum number of rooms (per origin)",
 st.selectbox("Layout engine",
              options=list(LayoutEngine),
              format_func=lambda x: x.value,
-             index=LayoutEngine.index(get_layout_engine()),
+             index=LayoutEngine.index(st.session_state.get("layout_engine",
+                                                           SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["engine"])),
              key="layout_engine",
              on_change=recreate_layout_with_new_engine_if_layout_is_created)
 
@@ -121,7 +119,7 @@ if is_space_hulk_created():
     # TODO: Add name & description field
 
     metric_cols = st.columns(4)
-    metric_cols[0].metric("#Origins", value=st.session_state.space_hulk.number_of_origins)
+    metric_cols[0].metric(NUMBER_OF_ORIGINS_METRIC_KEY, value=st.session_state.space_hulk.number_of_origins)
     metric_cols[1].metric("#Rooms", value=st.session_state.space_hulk.number_of_rooms)
     metric_cols[2].metric("#Rooms in Layout", value=st.session_state.layout.number_of_nodes)
     metric_cols[3].metric("#Connections", value=st.session_state.layout.number_of_edges)
@@ -147,23 +145,21 @@ if is_space_hulk_created():
                            args=(table_name,),
                            key=f"{table_name}_selection")
 
-    # TODO: Fix wrong scaling for graph (no engine arg. in proto -> Consider showing image instead)
-    # TODO: Fix chart not using layout engine
     with st.spinner("Rendering layout..."):
         create_layout_files(st.session_state.layout)
 
     # Show preview
     st.image(image=str(LAYOUT_FILE_PROPERTIES[PREVIEW_FILE_ID]["file"]), use_column_width=True, width=20)
 
-    # TODO: Add user action logging
-    # TODO: Add storing of exported hulks
     # Prepare download
     with LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].open("rb") as file:
         if st.download_button(label=f"Download {LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['format'].upper()}",
                               data=file,
                               file_name=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].name,
                               mime=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['mime']):
-            logging.info(f"Space Hulk exported\n{st.session_state.layout}")
+            logging.info(f"Space Hulk exported\n"
+                         f"number_of_rooms_per_origin: {st.session_state.number_of_rooms_per_origin}\n"
+                         f"{st.session_state.layout}")
 
     if IS_DEBUG:
         st.text("JSON Source")
