@@ -49,8 +49,17 @@ class SpaceHulkLayouter:
                                                  "edge_attr": {"color": "gray", "penwidth": "25"}}
     MAX_FONT_SIZE = 700
 
-    def create_layout(self, space_hulk: SpaceHulk, engine: Optional[LayoutEngine] = None,
-                      max_number_of_connections_per_room: PositiveInt = 10) -> LayoutGraph:
+    def __init__(self, max_number_of_connections_per_room: PositiveInt = 10):
+        """
+        Constructor
+
+        :param max_number_of_connections_per_room: The max. number of edges per node (e.g. the max. degree).
+        """
+        self.max_number_of_connections_per_room = max_number_of_connections_per_room
+
+    def create_layout(self,
+                      space_hulk: SpaceHulk,
+                      engine: Optional[LayoutEngine] = None) -> LayoutGraph:
         """
 
         :param space_hulk:
@@ -74,7 +83,7 @@ class SpaceHulkLayouter:
         unconnected_rooms = copy(space_hulk.rooms.events)
         room = unconnected_rooms.pop(0)
         while any(unconnected_rooms):
-            for _ in range(random.randrange(1, max_number_of_connections_per_room)):
+            for _ in range(random.randrange(1, self.max_number_of_connections_per_room)):
                 if any(unconnected_rooms):
                     other_room = unconnected_rooms.pop(randint(0, len(unconnected_rooms) - 1))
                 else:
