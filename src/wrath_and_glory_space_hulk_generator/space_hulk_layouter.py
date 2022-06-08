@@ -10,7 +10,7 @@ from pydantic import PositiveInt
 
 from .layout_engine import LayoutEngine
 from .layout_graph import LayoutGraph
-from .layout_graph import LayoutGraphCreator
+from .layout_graph_creator import LayoutGraphCreator
 from .layout_graph import Node
 from .map_object_size import GlobalMapObjectSizeConstraint
 from .random_table_event import RandomTableEvent
