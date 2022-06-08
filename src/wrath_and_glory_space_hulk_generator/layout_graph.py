@@ -1,4 +1,6 @@
 import re
+from abc import abstractmethod
+from abc import ABC
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
@@ -35,7 +37,20 @@ class Node:
         return len(self.connected_nodes)
 
 
-class LayoutGraph(Graph):
+class GraphStats(ABC):
+
+    @property
+    @abstractmethod
+    def number_of_nodes(self) -> NonNegativeInt:
+        pass
+
+    @property
+    @abstractmethod
+    def number_of_edges(self) -> NonNegativeInt:
+        pass
+
+
+class LayoutGraph(Graph, GraphStats):
     GRAPH_VIZ_EDGE_STRING_PATTERN = r"\t(\".+\"|.+) -- (\".+\"|.+)\n"
 
     @property

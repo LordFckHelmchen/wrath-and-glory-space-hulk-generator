@@ -4,13 +4,15 @@ from typing import Dict
 from typing import List
 from typing import Tuple
 
+from pydantic import NonNegativeInt
 from pydantic import PositiveFloat
 
+from .layout_graph import GraphStats
 from .layout_graph import LayoutGraph
 from .layout_graph import Node
 
 
-class LayoutGraphCreator:
+class LayoutGraphCreator(GraphStats):
     def __init__(self, get_scaled_font_size: Callable[[Node, PositiveFloat], PositiveFloat] = lambda n, s: s):
         """
         Constructor
@@ -55,3 +57,11 @@ class LayoutGraphCreator:
         for edge in sorted(self._edges):
             layout.edge(*edge)
         return layout
+
+    @property
+    def number_of_nodes(self) -> NonNegativeInt:
+        return len(self._nodes)
+
+    @property
+    def number_of_edges(self) -> NonNegativeInt:
+        return len(self._edges)
