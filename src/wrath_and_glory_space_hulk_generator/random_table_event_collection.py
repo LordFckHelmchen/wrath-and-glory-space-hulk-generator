@@ -38,7 +38,7 @@ class RandomTableEventCollection(BaseModel):
                 duplicated_event_ids[event.name] += 1
                 event.name = f"{event.name} No.{duplicated_event_ids[event.name]}"
 
-        return sorted(events)
+        return sorted(events, key=lambda x: x.name)
 
     def __setattr__(self, key: str, value):
         _ = getattr(self, key)  # Raise AttributeError if not present
