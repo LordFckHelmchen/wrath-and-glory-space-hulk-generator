@@ -54,7 +54,8 @@ class LayoutGraph(Graph):
 
     def __str__(self) -> str:
         # Add layout engine as comment
-        self.comment = f"{self.comment}\n{self._comment(f'Layout engine: {self.engine}')}"
+        if (engine_comment := self._comment(f"Layout engine: {self.engine}")) not in self.comment:
+            self.comment = f"{self.comment}\n{engine_comment}"
 
         return super().__str__()
 
