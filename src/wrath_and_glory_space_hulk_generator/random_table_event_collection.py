@@ -1,3 +1,4 @@
+import logging
 from typing import Generator
 from typing import List
 from typing import Optional
@@ -23,7 +24,22 @@ class RandomTableEventCollection(BaseModel):
     events: List[RandomTableEvent]
 
     @validator("events", allow_reuse=True)
-    def assure_events_are_sorted(cls, events: List) -> List:
+    def assure_events_are_sorted_and_unique(cls, events: List) -> List:
+        event_counts = {}
+        for event in events:
+            if event.name not in event_counts:
+                event_counts[event.name] = 1
+            else:
+                event_counts[event.name] += 1
+
+        duplicated_event_ids = {event.name: 0 for event in events if event_counts[event.name] > 1}
+        for event in events:
+            if event.name in duplicated_event_ids:
+                duplicated_event_ids[event.name] += 1
+                new_name = f"{event.name} No.{duplicated_event_ids[event.name]}"
+                logging.warning(f"Event '{event.name}' is already in the collection, using '{new_name}' instead")
+                event.name = new_name
+
         return sorted(events)
 
     def __setattr__(self, key: str, value):
@@ -38,7 +54,7 @@ class RandomTableEventCollection(BaseModel):
                                                 f"'events' must have a number of elements within "
                                                 f"{self.event_count_constraint}, was {len(value)}.")
 
-            value.sort()
+            value = self.assure_events_are_sorted_and_unique(value)
         elif len(self.events) not in value:  # key == "event_count_constraint":
             raise ValueError(f"Setting an event count constraint that would invalidate the current events. "
                              f"Number of current events {len(self.events)}, 'event_count_constraint': {value}. "
