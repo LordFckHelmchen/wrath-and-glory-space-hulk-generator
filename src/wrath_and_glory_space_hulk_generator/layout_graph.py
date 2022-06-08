@@ -79,7 +79,7 @@ class LayoutGraphCreator:
 
     def add_edge(self, from_node: str, to_node: str, avoid_duplicates: bool = True):
         if from_node not in self._nodes or to_node not in self._nodes:
-            raise IOError(f"unknown nodes {from_node} or {to_node}")
+            raise ValueError(f"unknown nodes {from_node} or {to_node}")
 
         edge = sorted((from_node, to_node))
         if not avoid_duplicates or edge not in self._edges:
