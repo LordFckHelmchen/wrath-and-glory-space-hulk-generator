@@ -13,7 +13,7 @@ from src.wrath_and_glory_space_hulk_generator.space_hulk_layouter import SpaceHu
 
 # st.set_page_config(layout="wide")
 
-IS_DEBUG = True
+IS_DEBUG = False
 PREVIEW_FILE_ID = "preview_file"
 DOWNLOAD_FILE_ID = "download_file"
 LAYOUT_FILE_PROPERTIES = {PREVIEW_FILE_ID: {"format": LayoutFormat.PNG.value},
@@ -124,23 +124,26 @@ if is_space_hulk_created():
     if st.button("Create new layout?"):
         create_new_layout_if_hulk_is_created()
 
-    with st.expander("Show or modify space hulk properties", expanded=True):
-        table_name: str = ""
-
-        for table_name, _ in st.session_state.space_hulk:
-
-            options = st.session_state.generator.get_table_events(table_name)
-            defaults = []
-            for selected_name in st.session_state.space_hulk.get_event_names(table_name):
-                defaults.append(next(option for option in options if option.name == selected_name))
-            # TODO: Consider linking occupations & purposes
-            st.multiselect(label=table_name.capitalize(),
-                           options=options,
-                           default=defaults,
-                           format_func=lambda x: x.name_with_description,
-                           on_change=on_hulk_property_change_callback,
-                           args=(table_name,),
-                           key=f"{table_name}_selection")
+    # TODO: Fix crash with duplication-adjusted event collection entries
+    # with st.expander("Show or modify space hulk properties", expanded=True):
+    #     table_name: str = ""
+    #
+    #     for table_name, _ in st.session_state.space_hulk:
+    #
+    #         options = st.session_state.generator.get_table_events(table_name)
+    #         defaults = []
+    #         for selected_name in st.session_state.space_hulk.get_event_names(table_name):
+    #             defaults.append(next(option for option in options if option.name == selected_name))
+    #         # TODO: Consider linking occupations & purposes
+    #         # TODO: Fix crash on empty selection of fields that require at least 1 entry (e.g. origins)
+    #         # TODO: Log change of hulk props.
+    #         st.multiselect(label=table_name.capitalize(),
+    #                        options=options,
+    #                        default=defaults,
+    #                        format_func=lambda x: x.name_with_description,
+    #                        on_change=on_hulk_property_change_callback,
+    #                        args=(table_name,),
+    #                        key=f"{table_name}_selection")
 
     with st.spinner("Rendering layout..."):
         create_layout_files(st.session_state.layout)
