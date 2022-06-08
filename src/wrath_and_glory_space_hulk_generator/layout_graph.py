@@ -51,8 +51,16 @@ class LayoutGraph(Graph):
         return float(self.node_attr.get("fontsize", "16"))
 
     def __str__(self) -> str:
-        # Add layout engine as comment
-        if (engine_comment := self._comment(f"Layout engine: {self.engine}")) not in self.comment:
-            self.comment = f"{self.comment}\n{engine_comment}"
+        original_comment = self.comment
 
-        return super().__str__()
+        # Add layout engine as comment
+        engine_comment = self._comment(f"Layout engine: {self.engine}")
+        if not original_comment:
+            self.comment = engine_comment
+        elif engine_comment not in self.comment:
+            self.comment = f"{self.comment}\n{engine_comment}"
+        self_as_string = super().__str__()
+
+        self.comment = original_comment
+
+        return self_as_string
