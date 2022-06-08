@@ -16,7 +16,7 @@ class TestLayoutGraph(unittest.TestCase):
         with self.subTest(i="Number of nodes"):
             self.assertEqual(self.layout.number_of_nodes, 21)
         with self.subTest(i="Number of edges"):
-            self.assertEqual(self.layout.number_of_edges, 22)
+            self.assertEqual(self.layout.number_of_edges, 23)
 
     def test_str_with_same_comment_on_multiple_calls_expect_comment_unchanged_after_each_call(self):
         expected_comment = self.layout.comment
