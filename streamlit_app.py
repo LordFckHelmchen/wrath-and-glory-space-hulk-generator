@@ -51,14 +51,12 @@ def recreate_layout_with_new_engine_if_layout_is_created() -> None:
 
 
 NUMBER_OF_ORIGINS_METRIC_KEY = "#Origins"
-NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY = "#Rooms in Hulk"
-NUMBER_OF_ROOMS_IN_LAYOUT_METRIC_KEY = "#Rooms in Layout"
+NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY = "#Rooms"
 NUMBER_OF_EDGES_METRIC_KEY = "#Connections"
 
 
 def update_metrics() -> None:
     st.session_state[NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY] = st.session_state.space_hulk.number_of_rooms
-    st.session_state[NUMBER_OF_ROOMS_IN_LAYOUT_METRIC_KEY] = st.session_state.layout.number_of_nodes
     st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state.space_hulk.number_of_origins
     st.session_state[NUMBER_OF_EDGES_METRIC_KEY] = st.session_state.layout.number_of_edges
 
@@ -121,8 +119,7 @@ if is_space_hulk_created():
     metric_cols = st.columns(4)
     metric_cols[0].metric(NUMBER_OF_ORIGINS_METRIC_KEY, value=st.session_state.space_hulk.number_of_origins)
     metric_cols[1].metric(NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY, value=st.session_state.space_hulk.number_of_rooms)
-    metric_cols[2].metric(NUMBER_OF_ROOMS_IN_LAYOUT_METRIC_KEY, value=st.session_state.layout.number_of_nodes)
-    metric_cols[3].metric(NUMBER_OF_EDGES_METRIC_KEY, value=st.session_state.layout.number_of_edges)
+    metric_cols[2].metric(NUMBER_OF_EDGES_METRIC_KEY, value=st.session_state.layout.number_of_edges)
 
     if st.button("Create new layout?"):
         create_new_layout_if_hulk_is_created()
