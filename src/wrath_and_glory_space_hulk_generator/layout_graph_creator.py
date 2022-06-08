@@ -25,18 +25,12 @@ class LayoutGraphCreator(GraphStats):
         self._edges: List[Tuple[str, str]] = []
         self._get_scaled_font_size = get_scaled_font_size
 
-    def add_node(self, node: Node):
-        # TODO: Allow duplicated rooms!
+    def add_node(self, node: Node) -> None:
         if node.name in self._nodes:
-            new_name = ""
-            number_of_duplicates = 2
-            while (new_name := f"{node.name} No. {number_of_duplicates}") in self._nodes:
-                number_of_duplicates += 1
-            logging.warning(f"Node '{node.name}' already added, using '{new_name}' instead")
-            node.name = new_name
+            logging.warning(f"Node '{node.name}' has already been added, ignoring duplicate!")
         self._nodes[node.name] = node
 
-    def add_edge(self, from_node: str, to_node: str, avoid_duplicates: bool = True):
+    def add_edge(self, from_node: str, to_node: str, avoid_duplicates: bool = True) -> None:
         if from_node not in self._nodes or to_node not in self._nodes:
             raise ValueError(f"unknown nodes {from_node} or {to_node}")
 
