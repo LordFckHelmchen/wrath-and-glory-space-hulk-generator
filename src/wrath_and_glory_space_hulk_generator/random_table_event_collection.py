@@ -36,9 +36,7 @@ class RandomTableEventCollection(BaseModel):
         for event in events:
             if event.name in duplicated_event_ids:
                 duplicated_event_ids[event.name] += 1
-                new_name = f"{event.name} No.{duplicated_event_ids[event.name]}"
-                logging.warning(f"Event '{event.name}' is already in the collection, using '{new_name}' instead")
-                event.name = new_name
+                event.name = f"{event.name} No.{duplicated_event_ids[event.name]}"
 
         return sorted(events)
 
