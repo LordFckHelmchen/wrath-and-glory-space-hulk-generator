@@ -14,6 +14,7 @@ def load_space_hulk(path_to_space_hulk: Path = TEST_HULK_FILE) -> SpaceHulk:
 
 
 def load_layout(path_to_layout: Path = TEST_HULK_LAYOUT_FILE) -> LayoutGraph:
+    # noinspection PyShadowingNames
     with path_to_layout.open("rb") as file:
         return pickle.load(file)
 
