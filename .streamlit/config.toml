@@ -1,17 +1,4 @@
-# Streamlit version: 1.9.0
-
-[global]
-
-# By default, Streamlit checks if the Python watchdog module is available and, if not, prints a warning asking for you
-# to install it. The watchdog module is not required, but highly recommended. It improves Streamlit's ability to detect
-# changes to files in your filesystem.
-# If you'd like to turn off this warning, set this to True.
-# Default: false
-disableWatchdogWarning = false
-
-# If True, will show a warning when you run a Streamlit-enabled script via "python my_script.py".
-# Default: true
-showWarningOnDirectExecution = true
+# Streamlit version: 1.10.0
 
 
 [logger]
@@ -28,20 +15,6 @@ level = "info"
 messageFormat = "%(asctime)s %(levelname)s %(module)s::%(funcName)s: %(message)s"
 
 
-[client]
-
-# Whether to enable st.cache.
-# Default: true
-caching = true
-
-# Controls whether uncaught app exceptions are displayed in the browser. By default, this is set to True and Streamlit
-# displays app exceptions and associated tracebacks in the browser.
-# If set to False, an exception will result in a generic message being shown in the browser, and exceptions and
-# tracebacks will be printed to the console only.
-# Default: true
-showErrorDetails = true
-
-
 [runner]
 
 # Allows you to type a variable or string by itself in a single line of Python code to write it to the app.
@@ -53,21 +26,6 @@ magicEnabled = false
 # Default: false
 installTracer = false
 
-# Sets the MPLBACKEND environment variable to Agg inside Streamlit to prevent Python crashing.
-# Default: true
-fixMatplotlib = true
-
-# Run the Python Garbage Collector after each script execution. This can help avoid excess memory use in Streamlit apps,
-# but could introduce delay in rerunning the app script for high-memory-use applications.
-# Default: true
-postScriptGC = true
-
-# Handle script rerun requests immediately, rather than waiting for script execution to reach a yield point.
-# Enabling this will make Streamlit much more responsive to user interaction, but it can lead to race conditions in
-# apps that mutate session_state data outside of explicit session_state assignment statements.
-# Default: false
-fastReruns = false
-
 
 [server]
 
@@ -76,22 +34,6 @@ fastReruns = false
 # Example: ['/home/user1/env', 'relative/path/to/folder']
 # Default: []
 folderWatchBlacklist = []
-
-# Change the type of file watcher used by Streamlit, or turn it off completely.
-# Allowed values:
-#   * "auto" : Streamlit will attempt to use the watchdog module, and falls back to polling if watchdog is not
-#              available.
-#   * "watchdog" : Force Streamlit to use the watchdog module.
-#   * "poll" : Force Streamlit to always use polling.
-#   * "none" : Streamlit will not watch files.
-# Default: "auto"
-fileWatcherType = "auto"
-
-# If false, will attempt to open a browser window on start.
-# Default: false unless
-#   (1) we are on a Linux box where DISPLAY is unset, or
-#   (2) we are running in the Streamlit Atom plugin.
-headless = false
 
 # Automatically rerun script when the file is modified on disk.
 # Default: false
@@ -118,10 +60,6 @@ maxUploadSize = 5
 # Max size, in megabytes, of messages that can be sent via the WebSocket connection.
 # Default: 200
 maxMessageSize = 5
-
-# Enables support for websocket compression.
-# Default: false
-enableWebsocketCompression = false
 
 
 [browser]
