@@ -153,13 +153,14 @@ if is_space_hulk_created():
 
     # Prepare download
     with LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].open("rb") as file:
-        if st.download_button(label=f"Download {LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['format'].upper()}",
-                              data=file,
-                              file_name=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].name,
-                              mime=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['mime']):
-            logging.info(f"Space Hulk exported\n"
-                         f"number_of_rooms_per_origin: {st.session_state.number_of_rooms_per_origin}\n"
-                         f"{st.session_state.layout}")
+        st.download_button(label=f"Download {LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['format'].upper()}",
+                           data=file,
+                           file_name=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]["file"].name,
+                           mime=LAYOUT_FILE_PROPERTIES[DOWNLOAD_FILE_ID]['mime'],
+                           on_click=lambda: logging.info(f"Space Hulk exported\n"
+                                                         f"number_of_rooms_per_origin: "
+                                                         f"{st.session_state.number_of_rooms_per_origin}\n"
+                                                         f"{st.session_state.layout}"))
 
     if IS_DEBUG:
         st.text("JSON Source")
