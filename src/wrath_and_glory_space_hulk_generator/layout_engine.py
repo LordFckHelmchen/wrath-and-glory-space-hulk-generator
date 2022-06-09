@@ -1,4 +1,3 @@
-import logging
 from enum import Enum
 from typing import Union
 
@@ -9,6 +8,11 @@ class LayoutEngine(Enum):
     CIRCO = "circo"
     FDP = "fdp"
     OSAGE = "osage"
+
+    @classmethod
+    def is_parsable_to_layout_engine(cls, value: Union[str, "LayoutEngine"]) -> bool:
+        return isinstance(value, LayoutEngine) \
+               or isinstance(value, str) and any(value in [member.name, member.value] for member in LayoutEngine)
 
     @classmethod
     def index(cls, member: Union[str, "LayoutEngine"]) -> NonNegativeInt:
