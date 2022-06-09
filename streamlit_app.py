@@ -1,5 +1,6 @@
 import logging
 import mimetypes
+from enum import Enum
 from pathlib import Path
 from random import randint
 
@@ -8,15 +9,15 @@ from pydantic import NonNegativeInt
 
 from src.app.layout_file_creator import create_download_file
 from src.app.layout_file_creator import create_preview_file
-from src.generator.exceptions import InvalidLayoutEngineError
 from src.generator.layout_engine import LayoutEngine
 from src.generator.space_hulk_generator import RoomCount
 from src.generator.space_hulk_generator import SpaceHulkGenerator
-from src.generator.space_hulk_layouter import SpaceHulkLayouter
+from src.generator.space_hulk_layouter import SpaceHulkLayouter, LayoutEdgeType
 
 # st.set_page_config(layout="wide")
 
 IS_DEBUG = False
+LAYOUT_ENGINE_KEY = "layout_engine"
 
 
 def is_space_hulk_created() -> bool:
@@ -32,13 +33,21 @@ def create_new_hulk_and_layout():
 def create_new_layout_if_hulk_is_created() -> None:
     if is_space_hulk_created():
         st.session_state.layout = SpaceHulkLayouter().create_layout(st.session_state.space_hulk,
-                                                                    engine=st.session_state.layout_engine)
+                                                                    engine=st.session_state[LAYOUT_ENGINE_KEY])
         update_metrics()
 
 
+LAYOUT_KEY = "layout"
+
+
 def assign_engine_to_layout_if_layout_is_created() -> None:
-    if "layout" in st.session_state:
-        st.session_state.layout.engine = st.session_state.layout_engine.value
+    if LAYOUT_KEY in st.session_state:
+        st.session_state.layout.engine = st.session_state[LAYOUT_ENGINE_KEY].value
+
+
+def assign_edge_type_to_layout_if_layout_is_created() -> None:
+    if LAYOUT_KEY in st.session_state:
+        st.session_state.layout.graph_attr["splines"] = st.session_state[LAYOUT_EDGE_TYPE_KEY].value
 
 
 NUMBER_OF_ORIGINS_METRIC_KEY = "#Origins"
@@ -52,22 +61,34 @@ def update_metrics() -> None:
     st.session_state[NUMBER_OF_EDGES_METRIC_KEY] = st.session_state.layout.number_of_edges
 
 
-LAYOUT_ENGINE_KEY = "layout_engine"
+def get_enum_index_and_update_state(state_key: str, indexable_enum_class, default: Enum) -> NonNegativeInt:
+    member = st.session_state.get(state_key, indexable_enum_class(default))
+
+    try:
+        return indexable_enum_class.index(member)
+    except TypeError as err:
+        new_member = str(member).split(".")[-1].lower()
+        logging.warning(f"Couldn't retrieve the index for '{member}' from '{indexable_enum_class}'. "
+                        f"Retrying with stringified engine name '{new_member}'", exc_info=err)
+
+    # This should never happen but it those. State is something like 'ENUM.MEMBER', so let's try to stringify
+    # it and then use the name to retrieve the index.
+    new_member = indexable_enum_class(new_member)
+    st.session_state[state_key] = new_member
+    return LayoutEngine.index(new_member)
 
 
 def get_index_of_current_layout_engine() -> NonNegativeInt:
-    layout_engine = st.session_state.get(LAYOUT_ENGINE_KEY, SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["engine"])
-    try:
-        return LayoutEngine.index(layout_engine)
-    except InvalidLayoutEngineError as err:
-        layout_engine = str(layout_engine).split(".")[-1].lower()
-        logging.warning(f"Couldn't retrieve the layout engine index for '{st.session_state.get(LAYOUT_ENGINE_KEY)}'. "
-                        f"Retrying with stringified engine name '{layout_engine}'", exc_info=err)
+    return get_enum_index_and_update_state(LAYOUT_ENGINE_KEY,
+                                           indexable_enum_class=LayoutEngine,
+                                           default=LayoutEngine(SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["engine"]))
 
-    # This should never happen but it those. State is something like 'LayoutEngine.OSAGE', so let's try to stringify
-    # it and then use the name to retrieve the index.
-    st.session_state[LAYOUT_ENGINE_KEY] = LayoutEngine(layout_engine)
-    return LayoutEngine.index(layout_engine)
+
+def get_index_of_current_edge_type() -> NonNegativeInt:
+    return get_enum_index_and_update_state(LAYOUT_EDGE_TYPE_KEY,
+                                           indexable_enum_class=LayoutEdgeType,
+                                           default=LayoutEdgeType(
+                                               SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["graph_attr"]["splines"]))
 
 
 st.title("Wrath & Glory Space Hulk Generator")
@@ -83,7 +104,7 @@ def recreate_hulk_and_layout_if_hulk_is_created() -> None:
         create_new_hulk_and_layout()
 
 
-generator_settings_columns = st.columns(2)
+generator_settings_columns = st.columns(3)
 
 MIN_NUMBER_OF_ROOMS_KEY = "number_of_rooms_per_origin"
 with generator_settings_columns[0]:
@@ -110,6 +131,15 @@ with generator_settings_columns[1]:
                  key=LAYOUT_ENGINE_KEY,
                  on_change=assign_engine_to_layout_if_layout_is_created)
 
+LAYOUT_EDGE_TYPE_KEY = "layout_edge_type"
+with generator_settings_columns[2]:
+    st.selectbox("Connection type",
+                 options=list(LayoutEdgeType),
+                 format_func=lambda x: x.value,
+                 index=get_index_of_current_edge_type(),
+                 key=LAYOUT_EDGE_TYPE_KEY,
+                 on_change=assign_edge_type_to_layout_if_layout_is_created)
+
 st.header("Space Hulk")
 
 space_hulk_header_columns = st.columns(3)
@@ -127,9 +157,11 @@ with space_hulk_header_columns[1]:
 
 with st.spinner("Rendering layout..."):
     preview_file = create_preview_file(st.session_state.layout,
-                                       layout_engine=st.session_state[LAYOUT_ENGINE_KEY])
+                                       layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
+                                       edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY])
     download_file = create_download_file(st.session_state.layout,
-                                         layout_engine=st.session_state[LAYOUT_ENGINE_KEY])
+                                         layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
+                                         edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY])
 
 # Show preview
 st.caption("Map preview - Use the download button above to access the vectorized version")
