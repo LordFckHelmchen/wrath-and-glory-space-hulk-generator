@@ -1,11 +1,11 @@
 import unittest
 from dataclasses import fields
 
-from src.wrath_and_glory_space_hulk_generator.random_table_event_collection import EventCountConstraint
-from src.wrath_and_glory_space_hulk_generator.random_table import RandomTable
-from src.wrath_and_glory_space_hulk_generator.random_table_event import RandomTableEventInfo
-from src.wrath_and_glory_space_hulk_generator.sequenced_die import SequencedSixSidedDieRange
-from src.wrath_and_glory_space_hulk_generator.space_hulk_tables import SpaceHulkTables
+from src.generator.random_table_event_collection import EventCountConstraint
+from src.generator.random_table import RandomTable
+from src.generator.random_table_event import RandomTableEventInfo
+from src.generator.sequenced_die import SequencedSixSidedDieRange
+from src.generator.space_hulk_tables import SpaceHulkTables
 
 DUMMY_TABLE = RandomTable(table_name="Dummy table",
                           event_count_constraint=EventCountConstraint(maximum=5),

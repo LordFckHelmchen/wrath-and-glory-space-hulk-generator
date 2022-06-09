@@ -1,7 +1,7 @@
 import unittest
 
-from src.wrath_and_glory_space_hulk_generator.map_object_size import MapObjectDimensionConstraint
-from src.wrath_and_glory_space_hulk_generator.map_object_size import MapObjectSizeInt
+from src.generator.map_object_size import MapObjectDimensionConstraint
+from src.generator.map_object_size import MapObjectSizeInt
 
 
 class TestMapObjectSize(unittest.TestCase):

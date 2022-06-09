@@ -2,8 +2,8 @@ import shutil
 import unittest
 from pathlib import Path
 
-from src.wrath_and_glory_space_hulk_generator.layout_engine import LayoutEngine
-from src.wrath_and_glory_space_hulk_generator.space_hulk_layouter import SpaceHulkLayouter
+from src.generator.layout_engine import LayoutEngine
+from src.generator.space_hulk_layouter import SpaceHulkLayouter
 from tests.helpers import load_layout
 from tests.helpers import load_space_hulk
 
@@ -16,7 +16,7 @@ class TestLayoutGraph(unittest.TestCase):
         with self.subTest(i="Number of nodes"):
             self.assertEqual(self.layout.number_of_nodes, 21)
         with self.subTest(i="Number of edges"):
-            self.assertEqual(self.layout.number_of_edges, 23)
+            self.assertEqual(self.layout.number_of_edges, 20)
 
     def test_str_with_same_comment_on_multiple_calls_expect_comment_unchanged_after_each_call(self):
         expected_comment = self.layout.comment

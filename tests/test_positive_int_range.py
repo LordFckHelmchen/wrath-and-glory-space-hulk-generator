@@ -1,7 +1,7 @@
 import unittest
 
-from src.wrath_and_glory_space_hulk_generator.positive_int_range import PositiveIntRange
-from src.wrath_and_glory_space_hulk_generator.sequenced_die import SequencedSixSidedDieRange
+from src.generator.positive_int_range import PositiveIntRange
+from src.generator.sequenced_die import SequencedSixSidedDieRange
 
 
 class TestPositiveIntRange(unittest.TestCase):

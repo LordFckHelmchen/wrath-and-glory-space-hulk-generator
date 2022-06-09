@@ -5,10 +5,10 @@ from pathlib import Path
 
 from pydantic.json import pydantic_encoder
 
-from src.wrath_and_glory_space_hulk_generator.map_object_size import MapObjectSizeConstraint
-from src.wrath_and_glory_space_hulk_generator.random_table import RandomTable
-from src.wrath_and_glory_space_hulk_generator.sequenced_die import SequencedDie
-from src.wrath_and_glory_space_hulk_generator.space_hulk import SpaceHulk
+from src.generator.map_object_size import MapObjectSizeConstraint
+from src.generator.random_table import RandomTable
+from src.generator.sequenced_die import SequencedDie
+from src.generator.space_hulk import SpaceHulk
 
 
 class TestSchemaGeneration(unittest.TestCase):

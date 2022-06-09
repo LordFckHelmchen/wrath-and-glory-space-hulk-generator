@@ -1,7 +1,7 @@
 import unittest
 from enum import Enum
 
-from src.wrath_and_glory_space_hulk_generator.layout_engine import LayoutEngine
+from src.generator.layout_engine import LayoutEngine
 
 
 class InvalidLayoutEngine(Enum):

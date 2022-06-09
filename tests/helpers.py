@@ -1,9 +1,9 @@
 import pickle
 from pathlib import Path
 
-from src.wrath_and_glory_space_hulk_generator.layout_graph import LayoutGraph
-from src.wrath_and_glory_space_hulk_generator.space_hulk import SpaceHulk
-from src.wrath_and_glory_space_hulk_generator.space_hulk_layouter import SpaceHulkLayouter
+from src.generator.layout_graph import LayoutGraph
+from src.generator.space_hulk import SpaceHulk
+from src.generator.space_hulk_layouter import SpaceHulkLayouter
 
 TEST_HULK_FILE = Path("space_hulk_for_test.json")
 TEST_HULK_LAYOUT_FILE = Path("space_hulk_layout_for_test.pickle")

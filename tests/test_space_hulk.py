@@ -1,7 +1,7 @@
 import unittest
 
-from src.wrath_and_glory_space_hulk_generator.exceptions import EventCountOutOfRangeError
-from src.wrath_and_glory_space_hulk_generator.exceptions import EventTypeError
+from src.generator.exceptions import EventCountOutOfRangeError
+from src.generator.exceptions import EventTypeError
 from tests.helpers import load_space_hulk
 
 

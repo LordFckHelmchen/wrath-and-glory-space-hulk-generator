@@ -1,8 +1,8 @@
 import unittest
 from pathlib import Path
 
-from src.wrath_and_glory_space_hulk_generator.random_table import RandomTable
-from src.wrath_and_glory_space_hulk_generator.sequenced_die import SequencedDie
+from src.generator.random_table import RandomTable
+from src.generator.sequenced_die import SequencedDie
 
 
 class TestRandomTable(unittest.TestCase):
@@ -15,7 +15,7 @@ class TestRandomTable(unittest.TestCase):
                          "Purposes": d66,
                          "Rooms": d66,
                          "Origins": d66}
-        for table_file in Path("../src/wrath_and_glory_space_hulk_generator/assets/").glob("table_*.json"):
+        for table_file in Path("../src/generator/assets/").glob("table_*.json"):
             with self.subTest(i=table_file.name):
                 table = RandomTable.parse_file(table_file)
                 self.assertEqual(table._die, table_die_map[table.table_name])

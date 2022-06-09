@@ -1,8 +1,8 @@
 import unittest
 
-from src.wrath_and_glory_space_hulk_generator.random_table_event import RandomTableEvent
-from src.wrath_and_glory_space_hulk_generator.random_table_event_collection import EventCountConstraint
-from src.wrath_and_glory_space_hulk_generator.random_table_event_collection import RandomTableEventCollection
+from src.generator.random_table_event import RandomTableEvent
+from src.generator.random_table_event_collection import EventCountConstraint
+from src.generator.random_table_event_collection import RandomTableEventCollection
 
 
 class TestRandomTableEventCollection(unittest.TestCase):

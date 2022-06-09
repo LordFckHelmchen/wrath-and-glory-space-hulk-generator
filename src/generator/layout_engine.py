@@ -3,7 +3,7 @@ from typing import Union
 
 from pydantic import NonNegativeInt
 
-from src.wrath_and_glory_space_hulk_generator.exceptions import InvalidLayoutEngineError
+from src.generator.exceptions import InvalidLayoutEngineError
 
 
 class LayoutEngine(Enum):
