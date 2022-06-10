@@ -54,21 +54,14 @@ class SpaceHulkLayouter:
         """
         Constructor
 
-        :param max_number_of_connections_per_room: The max. number of edges per node (e.g. the max. degree).
+        :param max_number_of_connections_per_room: The max. number of edges per node (e.g. the max. degree). The lower
+        the number, the more connected and regular the layout gets. Higher numbers will cause more clustered layouts.
         """
         self.max_number_of_connections_per_room = max_number_of_connections_per_room
 
     def create_layout(self,
                       space_hulk: SpaceHulk,
                       engine: Optional[LayoutEngine] = None) -> LayoutGraph:
-        """
-
-        :param space_hulk:
-        :param engine:
-        :param max_number_of_connections_per_room: The lower the number, the more connected and regular the layout gets.
-        Higher numbers will cause more clustered layouts.
-        :return:
-        """
 
         def get_scaled_font_size(node: Node, base_font_size: float):
             slope = (self.MAX_FONT_SIZE - base_font_size) / (
