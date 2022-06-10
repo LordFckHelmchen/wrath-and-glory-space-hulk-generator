@@ -9,10 +9,11 @@ from pydantic import NonNegativeInt
 
 from src.app.layout_file_creator import create_download_file
 from src.app.layout_file_creator import create_preview_file
-from src.generator.layout_engine import LayoutEngine
+from src.generator.indexable_enums import LayoutEdgeType
+from src.generator.indexable_enums import LayoutEngine
 from src.generator.space_hulk_generator import RoomCount
 from src.generator.space_hulk_generator import SpaceHulkGenerator
-from src.generator.space_hulk_layouter import SpaceHulkLayouter, LayoutEdgeType
+from src.generator.space_hulk_layouter import SpaceHulkLayouter
 
 # st.set_page_config(layout="wide")
 

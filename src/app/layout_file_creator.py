@@ -1,8 +1,8 @@
 import streamlit as st
 
-from src.generator.layout_engine import LayoutEngine
+from src.generator.indexable_enums import LayoutEdgeType
+from src.generator.indexable_enums import LayoutEngine
 from src.generator.layout_graph import LayoutGraph
-from src.generator.space_hulk_layouter import LayoutEdgeType
 from src.generator.space_hulk_layouter import LayoutFormat
 
 

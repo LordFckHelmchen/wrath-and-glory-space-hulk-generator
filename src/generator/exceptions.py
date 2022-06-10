@@ -10,5 +10,5 @@ class EventTypeError(SpaceHulkGeneratorError, TypeError):
     """Raise when the wrong type of container or container element is passed to set events."""
 
 
-class InvalidLayoutEngineError(SpaceHulkGeneratorError, TypeError):
-    """Raise when the given layout engine could not be interpreted as LayoutEngine."""
+class ValueNotParsableToEnumMember(SpaceHulkGeneratorError, TypeError):
+    """Raise when a given value cannot be parsed into an IndexableEnum member."""

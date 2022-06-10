@@ -2,7 +2,7 @@ import shutil
 import unittest
 from pathlib import Path
 
-from src.generator.layout_engine import LayoutEngine
+from src.generator.indexable_enums import LayoutEngine
 from src.generator.space_hulk_layouter import SpaceHulkLayouter
 from tests.helpers import load_layout
 from tests.helpers import load_space_hulk

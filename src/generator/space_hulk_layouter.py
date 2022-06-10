@@ -6,10 +6,10 @@ from typing import Dict
 from typing import Optional
 from typing import Union
 
-from pydantic import NonNegativeInt
 from pydantic import PositiveInt
 
-from .layout_engine import LayoutEngine
+from .indexable_enums import LayoutEdgeType
+from .indexable_enums import LayoutEngine
 from .layout_graph import LayoutGraph
 from .layout_graph import Node
 from .layout_graph_creator import LayoutGraphCreator
@@ -23,30 +23,6 @@ class LayoutFormat(Enum):
     PDF = "pdf"
     PNG = "png"
     SVG = "svg"
-
-
-class LayoutEdgeType(Enum):
-    LINE = "line"
-    ORTHO = "ortho"
-    SPLINES = "spline"
-
-    @classmethod
-    def is_parsable_to_member(cls, value: Union[str, "LayoutEdgeType"]) -> bool:
-        return isinstance(value, cls) \
-               or isinstance(value, str) and any(value in [member.name, member.value] for member in cls)
-
-    @classmethod
-    def index(cls, member: Union[str, "LayoutEdgeType"]) -> NonNegativeInt:
-        if not cls.is_parsable_to_member(member):
-            raise TypeError(f"'{member}' of type {type(member)} cannot be interpreted as {cls.__name__}.")
-
-        if isinstance(member, str):  # member.name or member.value
-            try:
-                member = cls(member)
-            except ValueError:
-                member = getattr(cls, member)
-
-        return list(cls).index(member)
 
 
 GraphProperties = Dict[str, Union[str, Dict[str, str]]]
