@@ -1,6 +1,6 @@
 # Wrath & Glory Space Hulk Generator
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/LordFckHelmchen/wrath-and-glory-space-hulk-generator/[branch name]/[app path])
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main)
 
 The _Wrath & Glory Space Hulk Generator_ contains a random map generator for [Cubicle7](https://cubicle7games.com)'s
 Warhammer
