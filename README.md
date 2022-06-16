@@ -1,22 +1,43 @@
 # Wrath & Glory Space Hulk Generator
 
-[Use Cases](docs/USE_CASES.md)
+The _Wrath & Glory Space Hulk Generator_ contains a random map generator for [Cubicle7](https://cubicle7games.com)'s
+Warhammer
+40k role-playing
+game _[Wrath & Glory](https://cubicle7games.com/our-games/wrath-glory)_.
 
-## ToDo
+## State
 
-### Generator
+Active Development
 
-- [space_hulk.py](src/generator/space_hulk.py)
-    - [ ] FEAT: Add name & description field to
-    - [ ] FEAT: Link occupations & purposes
-- REFACTOR: Figure-out how to mixin the index function on enums
+## Description
 
-### App
+The code contains the generator as well as a streamlit app for a simple website hosting the generator.
 
-- [ ] FIX: Communicate Graphviz edge type fallback warning to user to avoid simply nothing happening on edge type change
-- [ ] FIX: Use memoizable_cache instead of cache in file helper
-- [ ] FEAT: Implement change of space hulk properties from [hulk_property_changer.py](src/app/hulk_property_changer.py)
-    - [ ] FEAT: Log change of hulk props
-        - [ ] FIX: Crash with duplication-adjusted event collection entries
-        - [ ] FIX: Crash on empty selection of fields that require at least 1 entry (e.g. origins)
-        - [ ] FIX: Reassignment of values in case of `EventCountOutOfRangeError`
+The generator uses the random tables from [_Redacted Records_](https://cubicle7games.com/product/redacted-records) to
+create the events and then pipes the rolled events into [graphviz](https://graphviz.org) to create a layout graph which
+is rendered into a vectorized map.
+
+### Use Cases
+
+An initial analysis of the use cases for the generator is given in [USE_CASES.md](docs/USE_CASES.md).
+
+## Installation
+
+Currently, there is no stand-alone installation. To locally use the project, e.g. for making code changes, 
+
+1. Install the repositories via [poetry](https://python-poetry.org) from [pyproject.toml](pyproject.toml)
+2. Run the app via `streamlit run streamlit_app.py` from the repository root
+
+## Contributing
+
+If you have any improvement suggestions or feature requests or if you found bugs, simply open
+an [issue](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/issues).
+
+Or event better create
+a [pull request](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/pulls) (PR) with the
+recommended code change.
+If you create a PR, Please make sure to add/update the [unittests](tests) accordingly.
+
+## License
+
+See [LICENSE](LICENSE)
