@@ -13,11 +13,12 @@ Active Development
 
 ## Description
 
-The code contains the generator as well as a streamlit app for a simple website hosting the generator.
+The code contains the generator as well as a streamlit app for a simple website hosting the generator that can be found
+[here](https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main).
 
-The generator uses the random tables from [_Redacted Records_](https://cubicle7games.com/product/redacted-records) to
-create the events and then pipes the rolled events into [graphviz](https://graphviz.org) to create a layout graph which
-is rendered into a vectorized map.
+![Screenshot.png](docs/Screenshot.png)
+
+A description of the app is given in [APP_ABOUT.md](docs/APP_ABOUT.md).
 
 ### Use Cases
 
@@ -25,7 +26,7 @@ An initial analysis of the use cases for the generator is given in [USE_CASES.md
 
 ## Installation
 
-Currently, there is no stand-alone installation. To locally use the project, e.g. for making code changes, 
+Currently, there is no stand-alone installation. To locally use the project, e.g. for making code changes,
 
 1. Install the external dependencies from [packages.txt](packages.txt) (e.g. the graphviz backend)
 2. Install the Python dependencies via [poetry](https://python-poetry.org) from [pyproject.toml](pyproject.toml)

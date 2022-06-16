@@ -3,6 +3,7 @@ import mimetypes
 from enum import Enum
 from pathlib import Path
 from random import randint
+from typing import Dict
 
 import streamlit as st
 from pydantic import NonNegativeInt
@@ -19,6 +20,7 @@ from src.generator.space_hulk_layouter import SpaceHulkLayouter
 
 IS_DEBUG = False
 LAYOUT_ENGINE_KEY = "layout_engine"
+HELP_DATA: Dict[str, Path] = {"About": Path("docs/APP_ABOUT.md"), "Usage": Path("docs/APP_USAGE.md")}
 
 
 def is_space_hulk_created() -> bool:
@@ -93,6 +95,12 @@ def get_index_of_current_edge_type() -> NonNegativeInt:
 
 
 st.title("Wrath & Glory Space Hulk Generator")
+
+for title, file in HELP_DATA.items():
+    with st.expander(title):
+        if title not in st.session_state:
+            st.session_state[title] = file.read_text()
+        st.markdown(st.session_state[title])
 
 if "generator" not in st.session_state:
     st.session_state.generator = SpaceHulkGenerator()
