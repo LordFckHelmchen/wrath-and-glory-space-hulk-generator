@@ -16,52 +16,52 @@ from src.generator.space_hulk_generator import RoomCount
 from src.generator.space_hulk_generator import SpaceHulkGenerator
 from src.generator.space_hulk_layouter import SpaceHulkLayouter
 
-# st.set_page_config(layout="wide")
-
-IS_DEBUG = False
+# Session state keys
+GENERATOR_KEY = "generator"
+LAYOUT_EDGE_TYPE_KEY = "layout_edge_type"
 LAYOUT_ENGINE_KEY = "layout_engine"
+LAYOUT_KEY = "layout"
+MIN_NUMBER_OF_ROOMS_KEY = "number_of_rooms_per_origin"
+NUMBER_OF_EDGES_METRIC_KEY = "#Connections"
+NUMBER_OF_ORIGINS_METRIC_KEY = "#Origins"
+NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY = "#Rooms"
+SPACE_HULK_KEY = "space_hulk"
+
+# Misc. Constants
 HELP_DATA: Dict[str, Path] = {"About": Path("docs/APP_ABOUT.md"), "Usage": Path("docs/APP_USAGE.md")}
 
 
 def is_space_hulk_created() -> bool:
-    return "space_hulk" in st.session_state
+    return SPACE_HULK_KEY in st.session_state
 
 
 def create_new_hulk_and_layout():
-    st.session_state.space_hulk = st.session_state.generator.create_hulk(
-        number_of_rooms_per_origin=st.session_state.number_of_rooms_per_origin)
+    st.session_state[SPACE_HULK_KEY] = st.session_state[GENERATOR_KEY].create_hulk(
+        number_of_rooms_per_origin=st.session_state[MIN_NUMBER_OF_ROOMS_KEY])
     create_new_layout_if_hulk_is_created()
 
 
 def create_new_layout_if_hulk_is_created() -> None:
     if is_space_hulk_created():
-        st.session_state.layout = SpaceHulkLayouter().create_layout(st.session_state.space_hulk,
+        st.session_state[LAYOUT_KEY] = SpaceHulkLayouter().create_layout(st.session_state[SPACE_HULK_KEY],
                                                                     engine=st.session_state[LAYOUT_ENGINE_KEY])
         update_metrics()
 
 
-LAYOUT_KEY = "layout"
-
-
 def assign_engine_to_layout_if_layout_is_created() -> None:
     if LAYOUT_KEY in st.session_state:
-        st.session_state.layout.engine = st.session_state[LAYOUT_ENGINE_KEY].value
+        st.session_state[LAYOUT_KEY].engine = st.session_state[LAYOUT_ENGINE_KEY].value
 
 
 def assign_edge_type_to_layout_if_layout_is_created() -> None:
     if LAYOUT_KEY in st.session_state:
-        st.session_state.layout.graph_attr["splines"] = st.session_state[LAYOUT_EDGE_TYPE_KEY].value
-
-
-NUMBER_OF_ORIGINS_METRIC_KEY = "#Origins"
-NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY = "#Rooms"
-NUMBER_OF_EDGES_METRIC_KEY = "#Connections"
+        st.session_state[LAYOUT_KEY].graph_attr["splines"] = st.session_state[LAYOUT_EDGE_TYPE_KEY].value
 
 
 def update_metrics() -> None:
-    st.session_state[NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY] = st.session_state.space_hulk.number_of_rooms
-    st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state.space_hulk.number_of_origins
-    st.session_state[NUMBER_OF_EDGES_METRIC_KEY] = st.session_state.layout.number_of_edges
+    st.session_state[NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY] = st.session_state[SPACE_HULK_KEY].number_of_rooms
+    st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state[SPACE_HULK_KEY].number_of_origins
+    st.session_state[NUMBER_OF_EDGES_METRIC_KEY] = st.session_state[LAYOUT_KEY].number_of_edges
 
 
 def get_enum_index_and_update_state(state_key: str, indexable_enum_class, default: Enum) -> NonNegativeInt:
@@ -102,8 +102,8 @@ for title, file in HELP_DATA.items():
             st.session_state[title] = file.read_text()
         st.markdown(st.session_state[title])
 
-if "generator" not in st.session_state:
-    st.session_state.generator = SpaceHulkGenerator()
+if GENERATOR_KEY not in st.session_state:
+    st.session_state[GENERATOR_KEY] = SpaceHulkGenerator()
 
 st.header("Generator Settings")
 
@@ -115,7 +115,6 @@ def recreate_hulk_and_layout_if_hulk_is_created() -> None:
 
 generator_settings_columns = st.columns(3)
 
-MIN_NUMBER_OF_ROOMS_KEY = "number_of_rooms_per_origin"
 with generator_settings_columns[0]:
     st.slider("Minimum number of rooms (per origin)",
               min_value=RoomCount.ge,
@@ -140,7 +139,6 @@ with generator_settings_columns[1]:
                  key=LAYOUT_ENGINE_KEY,
                  on_change=assign_engine_to_layout_if_layout_is_created)
 
-LAYOUT_EDGE_TYPE_KEY = "layout_edge_type"
 with generator_settings_columns[2]:
     st.selectbox("Connection type",
                  options=list(LayoutEdgeType),
@@ -165,14 +163,16 @@ with space_hulk_header_columns[1]:
         create_new_layout_if_hulk_is_created()
 
 with st.spinner("Rendering layout..."):
-    preview_file = create_preview_file(st.session_state.layout,
+    preview_file = create_preview_file(st.session_state[LAYOUT_KEY],
                                        layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
                                        edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY])
-    download_file = create_download_file(st.session_state.layout,
+    download_file = create_download_file(st.session_state[LAYOUT_KEY],
                                          layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
                                          edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY])
 
 # Show preview
+with st.expander("Details"):
+    st.markdown(st.session_state[SPACE_HULK_KEY].as_markdown(header_level=3))
 st.caption("Map preview - Use the download button above to access the vectorized version")
 st.image(image=preview_file, use_column_width=True, width=20)
 
@@ -185,20 +185,10 @@ with space_hulk_header_columns[2], open(download_file, "rb") as file:
                        mime=mimetypes.guess_type(file_name)[0],
                        on_click=lambda: logging.info(f"Space Hulk exported\n"
                                                      f"number_of_rooms_per_origin: "
-                                                     f"{st.session_state.number_of_rooms_per_origin}\n"
-                                                     f"{st.session_state.layout}"))
+                                                     f"{st.session_state[MIN_NUMBER_OF_ROOMS_KEY]}\n"
+                                                     f"{st.session_state[LAYOUT_KEY]}"))
 
 metric_cols = st.columns(4)
-metric_cols[0].metric(NUMBER_OF_ORIGINS_METRIC_KEY, value=st.session_state.space_hulk.number_of_origins)
-metric_cols[1].metric(NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY, value=st.session_state.space_hulk.number_of_rooms)
-metric_cols[2].metric(NUMBER_OF_EDGES_METRIC_KEY, value=st.session_state.layout.number_of_edges)
-
-if not IS_DEBUG:
-    st.stop()
-
-st.text("JSON Source")
-st.json(st.session_state.space_hulk.json(exclude_none=True), expanded=False)
-with st.expander("DOT Source"):
-    st.text(st.session_state.layout)
-with st.expander("Session state"):
-    st.write(st.session_state)
+metric_cols[0].metric(NUMBER_OF_ORIGINS_METRIC_KEY, value=st.session_state[SPACE_HULK_KEY].number_of_origins)
+metric_cols[1].metric(NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY, value=st.session_state[SPACE_HULK_KEY].number_of_rooms)
+metric_cols[2].metric(NUMBER_OF_EDGES_METRIC_KEY, value=st.session_state[LAYOUT_KEY].number_of_edges)
