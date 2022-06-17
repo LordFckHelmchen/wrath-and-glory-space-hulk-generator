@@ -4,8 +4,8 @@ import streamlit as st
 
 from src.generator.indexable_enums import LayoutEdgeType
 from src.generator.indexable_enums import LayoutEngine
+from src.generator.indexable_enums import LayoutFormat
 from src.generator.layout_graph import LayoutGraph
-from src.generator.space_hulk_layouter import LayoutFormat
 
 
 def make_file_name(layout_engine: LayoutEngine,

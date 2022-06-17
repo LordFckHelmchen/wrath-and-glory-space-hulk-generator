@@ -1,5 +1,6 @@
 from enum import Enum
-from typing import Union, Any
+from typing import Any
+from typing import Union
 
 from pydantic import NonNegativeInt
 
@@ -38,3 +39,9 @@ class LayoutEdgeType(IndexableEnum):
     ORTHO = "ortho"
     SPLINES = "spline"
 
+
+class LayoutFormat(IndexableEnum):
+    DOT = "dot"
+    PDF = "pdf"
+    PNG = "png"
+    SVG = "svg"

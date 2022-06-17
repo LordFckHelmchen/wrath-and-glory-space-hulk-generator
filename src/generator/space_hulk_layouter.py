@@ -1,6 +1,5 @@
 import random
 from copy import copy
-from enum import Enum
 from random import randint
 from typing import Dict
 from typing import Optional
@@ -16,14 +15,6 @@ from .layout_graph_creator import LayoutGraphCreator
 from .map_object_size import GlobalMapObjectSizeConstraint
 from .random_table_event import RandomTableEvent
 from .space_hulk import SpaceHulk
-
-
-class LayoutFormat(Enum):
-    DOT = "dot"
-    PDF = "pdf"
-    PNG = "png"
-    SVG = "svg"
-
 
 GraphProperties = Dict[str, Union[str, Dict[str, str]]]
 
