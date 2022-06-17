@@ -2,7 +2,8 @@ import unittest
 
 from src.generator.exceptions import EventCountOutOfRangeError
 from src.generator.exceptions import EventTypeError
-from tests.helpers import load_space_hulk
+from tests.assets.helpers import load_space_hulk
+from tests.assets.helpers import load_space_hulk_markdown
 
 
 class TestSpaceHulkTables(unittest.TestCase):
@@ -45,9 +46,13 @@ class TestSpaceHulkTables(unittest.TestCase):
                 with self.assertRaises(EventTypeError):
                     self.space_hulk[table_name].events = [2]
 
-    def test_setitem_with_invalid_table_name_expect_AttributeError(self):
+    def test_setitem_with_invalid_table_name_expect_AttributeError(self) -> None:
         with self.assertRaises(AttributeError):
             self.space_hulk["asdf932nass"].events = self.space_hulk["rooms"].events
+
+    def test_markdown_expect_same_as_stored_markdown_file(self) -> None:
+        expected_markdown = load_space_hulk_markdown()
+        self.assertEqual(expected_markdown, self.space_hulk.as_markdown())
 
 
 if __name__ == '__main__':

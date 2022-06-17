@@ -4,13 +4,13 @@ from pathlib import Path
 
 from src.generator.indexable_enums import LayoutEngine
 from src.generator.space_hulk_layouter import SpaceHulkLayouter
-from tests.helpers import load_layout
-from tests.helpers import load_space_hulk
+from tests.assets.helpers import load_space_hulk_layout
+from tests.assets.helpers import load_space_hulk
 
 
 class TestLayoutGraph(unittest.TestCase):
     def setUp(self) -> None:
-        self.layout = load_layout()
+        self.layout = load_space_hulk_layout()
 
     def test_number_properties_on_all_rooms_hulk_expect_correct_numbers_returned(self):
         with self.subTest(i="Number of nodes"):
@@ -27,7 +27,7 @@ class TestLayoutGraph(unittest.TestCase):
         graph_folder = Path("./generated_graphs/")
         shutil.rmtree(graph_folder, ignore_errors=True)
         graph_folder.mkdir()
-        layout = load_layout()
+        layout = load_space_hulk_layout()
 
         # Store hulk & layout
         (graph_folder / f"space_hulk.json").write_text(load_space_hulk().json(exclude_none=True, indent=2))

@@ -4,6 +4,7 @@ from typing import Tuple
 
 from pydantic import BaseModel
 from pydantic import NonNegativeInt
+from pydantic import PositiveInt
 
 from .random_table_event_collection import RandomTableEventCollection
 
@@ -12,8 +13,10 @@ class SpaceHulk(BaseModel):
     origins: RandomTableEventCollection
     occupations: RandomTableEventCollection
     purposes: RandomTableEventCollection
-    rooms: RandomTableEventCollection
     hazards: RandomTableEventCollection
+    rooms: RandomTableEventCollection
+    name: str = ""
+    description: str = ""
 
     @property
     def number_of_origins(self) -> NonNegativeInt:
@@ -25,7 +28,9 @@ class SpaceHulk(BaseModel):
 
     def __iter__(self) -> Generator[Tuple[str, RandomTableEventCollection], None, None]:
         for field in self.__fields__:
-            yield field, getattr(self, field)
+            field_value = getattr(self, field)
+            if isinstance(field_value, RandomTableEventCollection):
+                yield field, getattr(self, field)
 
     def __getitem__(self, table_name: str) -> RandomTableEventCollection:
         return getattr(self, table_name)
@@ -35,3 +40,17 @@ class SpaceHulk(BaseModel):
 
     def get_event_names(self, table_name: str) -> List[str]:
         return [event.name for event in self[table_name]]
+
+    def as_markdown(self, header_level: PositiveInt = 1) -> str:
+        self_as_string = [f"{'#' * header_level} Space Hulk{f' _{self.name}_' if self.name else ''}\n",
+                          f"{'#' * (header_level + 1)} Description\n"]
+
+        if self.description:
+            self_as_string.append(f"{self.description}\n")
+
+        header_level += 2
+        for event_table_name, event_collection in self:
+            self_as_string.append(event_collection.as_markdown(header=event_table_name.capitalize(),
+                                                               header_level=header_level))
+
+        return "\n".join(self_as_string)

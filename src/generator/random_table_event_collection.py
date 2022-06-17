@@ -1,10 +1,10 @@
-import logging
 from typing import Generator
 from typing import List
 from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import NonNegativeInt
+from pydantic import PositiveInt
 from pydantic import conint
 from pydantic import validator
 
@@ -66,3 +66,16 @@ class RandomTableEventCollection(BaseModel):
     def __iter__(self) -> Generator[RandomTableEvent, None, None]:
         for event in self.events:
             yield event
+
+    def as_markdown(self, header: Optional[str] = None, header_level: PositiveInt = 1) -> str:
+        self_as_string = [f"{'#' * header_level} {header} (n={len(self)})\n"] if header else []
+
+        if len(self) == 0:
+            self_as_string.append("None\n")
+        elif len(self) == 1:
+            self_as_string.append(f"{self.events[0].name_with_description}\n")
+        else:
+            self_as_string.append("".join([f"{i}. {event.name_with_description}\n"
+                                           for i, event in enumerate(self.events)]))
+
+        return "\n".join(self_as_string)
