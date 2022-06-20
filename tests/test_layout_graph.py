@@ -3,7 +3,6 @@ import unittest
 from pathlib import Path
 
 from src.generator.indexable_enums import LayoutEngine
-from src.generator.space_hulk_layouter import SpaceHulkLayouter
 from tests.assets.helpers import load_space_hulk
 from tests.assets.helpers import load_space_hulk_layout
 
@@ -30,7 +29,6 @@ class TestLayoutGraph(unittest.TestCase):
 
         # Store hulk & layout
         (graph_folder / f"space_hulk.json").write_text(load_space_hulk().json(exclude_none=True, indent=2))
-        self.layout.graph_attr = SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["graph_attr"]
         self.layout.save(directory=graph_folder, filename="space_hulk_layout.dot")
 
         for engine in LayoutEngine:

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wrath-and-glory-space-hulk-generator"
-version = "1.0.1"
+version = "1.2.0"
 description = "Generates Space Hulks based on the tables provided in the Redacted Records rulebook of Cubicle 7"
 authors = ["LordFckHelmchen <dj_mack@gmx.de>"]
 license = "GPLv3"
@@ -20,6 +20,7 @@ python = "^3.9"
 streamlit = "^1.10.0"
 graphviz = "^0.20"
 pydantic = "^1.9.1"
+rinohtype = "^0.5.4"
 
 [tool.poetry.dev-dependencies]
 

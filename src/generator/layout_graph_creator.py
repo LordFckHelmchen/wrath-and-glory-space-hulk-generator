@@ -3,6 +3,7 @@ from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Tuple
+from typing import Union
 
 from pydantic import NonNegativeInt
 from pydantic import PositiveFloat
@@ -10,6 +11,8 @@ from pydantic import PositiveFloat
 from .layout_graph import GraphStats
 from .layout_graph import LayoutGraph
 from .layout_graph import Node
+
+GraphProperties = Dict[str, Union[str, Dict[str, str]]]
 
 
 class LayoutGraphCreator(GraphStats):
@@ -39,7 +42,7 @@ class LayoutGraphCreator(GraphStats):
             # noinspection PyTypeChecker
             self._edges.append(edge)
 
-    def create(self, graph_attrs: Dict, add_node_size_to_node_label: bool = True) -> LayoutGraph:
+    def create(self, graph_attrs: GraphProperties, add_node_size_to_node_label: bool = True) -> LayoutGraph:
         layout = LayoutGraph(**graph_attrs)
         largest_node_name = max(self._nodes.values(), key=lambda x: x.size.area).name
         for node in sorted(self._nodes.values(), key=lambda x: x.name):

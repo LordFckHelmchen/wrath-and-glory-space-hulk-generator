@@ -1,13 +1,11 @@
 import logging
 import mimetypes
-from enum import Enum
 from pathlib import Path
 from random import randint
 from typing import Dict
 
 import streamlit as st
 import toml
-from pydantic import NonNegativeInt
 
 from src.app.layout_file_creator import create_download_file
 from src.app.layout_file_creator import create_preview_file
@@ -15,10 +13,13 @@ from src.generator.indexable_enums import LayoutEdgeType
 from src.generator.indexable_enums import LayoutEngine
 from src.generator.space_hulk_generator import RoomCount
 from src.generator.space_hulk_generator import SpaceHulkGenerator
+from src.generator.space_hulk_layouter import DEFAULT_EDGE_TYPE
+from src.generator.space_hulk_layouter import DEFAULT_LAYOUT_ENGINE
 from src.generator.space_hulk_layouter import SpaceHulkLayouter
 
 # Session state keys
 GENERATOR_KEY = "generator"
+LAYOUTER_KEY = "layouter"
 LAYOUT_EDGE_TYPE_KEY = "layout_edge_type"
 LAYOUT_ENGINE_KEY = "layout_engine"
 LAYOUT_KEY = "layout"
@@ -47,17 +48,18 @@ def create_new_hulk_and_layout():
 
 def create_new_layout_if_hulk_is_created() -> None:
     if is_space_hulk_created():
-        st.session_state[LAYOUT_KEY] = SpaceHulkLayouter().create_layout(st.session_state[SPACE_HULK_KEY],
-                                                                         engine=st.session_state[LAYOUT_ENGINE_KEY])
+        st.session_state[LAYOUT_KEY] = st.session_state[LAYOUTER_KEY].create_layout(st.session_state[SPACE_HULK_KEY])
         update_metrics()
 
 
-def assign_engine_to_layout_if_layout_is_created() -> None:
+def cache_layout_engine() -> None:
+    st.session_state[LAYOUTER_KEY].set_layout_engine(st.session_state[LAYOUT_ENGINE_KEY])
     if LAYOUT_KEY in st.session_state:
         st.session_state[LAYOUT_KEY].engine = st.session_state[LAYOUT_ENGINE_KEY].value
 
 
-def assign_edge_type_to_layout_if_layout_is_created() -> None:
+def cache_layout_edge_type() -> None:
+    st.session_state[LAYOUTER_KEY].set_layout_edge_type(st.session_state[LAYOUT_EDGE_TYPE_KEY])
     if LAYOUT_KEY in st.session_state:
         st.session_state[LAYOUT_KEY].graph_attr["splines"] = st.session_state[LAYOUT_EDGE_TYPE_KEY].value
 
@@ -66,36 +68,6 @@ def update_metrics() -> None:
     st.session_state[NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY] = st.session_state[SPACE_HULK_KEY].number_of_rooms
     st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state[SPACE_HULK_KEY].number_of_origins
     st.session_state[NUMBER_OF_EDGES_METRIC_KEY] = st.session_state[LAYOUT_KEY].number_of_edges
-
-
-def get_enum_index_and_update_state(state_key: str, indexable_enum_class, default: Enum) -> NonNegativeInt:
-    member = st.session_state.get(state_key, indexable_enum_class(default))
-
-    try:
-        return indexable_enum_class.index(member)
-    except TypeError as err:
-        new_member = str(member).split(".")[-1].lower()
-        logging.warning(f"Couldn't retrieve the index for '{member}' from '{indexable_enum_class}'. "
-                        f"Retrying with stringified engine name '{new_member}'", exc_info=err)
-
-    # This should never happen but it does. State is something like 'ENUM.MEMBER', so let's try to stringify
-    # it and then use the name to retrieve the index.
-    new_member = indexable_enum_class(new_member)
-    st.session_state[state_key] = new_member
-    return LayoutEngine.index(new_member)
-
-
-def get_index_of_current_layout_engine() -> NonNegativeInt:
-    return get_enum_index_and_update_state(LAYOUT_ENGINE_KEY,
-                                           indexable_enum_class=LayoutEngine,
-                                           default=LayoutEngine(SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["engine"]))
-
-
-def get_index_of_current_edge_type() -> NonNegativeInt:
-    return get_enum_index_and_update_state(LAYOUT_EDGE_TYPE_KEY,
-                                           indexable_enum_class=LayoutEdgeType,
-                                           default=LayoutEdgeType(
-                                               SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["graph_attr"]["splines"]))
 
 
 @st.experimental_memo
@@ -131,10 +103,13 @@ for title, file in HELP_DATA.items():
             st.session_state[title] = file.read_text()
         st.markdown(st.session_state[title])
 
+st.header("Generator Settings")
+
+# Init state
 if GENERATOR_KEY not in st.session_state:
     st.session_state[GENERATOR_KEY] = SpaceHulkGenerator()
-
-st.header("Generator Settings")
+if LAYOUTER_KEY not in st.session_state:
+    st.session_state[LAYOUTER_KEY] = SpaceHulkLayouter()
 
 generator_settings_columns = st.columns(3)
 
@@ -152,17 +127,17 @@ with generator_settings_columns[1]:
     st.selectbox("Layout engine",
                  options=list(LayoutEngine),
                  format_func=lambda x: x.value,
-                 index=get_index_of_current_layout_engine(),
+                 index=st.session_state.get(LAYOUT_ENGINE_KEY, DEFAULT_LAYOUT_ENGINE).index,
                  key=LAYOUT_ENGINE_KEY,
-                 on_change=assign_engine_to_layout_if_layout_is_created)
+                 on_change=cache_layout_engine)
 
 with generator_settings_columns[2]:
     st.selectbox("Connection type",
                  options=list(LayoutEdgeType),
                  format_func=lambda x: x.value,
-                 index=get_index_of_current_edge_type(),
+                 index=st.session_state.get(LAYOUT_EDGE_TYPE_KEY, DEFAULT_EDGE_TYPE).index,
                  key=LAYOUT_EDGE_TYPE_KEY,
-                 on_change=assign_edge_type_to_layout_if_layout_is_created)
+                 on_change=cache_layout_edge_type)
 
 st.header("Space Hulk")
 
