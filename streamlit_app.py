@@ -30,6 +30,9 @@ SPACE_HULK_KEY = "space_hulk"
 
 # Misc. Constants
 HELP_DATA: Dict[str, Path] = {"About": Path("docs/APP_ABOUT.md"), "Usage": Path("docs/APP_USAGE.md")}
+METRIC_STATE_ATTRIBUTE_MAP = {NUMBER_OF_ORIGINS_METRIC_KEY: (SPACE_HULK_KEY, "number_of_origins"),
+                              NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY: (SPACE_HULK_KEY, "number_of_rooms"),
+                              NUMBER_OF_EDGES_METRIC_KEY: (LAYOUT_KEY, "number_of_edges")}
 
 
 def is_space_hulk_created() -> bool:
@@ -75,7 +78,7 @@ def get_enum_index_and_update_state(state_key: str, indexable_enum_class, defaul
         logging.warning(f"Couldn't retrieve the index for '{member}' from '{indexable_enum_class}'. "
                         f"Retrying with stringified engine name '{new_member}'", exc_info=err)
 
-    # This should never happen but it those. State is something like 'ENUM.MEMBER', so let's try to stringify
+    # This should never happen but it does. State is something like 'ENUM.MEMBER', so let's try to stringify
     # it and then use the name to retrieve the index.
     new_member = indexable_enum_class(new_member)
     st.session_state[state_key] = new_member
@@ -105,10 +108,21 @@ def get_app_version() -> str:
         return ""
 
 
+def recreate_hulk_and_layout_if_hulk_is_created() -> None:
+    if is_space_hulk_created():
+        create_new_hulk_and_layout()
+
+
+def randomize_min_number_of_rooms() -> None:
+    st.session_state[MIN_NUMBER_OF_ROOMS_KEY] = randint(RoomCount.ge, RoomCount.le)
+    recreate_hulk_and_layout_if_hulk_is_created()
+
+
 st.title("Wrath & Glory Space Hulk Generator")
 metadata_cols = st.columns(2)
 metadata_cols[0].write(
-    "[![Star](https://img.shields.io/github/stars/LordFckHelmchen/wrath-and-glory-space-hulk-generator.svg?logo=github&style=social)](https://gitHub.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator)")
+    "[![Star](https://img.shields.io/github/stars/LordFckHelmchen/wrath-and-glory-space-hulk-generator.svg?"
+    "logo=github&style=social)](https://gitHub.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator)")
 metadata_cols[1].write(f"![Version](https://img.shields.io/badge/version-{get_app_version()}-blue)")
 
 for title, file in HELP_DATA.items():
@@ -122,12 +136,6 @@ if GENERATOR_KEY not in st.session_state:
 
 st.header("Generator Settings")
 
-
-def recreate_hulk_and_layout_if_hulk_is_created() -> None:
-    if is_space_hulk_created():
-        create_new_hulk_and_layout()
-
-
 generator_settings_columns = st.columns(3)
 
 with generator_settings_columns[0]:
@@ -137,12 +145,6 @@ with generator_settings_columns[0]:
               value=10,
               key=MIN_NUMBER_OF_ROOMS_KEY,
               on_change=recreate_hulk_and_layout_if_hulk_is_created)
-
-
-    def randomize_min_number_of_rooms() -> None:
-        st.session_state[MIN_NUMBER_OF_ROOMS_KEY] = randint(RoomCount.ge, RoomCount.le)
-        recreate_hulk_and_layout_if_hulk_is_created()
-
 
     st.button("Randomize min. number of rooms", on_click=randomize_min_number_of_rooms)
 
@@ -185,12 +187,6 @@ with st.spinner("Rendering layout..."):
                                          layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
                                          edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY])
 
-# Show preview
-with st.expander("Details"):
-    st.markdown(st.session_state[SPACE_HULK_KEY].as_markdown(header_level=3))
-st.caption("Map preview - Use the download button above to access the vectorized version")
-st.image(image=preview_file, use_column_width=True, width=20)
-
 # Prepare download
 with space_hulk_header_columns[2], open(download_file, "rb") as file:
     file_name = Path(file.name)
@@ -203,7 +199,15 @@ with space_hulk_header_columns[2], open(download_file, "rb") as file:
                                                      f"{st.session_state[MIN_NUMBER_OF_ROOMS_KEY]}\n"
                                                      f"{st.session_state[LAYOUT_KEY]}"))
 
-metric_cols = st.columns(4)
-metric_cols[0].metric(NUMBER_OF_ORIGINS_METRIC_KEY, value=st.session_state[SPACE_HULK_KEY].number_of_origins)
-metric_cols[1].metric(NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY, value=st.session_state[SPACE_HULK_KEY].number_of_rooms)
-metric_cols[2].metric(NUMBER_OF_EDGES_METRIC_KEY, value=st.session_state[LAYOUT_KEY].number_of_edges)
+# Show details
+with st.expander("Details"):
+    st.markdown(st.session_state[SPACE_HULK_KEY].as_markdown(header_level=3))
+
+# Show metrics
+metric_cols = st.columns(len(METRIC_STATE_ATTRIBUTE_MAP))
+for index, (metric_key, (state_key, attribute_name)) in enumerate(METRIC_STATE_ATTRIBUTE_MAP.items()):
+    metric_cols[index].metric(metric_key, value=getattr(st.session_state[state_key], attribute_name))
+
+# Show preview
+st.caption("Map preview - Use the download button above to access the vectorized version")
+st.image(image=preview_file, use_column_width=True, width=20)
