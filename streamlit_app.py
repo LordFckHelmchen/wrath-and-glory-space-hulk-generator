@@ -6,6 +6,7 @@ from random import randint
 from typing import Dict
 
 import streamlit as st
+import toml
 from pydantic import NonNegativeInt
 
 from src.app.layout_file_creator import create_download_file
@@ -44,7 +45,7 @@ def create_new_hulk_and_layout():
 def create_new_layout_if_hulk_is_created() -> None:
     if is_space_hulk_created():
         st.session_state[LAYOUT_KEY] = SpaceHulkLayouter().create_layout(st.session_state[SPACE_HULK_KEY],
-                                                                    engine=st.session_state[LAYOUT_ENGINE_KEY])
+                                                                         engine=st.session_state[LAYOUT_ENGINE_KEY])
         update_metrics()
 
 
@@ -94,7 +95,21 @@ def get_index_of_current_edge_type() -> NonNegativeInt:
                                                SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["graph_attr"]["splines"]))
 
 
+@st.cache
+def get_app_version() -> str:
+    with open("pyproject.toml", "r") as pyproject_toml_file:
+        pyproject_toml = toml.load(pyproject_toml_file)
+    try:
+        return pyproject_toml["tool"]["poetry"]["version"]
+    except KeyError:
+        return ""
+
+
 st.title("Wrath & Glory Space Hulk Generator")
+metadata_cols = st.columns(2)
+metadata_cols[0].write(
+    "[![Star](https://img.shields.io/github/stars/LordFckHelmchen/wrath-and-glory-space-hulk-generator.svg?logo=github&style=social)](https://gitHub.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator)")
+metadata_cols[1].write(f"v{get_app_version()}")
 
 for title, file in HELP_DATA.items():
     with st.expander(title):
