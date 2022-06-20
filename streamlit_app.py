@@ -95,7 +95,7 @@ def get_index_of_current_edge_type() -> NonNegativeInt:
                                                SpaceHulkLayouter.DEFAULT_GRAPH_PROPERTIES["graph_attr"]["splines"]))
 
 
-@st.cache
+@st.experimental_memo
 def get_app_version() -> str:
     with open("pyproject.toml", "r") as pyproject_toml_file:
         pyproject_toml = toml.load(pyproject_toml_file)
@@ -109,7 +109,7 @@ st.title("Wrath & Glory Space Hulk Generator")
 metadata_cols = st.columns(2)
 metadata_cols[0].write(
     "[![Star](https://img.shields.io/github/stars/LordFckHelmchen/wrath-and-glory-space-hulk-generator.svg?logo=github&style=social)](https://gitHub.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator)")
-metadata_cols[1].write(f"v{get_app_version()}")
+metadata_cols[1].write(f"![Version](https://img.shields.io/badge/version-{get_app_version()}-blue)")
 
 for title, file in HELP_DATA.items():
     with st.expander(title):
