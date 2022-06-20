@@ -13,8 +13,6 @@ from src.generator.indexable_enums import LayoutEdgeType
 from src.generator.indexable_enums import LayoutEngine
 from src.generator.space_hulk_generator import RoomCount
 from src.generator.space_hulk_generator import SpaceHulkGenerator
-from src.generator.space_hulk_layouter import DEFAULT_EDGE_TYPE
-from src.generator.space_hulk_layouter import DEFAULT_LAYOUT_ENGINE
 from src.generator.space_hulk_layouter import SpaceHulkLayouter
 
 # Session state keys
@@ -52,16 +50,16 @@ def create_new_layout_if_hulk_is_created() -> None:
         update_metrics()
 
 
-def cache_layout_engine() -> None:
+def store_layout_engine() -> None:
     st.session_state[LAYOUTER_KEY].set_layout_engine(st.session_state[LAYOUT_ENGINE_KEY])
     if LAYOUT_KEY in st.session_state:
-        st.session_state[LAYOUT_KEY].engine = st.session_state[LAYOUT_ENGINE_KEY].value
+        st.session_state[LAYOUT_KEY].layout_engine = st.session_state[LAYOUT_ENGINE_KEY]
 
 
-def cache_layout_edge_type() -> None:
+def store_layout_edge_type() -> None:
     st.session_state[LAYOUTER_KEY].set_layout_edge_type(st.session_state[LAYOUT_EDGE_TYPE_KEY])
     if LAYOUT_KEY in st.session_state:
-        st.session_state[LAYOUT_KEY].graph_attr["splines"] = st.session_state[LAYOUT_EDGE_TYPE_KEY].value
+        st.session_state[LAYOUT_KEY].layout_edge_type = st.session_state[LAYOUT_EDGE_TYPE_KEY]
 
 
 def update_metrics() -> None:
@@ -127,17 +125,19 @@ with generator_settings_columns[1]:
     st.selectbox("Layout engine",
                  options=list(LayoutEngine),
                  format_func=lambda x: x.value,
-                 index=st.session_state.get(LAYOUT_ENGINE_KEY, DEFAULT_LAYOUT_ENGINE).index,
+                 index=st.session_state.get(LAYOUT_ENGINE_KEY,
+                                            st.session_state[LAYOUTER_KEY].get_layout_engine()).index,
                  key=LAYOUT_ENGINE_KEY,
-                 on_change=cache_layout_engine)
+                 on_change=store_layout_engine)
 
 with generator_settings_columns[2]:
     st.selectbox("Connection type",
                  options=list(LayoutEdgeType),
                  format_func=lambda x: x.value,
-                 index=st.session_state.get(LAYOUT_EDGE_TYPE_KEY, DEFAULT_EDGE_TYPE).index,
+                 index=st.session_state.get(LAYOUT_EDGE_TYPE_KEY,
+                                            st.session_state[LAYOUTER_KEY].get_layout_edge_type()).index,
                  key=LAYOUT_EDGE_TYPE_KEY,
-                 on_change=cache_layout_edge_type)
+                 on_change=store_layout_edge_type)
 
 st.header("Space Hulk")
 

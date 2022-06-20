@@ -1,6 +1,6 @@
 import re
-from abc import abstractmethod
 from abc import ABC
+from abc import abstractmethod
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
@@ -11,6 +11,8 @@ from graphviz import Graph
 from pydantic import NonNegativeInt
 from pydantic import PositiveFloat
 
+from .indexable_enums import LayoutEdgeType
+from .indexable_enums import LayoutEngine
 from .map_object_size import MapObjectSize
 
 
@@ -64,6 +66,22 @@ class LayoutGraph(Graph, GraphStats):
     @property
     def global_node_font_size(self) -> PositiveFloat:
         return float(self.node_attr.get("fontsize", "16"))
+
+    @property
+    def layout_edge_type(self) -> LayoutEdgeType:
+        return LayoutEdgeType(self.graph_attr["splines"])
+
+    @layout_edge_type.setter
+    def layout_edge_type(self, edge_type: LayoutEdgeType) -> None:
+        self.graph_attr["splines"] = edge_type.value
+
+    @property
+    def layout_engine(self) -> LayoutEngine:
+        return LayoutEngine(self.engine)
+
+    @layout_engine.setter
+    def layout_engine(self, engine: LayoutEngine) -> None:
+        self.engine = engine.value
 
     def __str__(self) -> str:
         original_comment = self.comment

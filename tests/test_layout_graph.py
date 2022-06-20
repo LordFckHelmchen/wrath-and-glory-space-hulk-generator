@@ -2,6 +2,7 @@ import shutil
 import unittest
 from pathlib import Path
 
+from src.generator.indexable_enums import LayoutEdgeType
 from src.generator.indexable_enums import LayoutEngine
 from tests.assets.helpers import load_space_hulk
 from tests.assets.helpers import load_space_hulk_layout
@@ -36,3 +37,13 @@ class TestLayoutGraph(unittest.TestCase):
             with self.subTest(i=engine_name):
                 self.layout.engine = engine_name
                 self.layout.render(directory=graph_folder, filename=engine_name, format="png", cleanup=True, view=False)
+
+    def test_layout_edge_type_property_access_expect_set_type_returned(self):
+        for expected_value in LayoutEdgeType:
+            self.layout.edge_type = expected_value
+            self.assertEqual(expected_value, self.layout.edge_type)
+
+    def test_layout_engine_property_access_expect_set_engine_returned(self):
+        for expected_value in LayoutEngine:
+            self.layout.layout_engine = expected_value
+            self.assertEqual(expected_value, self.layout.layout_engine)
