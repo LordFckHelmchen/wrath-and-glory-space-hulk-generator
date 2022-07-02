@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Generator
 from typing import List
 from typing import Tuple
@@ -7,6 +8,7 @@ from pydantic import NonNegativeInt
 from pydantic import PositiveInt
 
 from .random_table_event_collection import RandomTableEventCollection
+from ..md2pdf.md2pdf import Markdown2PdfParser
 
 
 class SpaceHulk(BaseModel):
@@ -54,3 +56,6 @@ class SpaceHulk(BaseModel):
                                                                header_level=header_level))
 
         return "\n".join(self_as_string)
+
+    def render_pdf(self, file_name: Path) -> None:
+        Markdown2PdfParser().parse(self.as_markdown()).output(name=str(file_name))

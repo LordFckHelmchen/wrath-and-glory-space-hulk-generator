@@ -16,10 +16,12 @@ classifiers = [
 Changelog = "https://github.com/LordFckHelmchen/WrathAndGloryXPOptimizer/releases"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-streamlit = "^1.10.0"
+PyPDF2 = "^2.4.1"
+fpdf = "^1.7.2"
 graphviz = "^0.20"
 pydantic = "^1.9.1"
+python = "^3.9"
+streamlit = "^1.10.0"
 
 [tool.poetry.dev-dependencies]
 

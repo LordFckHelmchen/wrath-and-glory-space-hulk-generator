@@ -38,7 +38,7 @@ class LayoutGraphCreator(GraphStats):
             raise ValueError(f"unknown nodes {from_node} or {to_node}")
 
         edge = sorted((from_node, to_node))
-        if not avoid_duplicates or edge not in self._edges:
+        if edge not in self._edges or not avoid_duplicates:
             # noinspection PyTypeChecker
             self._edges.append(edge)
 
