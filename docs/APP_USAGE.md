@@ -35,9 +35,6 @@ _NOTE_: These options are a subset of graphviz's [_splines_](https://graphviz.or
 
 ### Space Hulk
 
-This section allows you to create a new space hulk, a new layout or to export the created layout as a vectorized (read
-"high-resolution") PDF file. Initially, only the _Create new hulk?_ option is available. After you created a first hulk,
-the other two options become visible.
-
-_NOTE_: Currently only the actual map is exported without the non-map-related events (e.g. origins, occupants). This
-will be fixed in a next release. I'm currently figuring-out how to best do this (so input is once again welcome)!
+This section allows you to create a new space hulk, a new layout or to export the space hulk with layout as a vectorized
+(read "high-resolution") PDF file. Initially, only the _Create new hulk?_ option is available. After you created a first
+hulk, the other two options become visible.
