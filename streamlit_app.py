@@ -158,9 +158,8 @@ with st.spinner("Rendering layout..."):
     preview_file = create_preview_file(st.session_state[LAYOUT_KEY],
                                        layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
                                        edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY])
-    download_file = create_download_file(st.session_state[LAYOUT_KEY],
-                                         layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
-                                         edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY])
+    download_file = create_download_file(space_hulk=st.session_state[SPACE_HULK_KEY],
+                                         layout=st.session_state[LAYOUT_KEY])
 
 # Prepare download
 with space_hulk_header_columns[2], open(download_file, "rb") as file:
