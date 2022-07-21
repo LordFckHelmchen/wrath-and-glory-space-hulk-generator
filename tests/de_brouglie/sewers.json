@@ -1,0 +1,11 @@
+{
+    "src": "2022-07-12_22-43.png",
+    "dest": "generated-wfc-map.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": true,
+    "periodic": true,
+    "symmetry": 8
+}
