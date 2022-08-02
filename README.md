@@ -30,7 +30,7 @@ Currently, there is no stand-alone installation. To locally use the project, e.g
 
 1. Install the external dependencies from [packages.txt](packages.txt) (e.g. the graphviz backend)
 2. Install the Python dependencies via [poetry](https://python-poetry.org) from [pyproject.toml](pyproject.toml)
-3. Run the app via `streamlit run streamlit_app.py` from the repository root
+3. Run the app via `poetry run streamlit run streamlit_app.py` from the repository root
 
 ## Contributing
 
