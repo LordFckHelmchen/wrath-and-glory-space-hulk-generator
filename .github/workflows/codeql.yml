@@ -40,28 +40,32 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Python 3.9
+    - name: Setup Python 3.9
       uses: actions/setup-python@v4
       with:
         python-version: "3.9"
 
-    - run: |
+    - name: Configure Python for CodeQL
+      run: |
         # Set the `CODEQL-PYTHON` environment variable to the Python executable
         # that includes the dependencies
         echo "CODEQL_PYTHON=$(which python)" >> $GITHUB_ENV
 
-    - name: Install Python Poetry 1.2.1
+    - name: Setup Poetry 1.2.1
       uses: abatilo/actions-poetry@v2.1.0
       with:
         poetry-version: 1.2.1
 
-    - name: Install dependencies
+    - name: Install Python dependencies
       run: |
         poetry config virtualenvs.in-project true
         poetry install
 
+    - name: Setup Graphviz
+      uses: ts-graphviz/setup-graphviz@v1
+
     - name: Unittests
-      run: poetry run python -m unittest discover -s test/ -v
+      run: poetry run python -m unittest discover -s tests/ -v
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
