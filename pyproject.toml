@@ -6,10 +6,9 @@ authors = ["LordFckHelmchen <dj_mack@gmx.de>"]
 license = "GPLv3"
 readme = "README.md"
 homepage = "https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main"
-keywords = ["rpg", "rpg-tool",  "wrathandglory"]
+keywords = ["rpg", "rpg-tool", "wrathandglory"]
 repository = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator"
-classifiers = [
-    "Programming Language :: Python :: 3.9",
+classifiers = ["Programming Language :: Python :: 3.9",
 ]
 
 [tool.poetry.urls]
