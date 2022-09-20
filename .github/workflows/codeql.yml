@@ -61,7 +61,7 @@ jobs:
         poetry install
 
     - name: Unittests
-      run: poetry python -m unittest discover -s test/ -v
+      run: poetry run python -m unittest discover -s test/ -v
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
