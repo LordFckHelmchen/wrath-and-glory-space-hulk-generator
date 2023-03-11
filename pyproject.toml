@@ -28,7 +28,7 @@ ruff = "^0.0.254"
 toml = "^0.10.2"
 
 [tool.black]
-line-length = 120        # Keep in synch with tool.ruff
+line-length = 120  # Keep in synch with tool.ruff
 
 [tool.ruff]
 select = ["ALL"]
