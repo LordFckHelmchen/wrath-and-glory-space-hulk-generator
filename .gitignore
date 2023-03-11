@@ -9,3 +9,5 @@
 # IntelliJ
 /.idea/
 
+# Linting
+/.ruff_cache/
