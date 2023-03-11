@@ -1,0 +1,57 @@
+name: "Code checks"
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request: # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+
+jobs:
+  unittests:
+    name: Unittests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4  # Uses .python-version by default
+
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: 1.4.0
+
+      - name: Install Python dependencies
+        run: poetry install
+
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1
+
+      - name: Run unittests
+        run: poetry run python -m unittest discover -s tests/ -v
+
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4  # Uses .python-version by default
+
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: 1.4.0
+
+      - name: Install Python dependencies
+        run: poetry install
+
+      - name: ruff
+        run: poetry run ruff .
+
+      - name: black
+        run: poetry run black . --check
