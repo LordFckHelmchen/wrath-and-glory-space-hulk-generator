@@ -8,12 +8,14 @@ from src.generator.indexable_enums import LayoutFormat
 from src.generator.layout_graph import LayoutGraph
 from src.generator.space_hulk import SpaceHulk
 
+DEFAULT_BASE_PATH = Path("space_hulks")
+
 
 def make_file_name(
     layout_engine: LayoutEngine,
     layout_edge_type: LayoutEdgeType,
     layout_format: LayoutFormat,
-    base_path: Path = Path("space_hulks"),
+    base_path: Path = DEFAULT_BASE_PATH,
 ) -> Path:
     return base_path / f"{layout_engine.value}_{layout_edge_type.value}_layout.{layout_format.value}"
 

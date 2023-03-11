@@ -21,7 +21,7 @@ def on_hulk_property_change_callback(table_name: str) -> None:
         st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state.space_hulk.number_of_origins
 
 
-def modify_space_hulk_properties():
+def modify_space_hulk_properties() -> None:
     with st.expander("Show or modify space hulk properties", expanded=True):
         table_name: str = ""
 

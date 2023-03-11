@@ -13,7 +13,7 @@ GraphProperties = dict[str, Union[str, dict[str, str]]]
 
 
 class LayoutGraphCreator(GraphStats):
-    def __init__(self, get_scaled_font_size: Callable[[Node, PositiveFloat], PositiveFloat] = lambda n, s: s) -> None:
+    def __init__(self, get_scaled_font_size: Callable[[Node, PositiveFloat], PositiveFloat] = lambda _, s: s) -> None:
         """
         Constructor
 
@@ -30,23 +30,23 @@ class LayoutGraphCreator(GraphStats):
             logging.warning(f"Node '{node.name}' has already been added, ignoring duplicate!")
         self._nodes[node.name] = node
 
-    def add_edge(self, from_node: str, to_node: str, avoid_duplicates: bool = True) -> None:
+    def add_edge(self, from_node: str, to_node: str) -> None:
         for node in (from_node, to_node):
             if node not in self._nodes:
-                raise ValueError(f"unknown nodes {from_node} or {to_node}")
+                msg = f"unknown nodes {from_node} or {to_node}"
+                raise ValueError(msg)
 
         edge = sorted((from_node, to_node))
-        if edge not in self._edges or not avoid_duplicates:
+        if edge not in self._edges:
             # noinspection PyTypeChecker
             self._edges.append(edge)
 
-    def create(self, graph_attrs: GraphProperties, add_node_size_to_node_label: bool = True) -> LayoutGraph:
+    def create(self, graph_attrs: GraphProperties) -> LayoutGraph:
         layout = LayoutGraph(**graph_attrs)
         largest_node_name = max(self._nodes.values(), key=lambda x: x.size.area).name
         for node in sorted(self._nodes.values(), key=lambda x: x.name):
             label = node.name.replace(" ", "\n")  # Make labels multi-line to avoid overfull boxes.
-            if add_node_size_to_node_label:
-                label = f"{label}\n{node.size.x}x{node.size.y} {node.size.unit.value}"
+            label = f"{label}\n{node.size.x}x{node.size.y} {node.size.unit.value}"
             layout.node(
                 **node.to_dot(),
                 label=label,

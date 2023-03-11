@@ -24,12 +24,15 @@ class SequencedDie(BaseModel):
     number_of_dice: PositiveInt = Field(exclude=True)
 
     @classmethod
-    def from_die_type(cls, die_type: DieType):
+    def from_die_type(cls, die_type: DieType) -> "SequencedDie":
         if die_type is DieType.D6:
-            return SequencedDie(sides=6, number_of_dice=1)
+            return cls(sides=6, number_of_dice=1)
+
         if die_type is DieType.D66:
-            return SequencedDie(sides=6, number_of_dice=2)
-        raise TypeError(f"Unsupported die type '{die_type}'")
+            return cls(sides=6, number_of_dice=2)
+
+        msg = f"Unsupported die type '{die_type}'"
+        raise TypeError(msg)
 
     @staticmethod
     def _make_roll_from_sequence(sequence_of_rolls: Iterable[PositiveInt]) -> PositiveInt:
@@ -66,9 +69,10 @@ class SequencedDie(BaseModel):
         return roll_2 == self._make_roll_from_sequence(next_roll_to_1_single_rolls)
 
     @classmethod
-    def from_events(cls, events: list):
+    def from_events(cls, events: list) -> "SequencedDie":
         if len(events) == 0:
-            raise ValueError("Events list must be non-empty!")
+            msg = "Events list must be non-empty!"
+            raise ValueError(msg)
 
         number_of_dice = 0
         sides = 0
@@ -89,5 +93,7 @@ class SequencedSixSidedDieRange(PositiveIntRange):
     @validator("*", allow_reuse=True)
     def assert_digits_in_range_for_six_sided_die(cls, v: PositiveInt) -> PositiveInt:
         if not all(1 <= int(d) <= cls.SIDES for d in str(v)):
-            raise ValueError(f"All digits must be within [1, {cls.SIDES}, was {v}")
+            msg = f"All digits must be within [1, {cls.SIDES}, was {v}"
+            raise ValueError(msg)
+
         return v

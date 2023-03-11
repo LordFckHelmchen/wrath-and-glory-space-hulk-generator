@@ -40,10 +40,11 @@ class RandomTable(BaseModel):
         events.sort(key=lambda x: x.range.minimum)
         for event_i, event_j in zip(events[0:-2], events[1:-1]):
             if event_i.range.maximum >= event_j.range.minimum:
-                raise ValueError(
+                msg = (
                     f"Event ranges must be non-overlapping: "
                     f"'{event_i.name} {event_i.range}' overlaps with '{event_j.name} {event_j.range}'"
                 )
+                raise ValueError(msg)
         return events
 
     def generate_single_event(self) -> RandomTableEvent:

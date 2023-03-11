@@ -11,5 +11,5 @@ class SpaceHulkTables:
     rooms: RandomTable
     hazards: RandomTable
 
-    def __getitem__(self, item) -> RandomTable:
+    def __getitem__(self, item: str) -> RandomTable:
         return getattr(self, item)

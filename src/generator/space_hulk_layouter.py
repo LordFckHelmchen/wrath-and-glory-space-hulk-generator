@@ -1,9 +1,13 @@
 import random
 from copy import copy
 from random import randint
+from typing import TYPE_CHECKING
 from typing import Optional
 
 from pydantic import PositiveInt
+
+if TYPE_CHECKING:
+    from pydantic.types import PositiveFloat
 
 from .indexable_enums import LayoutEdgeType
 from .indexable_enums import LayoutEngine
@@ -55,16 +59,14 @@ class SpaceHulkLayouter:
         self.graph_properties = (graph_properties if graph_properties else {}) | DEFAULT_GRAPH_PROPERTIES
 
     @staticmethod
-    def _get_other_room(
-        current_room: RandomTableEvent, space_hulk: SpaceHulk, avoid_self_connection: bool = True
-    ) -> RandomTableEvent:
+    def _get_other_room(current_room: RandomTableEvent, space_hulk: SpaceHulk) -> RandomTableEvent:
         other_room = random.choice(space_hulk.rooms.events)
-        while avoid_self_connection and other_room.name == current_room.name:
+        while other_room.name == current_room.name:
             other_room = random.choice(space_hulk.rooms.events)
         return other_room
 
     def create_layout(self, space_hulk: SpaceHulk) -> LayoutGraph:
-        def get_scaled_font_size(node: Node, base_font_size: float):
+        def get_scaled_font_size(node: Node, base_font_size: PositiveFloat) -> PositiveFloat:
             slope = (self.MAX_FONT_SIZE - base_font_size) / (
                 GlobalMapObjectSizeConstraint.x.maximum - GlobalMapObjectSizeConstraint.x.minimum
             )

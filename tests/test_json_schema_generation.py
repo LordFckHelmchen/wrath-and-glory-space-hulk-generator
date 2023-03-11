@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from pydantic.json import pydantic_encoder
+from pydantic.main import ModelMetaclass
 
 from src.generator.map_object_size import MapObjectSizeConstraint
 from src.generator.random_table import RandomTable
@@ -14,9 +15,9 @@ from tests.assets.helpers import TEST_PATH
 
 class TestSchemaGeneration(unittest.TestCase):
     @staticmethod
-    def generate_schema(schema_cls, target_folder: Path = "."):
+    def generate_schema(schema_cls: ModelMetaclass, target_folder: Path = ".") -> None:
         schema_file = target_folder / f"{schema_cls.__name__}.json"
-        with open(schema_file, "w") as schema_file:
+        with schema_file.open("w") as schema_file:
             json.dump(schema_cls.schema(), schema_file, indent=2, default=pydantic_encoder)
 
     def test_generate_json_schemas_expect_no_errors(self):

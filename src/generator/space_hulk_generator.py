@@ -29,11 +29,12 @@ class RoomCount(ConstrainedInt):
 
 
 class SpaceHulkGenerator:
+    _default_table_folder: ClassVar[Path] = Path(__file__).parent / "assets"
     _mixed_origin_event_string: ClassVar[str] = "Mixed Origin"
     _minimum_number_of_origins_for_mixed_origin_event: ClassVar[conint(gt=1, lt=5)] = 2
 
     def __init__(
-        self, table_folder: Path = Path(__file__).parent / "assets", table_name_glob_pattern: str = "table_*.json"
+        self, table_folder: Path = _default_table_folder, table_name_glob_pattern: str = "table_*.json"
     ) -> None:
         tables = {}
         for table in fields(SpaceHulkTables):
@@ -80,10 +81,10 @@ class SpaceHulkGenerator:
             events=list(origins.values()), event_count_constraint=self._tables.origins.event_count_constraint
         )
 
-    def get_table_events(self, table_name) -> RandomTableEventInfoList:
+    def get_table_events(self, table_name: str) -> RandomTableEventInfoList:
         events = getattr(self._tables, table_name).events
 
         if table_name == "origins":
             events = [event for event in events if event.name != self._mixed_origin_event_string]
 
-        return events
+        return events  # noqa: RET504 - not an unnecessary assignment ^^

@@ -24,7 +24,8 @@ class MapObjectDimensionConstraint(PositiveIntRange):
     @validator("maximum", allow_reuse=True)
     def assert_min_not_equal_to_max(cls, maximum: PositiveInt, values: dict[str, PositiveInt]) -> PositiveInt:
         if (minimum := values.get("minimum", False)) and minimum == maximum:
-            raise ValueError(f"Minimum & maximum must not be equal, was: minimum {minimum} == maximum {maximum}")
+            msg = f"Minimum & maximum must not be equal, was: minimum {minimum} == maximum {maximum}"
+            raise ValueError(msg)
         return maximum
 
     def get_random_value(self) -> "MapObjectSizeInt":
@@ -41,7 +42,9 @@ class MapObjectSize(BaseModel):
     unit: UnitOfMeasurement = UnitOfMeasurement.METER
 
     @validator("y", allow_reuse=True, always=True)
-    def copy_x_dimension_if_y_is_unassigned(cls, y: MapObjectSizeInt, values) -> MapObjectSizeInt:
+    def copy_x_dimension_if_y_is_unassigned(
+        cls, y: MapObjectSizeInt, values: dict[str, MapObjectSizeInt]
+    ) -> MapObjectSizeInt:
         return values["x"] if y is None else y
 
     @property
@@ -55,7 +58,8 @@ class MapObjectSize(BaseModel):
             or key == "unit"
             and not isinstance(value, UnitOfMeasurement)
         ):
-            raise TypeError(f"Unsupported type '{type(value)}' for attribute '{key}'")
+            msg = f"Unsupported type '{type(value)}' for attribute '{key}'"
+            raise TypeError(msg)
 
         setattr(self, key, value)
 
@@ -64,7 +68,8 @@ class MapObjectSize(BaseModel):
 
     def __lt__(self, other: "MapObjectSize") -> bool:
         if not isinstance(other, type(self)):
-            raise TypeError(f"Unsupported type '{type(other)}'")
+            msg = f"Unsupported type '{type(other)}'"
+            raise TypeError(msg)
         if self.unit != other.unit:
             logging.warning("Unit conversion between size objects isn't supported yet!")
             return NotImplemented
@@ -81,7 +86,7 @@ class MapObjectSizeConstraint(BaseModel):
 
     @validator("y", allow_reuse=True, always=True)
     def copy_x_limits_if_y_limits_are_unassigned(
-        cls, y: MapObjectDimensionConstraint, values
+        cls, y: MapObjectDimensionConstraint, values: dict[str, MapObjectDimensionConstraint]
     ) -> MapObjectDimensionConstraint:
         return values["x"] if y is None else y
 
@@ -92,7 +97,8 @@ class MapObjectSizeConstraint(BaseModel):
             or key == "unit"
             and not isinstance(value, UnitOfMeasurement)
         ):
-            raise TypeError(f"Unsupported type '{type(value)}' for attribute '{key}'")
+            msg = f"Unsupported type '{type(value)}' for attribute '{key}'"
+            raise TypeError(msg)
 
         setattr(self, key, value)
 
