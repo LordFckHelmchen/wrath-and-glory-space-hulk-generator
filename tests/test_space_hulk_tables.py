@@ -1,9 +1,9 @@
 import unittest
 from dataclasses import fields
 
-from src.generator.random_table_event_collection import EventCountConstraint
 from src.generator.random_table import RandomTable
 from src.generator.random_table_event import RandomTableEventInfo
+from src.generator.random_table_event_collection import EventCountConstraint
 from src.generator.sequenced_die import SequencedSixSidedDieRange
 from src.generator.space_hulk_tables import SpaceHulkTables
 

@@ -1,7 +1,8 @@
 import streamlit as st
 
 from src.generator.exceptions import EventCountOutOfRangeError
-from streamlit_app import create_new_layout_if_hulk_is_created, NUMBER_OF_ORIGINS_METRIC_KEY
+from streamlit_app import NUMBER_OF_ORIGINS_METRIC_KEY
+from streamlit_app import create_new_layout_if_hulk_is_created
 
 
 def on_hulk_property_change_callback(table_name: str) -> None:

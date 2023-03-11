@@ -34,9 +34,8 @@ class TestSpaceHulkTables(unittest.TestCase):
     ) -> None:
         with self.subTest(i="Set empty value on table that allows empty values"):
             self.space_hulk["hazards"].events = []
-        with self.subTest(i="Set invalid value"):
-            with self.assertRaises(EventTypeError):
-                self.space_hulk["hazards"].events = [5]
+        with self.subTest(i="Set invalid value"), self.assertRaises(EventTypeError):
+            self.space_hulk["hazards"].events = [5]
 
     # noinspection PyTypeChecker
     def test_setitem_with_invalid_value_types_expect_always_EventTypeError(self) -> None:

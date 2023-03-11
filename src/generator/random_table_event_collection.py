@@ -1,6 +1,5 @@
+from collections.abc import Generator
 from copy import deepcopy
-from typing import Generator
-from typing import List
 from typing import Optional
 
 from pydantic import BaseModel
@@ -22,10 +21,10 @@ class EventCountConstraint(PositiveIntRange):
 
 class RandomTableEventCollection(BaseModel):
     event_count_constraint: EventCountConstraint
-    events: List[RandomTableEvent]
+    events: list[RandomTableEvent]
 
     @validator("events", allow_reuse=True)
-    def assure_events_are_sorted_and_unique(cls, events: List) -> List:
+    def assure_events_are_sorted_and_unique(cls, events: list) -> list:
         event_counts = {}
         for event in events:
             if event.name not in event_counts:
@@ -73,8 +72,7 @@ class RandomTableEventCollection(BaseModel):
         return len(self.events)
 
     def __iter__(self) -> Generator[RandomTableEvent, None, None]:
-        for event in self.events:
-            yield event
+        yield from self.events
 
     def as_markdown(self, header: Optional[str] = None, header_level: PositiveInt = 1) -> str:
         self_as_string = [f"{'#' * header_level} {header} (n={len(self)})\n"] if header else []

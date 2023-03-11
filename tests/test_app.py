@@ -1,4 +1,3 @@
-import shutil
 import unittest
 from pathlib import Path
 from shutil import which

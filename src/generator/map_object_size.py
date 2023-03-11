@@ -1,7 +1,6 @@
 import logging
 from enum import Enum
 from random import randint
-from typing import Dict
 from typing import Optional
 from typing import Union
 
@@ -23,7 +22,7 @@ class MapObjectDimensionConstraint(PositiveIntRange):
     maximum: MapObjectSizeInt
 
     @validator("maximum", allow_reuse=True)
-    def assert_min_not_equal_to_max(cls, maximum: PositiveInt, values: Dict[str, PositiveInt]) -> PositiveInt:
+    def assert_min_not_equal_to_max(cls, maximum: PositiveInt, values: dict[str, PositiveInt]) -> PositiveInt:
         if (minimum := values.get("minimum", False)) and minimum == maximum:
             raise ValueError(f"Minimum & maximum must not be equal, was: minimum {minimum} == maximum {maximum}")
         return maximum

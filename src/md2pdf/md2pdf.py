@@ -1,6 +1,6 @@
 import re
 from dataclasses import dataclass
-from typing import Literal, Dict
+from typing import Literal
 
 from fpdf import FPDF
 from pydantic import PositiveInt
@@ -15,7 +15,7 @@ class FontFormat:
 
 class Markdown2PdfParser:
     font: str = "Arial"
-    header_formats: Dict[str, FontFormat] = {
+    header_formats: dict[str, FontFormat] = {
         "#": FontFormat(style="B", size=18, height=12),
         "##": FontFormat(style="B", size=16, height=10),
         "###": FontFormat(style="B", size=14, height=8),

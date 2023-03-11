@@ -20,7 +20,7 @@ class RandomTable(BaseModel):
 
     _die: SequencedDie = PrivateAttr()
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self._die = SequencedDie.from_events(self.events)
 

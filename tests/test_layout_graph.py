@@ -20,7 +20,7 @@ class TestLayoutGraph(unittest.TestCase):
         cls.OUTPUT_FOLDER.mkdir()
 
         # Store hulk & layout
-        space_hulk_file = cls.OUTPUT_FOLDER / f"space_hulk.json"
+        space_hulk_file = cls.OUTPUT_FOLDER / "space_hulk.json"
         space_hulk_file.write_text(cls._SPACE_HULK.json(exclude_none=True, indent=2))
         cls._LAYOUT.save(directory=cls.OUTPUT_FOLDER, filename="space_hulk_layout.dot")
 
@@ -59,7 +59,7 @@ class TestLayoutGraph(unittest.TestCase):
             self.assertEqual(expected_value, self.layout.layout_engine)
 
     def test_render_pdf_expect_no_errors(self) -> None:
-        self.layout.render_pdf(file_name=self.OUTPUT_FOLDER / f"space_hulk.pdf", space_hulk=self.space_hulk)
+        self.layout.render_pdf(file_name=self.OUTPUT_FOLDER / "space_hulk.pdf", space_hulk=self.space_hulk)
 
 
 if __name__ == "__main__":

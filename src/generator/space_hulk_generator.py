@@ -34,7 +34,7 @@ class SpaceHulkGenerator:
 
     def __init__(
         self, table_folder: Path = Path(__file__).parent / "assets", table_name_glob_pattern: str = "table_*.json"
-    ):
+    ) -> None:
         tables = {}
         for table in fields(SpaceHulkTables):
             table_file = table_folder / table_name_glob_pattern.replace("*", table.name)

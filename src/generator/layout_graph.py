@@ -6,8 +6,6 @@ from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
 from pathlib import Path
-from typing import Dict
-from typing import List
 from typing import Optional
 
 from graphviz import Graph
@@ -33,9 +31,9 @@ class Node:
     name: str
     size: MapObjectSize
     shape: NodeShape = NodeShape.RECTANGLE
-    connected_nodes: List[str] = field(default_factory=list)
+    connected_nodes: list[str] = field(default_factory=list)
 
-    def to_dot(self) -> Dict[str, str]:
+    def to_dot(self) -> dict[str, str]:
         return {
             "name": self.name,
             "width": str(self.size.x),

@@ -1,10 +1,9 @@
+from collections.abc import Iterable
 from enum import Enum
 from math import ceil
 from math import log10
 from random import randint
 from typing import ClassVar
-from typing import Iterable
-from typing import List
 from typing import Literal
 
 from pydantic import BaseModel
@@ -37,13 +36,13 @@ class SequencedDie(BaseModel):
         return int("".join(str(i) for i in sequence_of_rolls))
 
     @staticmethod
-    def _get_sequence_from_roll(roll: PositiveInt) -> List[PositiveInt]:
+    def _get_sequence_from_roll(roll: PositiveInt) -> list[PositiveInt]:
         return [PositiveInt(s) for s in str(roll)]
 
     def roll(self) -> PositiveInt:
         return self._make_roll_from_sequence(randint(1, self.sides) for _ in range(self.number_of_dice))
 
-    def roll_bulk(self, number_of_rolls: PositiveInt) -> List[PositiveInt]:
+    def roll_bulk(self, number_of_rolls: PositiveInt) -> list[PositiveInt]:
         return [self.roll() for _ in range(number_of_rolls)]
 
     def get_ones_die_from_roll(self, roll: PositiveInt) -> PositiveInt:
@@ -67,7 +66,7 @@ class SequencedDie(BaseModel):
         return roll_2 == self._make_roll_from_sequence(next_roll_to_1_single_rolls)
 
     @classmethod
-    def from_events(cls, events: List):
+    def from_events(cls, events: list):
         if len(events) == 0:
             raise ValueError("Events list must be non-empty!")
 

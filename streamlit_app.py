@@ -2,7 +2,6 @@ import logging
 import mimetypes
 from pathlib import Path
 from random import randint
-from typing import Dict
 
 import streamlit as st
 import toml
@@ -28,7 +27,7 @@ NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY = "#Rooms"
 SPACE_HULK_KEY = "space_hulk"
 
 # Misc. Constants
-HELP_DATA: Dict[str, Path] = {"About": Path("docs/APP_ABOUT.md"), "Usage": Path("docs/APP_USAGE.md")}
+HELP_DATA: dict[str, Path] = {"About": Path("docs/APP_ABOUT.md"), "Usage": Path("docs/APP_USAGE.md")}
 METRIC_STATE_ATTRIBUTE_MAP = {
     NUMBER_OF_ORIGINS_METRIC_KEY: (SPACE_HULK_KEY, "number_of_origins"),
     NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY: (SPACE_HULK_KEY, "number_of_rooms"),
@@ -73,7 +72,7 @@ def update_metrics() -> None:
 
 @st.experimental_memo
 def get_app_version() -> str:
-    with open("pyproject.toml", "r") as pyproject_toml_file:
+    with open("pyproject.toml") as pyproject_toml_file:
         pyproject_toml = toml.load(pyproject_toml_file)
     try:
         return pyproject_toml["tool"]["poetry"]["version"]

@@ -43,7 +43,7 @@ class SpaceHulkLayouter:
 
     def __init__(
         self, max_number_of_connections_per_room: PositiveInt = 10, graph_properties: Optional[GraphProperties] = None
-    ):
+    ) -> None:
         """
         Constructor
 
