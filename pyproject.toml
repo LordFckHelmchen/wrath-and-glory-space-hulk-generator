@@ -51,6 +51,9 @@ line-length = 120        # Keep in synch with tool.black
                "SLF",     # Allow private member access in tests
               ]
 
+[tool.ruff.isort]
+force-single-line = true
+
 [tool.ruff.flake8-type-checking]
 strict = true
 
