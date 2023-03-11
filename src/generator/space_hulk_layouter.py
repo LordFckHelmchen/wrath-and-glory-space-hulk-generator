@@ -1,13 +1,10 @@
 import random
 from copy import copy
 from random import randint
-from typing import TYPE_CHECKING
 from typing import Optional
 
 from pydantic import PositiveInt
-
-if TYPE_CHECKING:
-    from pydantic.types import PositiveFloat
+from pydantic.types import PositiveFloat  # noqa: TCH002 - If guarded, streamlit fails with missing dep.
 
 from .indexable_enums import LayoutEdgeType
 from .indexable_enums import LayoutEngine

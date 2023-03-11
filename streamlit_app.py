@@ -163,7 +163,7 @@ with space_hulk_header_columns[1]:
 
 with st.spinner("Rendering layout..."):
     preview_file_name = create_preview_file(
-        st.session_state[LAYOUT_KEY],
+        layout=st.session_state[LAYOUT_KEY],
         layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
         edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY],
     )
