@@ -44,16 +44,19 @@ class SpaceHulk(BaseModel):
         return [event.name for event in self[table_name]]
 
     def as_markdown(self, header_level: PositiveInt = 1) -> str:
-        self_as_string = [f"{'#' * header_level} Space Hulk{f' _{self.name}_' if self.name else ''}\n",
-                          f"{'#' * (header_level + 1)} Description\n"]
+        self_as_string = [
+            f"{'#' * header_level} Space Hulk{f' _{self.name}_' if self.name else ''}\n",
+            f"{'#' * (header_level + 1)} Description\n",
+        ]
 
         if self.description:
             self_as_string.append(f"{self.description}\n")
 
         header_level += 2
         for event_table_name, event_collection in self:
-            self_as_string.append(event_collection.as_markdown(header=event_table_name.capitalize(),
-                                                               header_level=header_level))
+            self_as_string.append(
+                event_collection.as_markdown(header=event_table_name.capitalize(), header_level=header_level)
+            )
 
         return "\n".join(self_as_string)
 

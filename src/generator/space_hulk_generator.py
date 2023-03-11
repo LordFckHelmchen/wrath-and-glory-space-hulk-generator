@@ -32,9 +32,9 @@ class SpaceHulkGenerator:
     _mixed_origin_event_string: ClassVar[str] = "Mixed Origin"
     _minimum_number_of_origins_for_mixed_origin_event: ClassVar[conint(gt=1, lt=5)] = 2
 
-    def __init__(self,
-                 table_folder: Path = Path(__file__).parent / "assets",
-                 table_name_glob_pattern: str = "table_*.json"):
+    def __init__(
+        self, table_folder: Path = Path(__file__).parent / "assets", table_name_glob_pattern: str = "table_*.json"
+    ):
         tables = {}
         for table in fields(SpaceHulkTables):
             table_file = table_folder / table_name_glob_pattern.replace("*", table.name)
@@ -44,19 +44,23 @@ class SpaceHulkGenerator:
 
     def create_hulk(self, number_of_rooms_per_origin: PositiveInt = 10) -> SpaceHulk:
         if number_of_rooms_per_origin not in self._tables.rooms.event_count_constraint:
-            logging.warning(f"Number of room out of range {self._tables.rooms.event_count_constraint}: "
-                            f"Was {number_of_rooms_per_origin}")
+            logging.warning(
+                f"Number of room out of range {self._tables.rooms.event_count_constraint}: "
+                f"Was {number_of_rooms_per_origin}"
+            )
         origins = self._create_origin()
         number_of_origins = len(origins)
 
         # Account for mixed origins
         number_of_rooms = RoomCount.from_int(number_of_origins * number_of_rooms_per_origin)
 
-        return SpaceHulk(origins=origins,
-                         occupations=self._tables.occupations.generate_events(number_of_events=number_of_origins),
-                         purposes=self._tables.purposes.generate_events(number_of_events=number_of_origins),
-                         rooms=self._tables.rooms.generate_events(number_of_events=number_of_rooms),
-                         hazards=self._tables.hazards.generate_events(number_of_events=number_of_origins))
+        return SpaceHulk(
+            origins=origins,
+            occupations=self._tables.occupations.generate_events(number_of_events=number_of_origins),
+            purposes=self._tables.purposes.generate_events(number_of_events=number_of_origins),
+            rooms=self._tables.rooms.generate_events(number_of_events=number_of_rooms),
+            hazards=self._tables.hazards.generate_events(number_of_events=number_of_origins),
+        )
 
     def _is_mixed_origin(self, origin: str) -> bool:
         return origin.casefold() == self._mixed_origin_event_string.casefold()
@@ -66,11 +70,15 @@ class SpaceHulkGenerator:
         origins = {origin.name: origin}
         while self._mixed_origin_event_string in origins:
             origins.pop(self._mixed_origin_event_string)
-            origins |= {origin.name: origin for origin in
-                        self._tables.origins.generate_events(
-                            number_of_events=self._minimum_number_of_origins_for_mixed_origin_event).events}
-        return RandomTableEventCollection(events=list(origins.values()),
-                                          event_count_constraint=self._tables.origins.event_count_constraint)
+            origins |= {
+                origin.name: origin
+                for origin in self._tables.origins.generate_events(
+                    number_of_events=self._minimum_number_of_origins_for_mixed_origin_event
+                ).events
+            }
+        return RandomTableEventCollection(
+            events=list(origins.values()), event_count_constraint=self._tables.origins.event_count_constraint
+        )
 
     def get_table_events(self, table_name) -> RandomTableEventInfoList:
         events = getattr(self._tables, table_name).events

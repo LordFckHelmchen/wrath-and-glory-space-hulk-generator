@@ -18,9 +18,7 @@ class TestRandomTable(unittest.TestCase):
         app_name = working_dir / "streamlit_app.py"
         streamlit_config = toml.load(working_dir / ".streamlit" / "config.toml")
         app_url = f"http://localhost:{streamlit_config['server']['port']}"
-        expected_response = (
-            test_dir / "assets" / "streamlit_http_get_response.html"
-        ).read_text()
+        expected_response = (test_dir / "assets" / "streamlit_http_get_response.html").read_text()
         poetry = which("poetry")
         curl = which("curl")
 

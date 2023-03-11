@@ -15,9 +15,11 @@ class FontFormat:
 
 class Markdown2PdfParser:
     font: str = "Arial"
-    header_formats: Dict[str, FontFormat] = {"#": FontFormat(style="B", size=18, height=12),
-                                             "##": FontFormat(style="B", size=16, height=10),
-                                             "###": FontFormat(style="B", size=14, height=8)}
+    header_formats: Dict[str, FontFormat] = {
+        "#": FontFormat(style="B", size=18, height=12),
+        "##": FontFormat(style="B", size=16, height=10),
+        "###": FontFormat(style="B", size=14, height=8),
+    }
     body_format: FontFormat = FontFormat(style="", size=11, height=5)
     content_regex: str = r"((?P<header_level>#+) (?P<header>.+)\n|(?P<body>[^#]*))"
 

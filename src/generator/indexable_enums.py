@@ -4,7 +4,6 @@ from pydantic import NonNegativeInt
 
 
 class IndexableEnum(Enum):
-
     @property
     def index(self) -> NonNegativeInt:
         """

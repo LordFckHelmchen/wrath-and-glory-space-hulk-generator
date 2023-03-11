@@ -47,7 +47,7 @@ class SequencedDie(BaseModel):
         return [self.roll() for _ in range(number_of_rolls)]
 
     def get_ones_die_from_roll(self, roll: PositiveInt) -> PositiveInt:
-        return roll % 10 ** self.decimal_dimension
+        return roll % 10**self.decimal_dimension
 
     @property
     def decimal_dimension(self) -> PositiveInt:

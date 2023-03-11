@@ -23,13 +23,15 @@ class TestSpaceHulkTables(unittest.TestCase):
         self.space_hulk["occupations"].events = self.space_hulk["occupations"].events[:-1]
 
     def test_setitem_with_empty_value_for_table_that_prohibits_empty_values_expect_EventCountOutOfRangeError(
-            self) -> None:
+        self,
+    ) -> None:
         with self.assertRaises(EventCountOutOfRangeError):
             self.space_hulk["rooms"].events = []
 
     # noinspection PyTypeChecker
     def test_setitem_with_invalid_value_type_on_table_with_previously_set_empty_value_expect_EventTypeError(
-            self) -> None:
+        self,
+    ) -> None:
         with self.subTest(i="Set empty value on table that allows empty values"):
             self.space_hulk["hazards"].events = []
         with self.subTest(i="Set invalid value"):
@@ -55,5 +57,5 @@ class TestSpaceHulkTables(unittest.TestCase):
         self.assertEqual(expected_markdown, self.space_hulk.as_markdown())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

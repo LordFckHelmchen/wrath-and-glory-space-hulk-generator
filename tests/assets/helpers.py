@@ -26,7 +26,7 @@ def load_space_hulk_layout(file_name: Path = TEST_HULK_LAYOUT_FILE) -> LayoutGra
         return pickle.load(file)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     space_hulk = load_space_hulk()
 
     # Recompute layout

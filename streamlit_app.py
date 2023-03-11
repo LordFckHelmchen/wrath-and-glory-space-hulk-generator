@@ -29,9 +29,11 @@ SPACE_HULK_KEY = "space_hulk"
 
 # Misc. Constants
 HELP_DATA: Dict[str, Path] = {"About": Path("docs/APP_ABOUT.md"), "Usage": Path("docs/APP_USAGE.md")}
-METRIC_STATE_ATTRIBUTE_MAP = {NUMBER_OF_ORIGINS_METRIC_KEY: (SPACE_HULK_KEY, "number_of_origins"),
-                              NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY: (SPACE_HULK_KEY, "number_of_rooms"),
-                              NUMBER_OF_EDGES_METRIC_KEY: (LAYOUT_KEY, "number_of_edges")}
+METRIC_STATE_ATTRIBUTE_MAP = {
+    NUMBER_OF_ORIGINS_METRIC_KEY: (SPACE_HULK_KEY, "number_of_origins"),
+    NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY: (SPACE_HULK_KEY, "number_of_rooms"),
+    NUMBER_OF_EDGES_METRIC_KEY: (LAYOUT_KEY, "number_of_edges"),
+}
 
 
 def is_space_hulk_created() -> bool:
@@ -40,7 +42,8 @@ def is_space_hulk_created() -> bool:
 
 def create_new_hulk_and_layout():
     st.session_state[SPACE_HULK_KEY] = st.session_state[GENERATOR_KEY].create_hulk(
-        number_of_rooms_per_origin=st.session_state[MIN_NUMBER_OF_ROOMS_KEY])
+        number_of_rooms_per_origin=st.session_state[MIN_NUMBER_OF_ROOMS_KEY]
+    )
     create_new_layout_if_hulk_is_created()
 
 
@@ -92,7 +95,8 @@ st.title("Wrath & Glory Space Hulk Generator")
 metadata_cols = st.columns(2)
 metadata_cols[0].write(
     "[![Star](https://img.shields.io/github/stars/LordFckHelmchen/wrath-and-glory-space-hulk-generator.svg?"
-    "logo=github&style=social)](https://gitHub.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator)")
+    "logo=github&style=social)](https://gitHub.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator)"
+)
 metadata_cols[1].write(f"![Version](https://img.shields.io/badge/version-{get_app_version()}-blue)")
 
 for title, file in HELP_DATA.items():
@@ -112,32 +116,36 @@ if LAYOUTER_KEY not in st.session_state:
 generator_settings_columns = st.columns(3)
 
 with generator_settings_columns[0]:
-    st.slider("Minimum number of rooms (per origin)",
-              min_value=RoomCount.ge,
-              max_value=RoomCount.le,
-              value=10,
-              key=MIN_NUMBER_OF_ROOMS_KEY,
-              on_change=recreate_hulk_and_layout_if_hulk_is_created)
+    st.slider(
+        "Minimum number of rooms (per origin)",
+        min_value=RoomCount.ge,
+        max_value=RoomCount.le,
+        value=10,
+        key=MIN_NUMBER_OF_ROOMS_KEY,
+        on_change=recreate_hulk_and_layout_if_hulk_is_created,
+    )
 
     st.button("Randomize min. number of rooms", on_click=randomize_min_number_of_rooms)
 
 with generator_settings_columns[1]:
-    st.selectbox("Layout engine",
-                 options=list(LayoutEngine),
-                 format_func=lambda x: x.value,
-                 index=st.session_state.get(LAYOUT_ENGINE_KEY,
-                                            st.session_state[LAYOUTER_KEY].get_layout_engine()).index,
-                 key=LAYOUT_ENGINE_KEY,
-                 on_change=store_layout_engine)
+    st.selectbox(
+        "Layout engine",
+        options=list(LayoutEngine),
+        format_func=lambda x: x.value,
+        index=st.session_state.get(LAYOUT_ENGINE_KEY, st.session_state[LAYOUTER_KEY].get_layout_engine()).index,
+        key=LAYOUT_ENGINE_KEY,
+        on_change=store_layout_engine,
+    )
 
 with generator_settings_columns[2]:
-    st.selectbox("Connection type",
-                 options=list(LayoutEdgeType),
-                 format_func=lambda x: x.value,
-                 index=st.session_state.get(LAYOUT_EDGE_TYPE_KEY,
-                                            st.session_state[LAYOUTER_KEY].get_layout_edge_type()).index,
-                 key=LAYOUT_EDGE_TYPE_KEY,
-                 on_change=store_layout_edge_type)
+    st.selectbox(
+        "Connection type",
+        options=list(LayoutEdgeType),
+        format_func=lambda x: x.value,
+        index=st.session_state.get(LAYOUT_EDGE_TYPE_KEY, st.session_state[LAYOUTER_KEY].get_layout_edge_type()).index,
+        key=LAYOUT_EDGE_TYPE_KEY,
+        on_change=store_layout_edge_type,
+    )
 
 st.header("Space Hulk")
 
@@ -155,23 +163,30 @@ with space_hulk_header_columns[1]:
         create_new_layout_if_hulk_is_created()
 
 with st.spinner("Rendering layout..."):
-    preview_file = create_preview_file(st.session_state[LAYOUT_KEY],
-                                       layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
-                                       edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY])
-    download_file = create_download_file(space_hulk=st.session_state[SPACE_HULK_KEY],
-                                         layout=st.session_state[LAYOUT_KEY])
+    preview_file = create_preview_file(
+        st.session_state[LAYOUT_KEY],
+        layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
+        edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY],
+    )
+    download_file = create_download_file(
+        space_hulk=st.session_state[SPACE_HULK_KEY], layout=st.session_state[LAYOUT_KEY]
+    )
 
 # Prepare download
 with space_hulk_header_columns[2], open(download_file, "rb") as file:
     file_name = Path(file.name)
-    st.download_button(label=f"Download {file_name.suffix.replace('.', '').upper()}",
-                       data=file,
-                       file_name=file_name.name,
-                       mime=mimetypes.guess_type(file_name)[0],
-                       on_click=lambda: logging.info(f"Space Hulk exported\n"
-                                                     f"number_of_rooms_per_origin: "
-                                                     f"{st.session_state[MIN_NUMBER_OF_ROOMS_KEY]}\n"
-                                                     f"{st.session_state[LAYOUT_KEY]}"))
+    st.download_button(
+        label=f"Download {file_name.suffix.replace('.', '').upper()}",
+        data=file,
+        file_name=file_name.name,
+        mime=mimetypes.guess_type(file_name)[0],
+        on_click=lambda: logging.info(
+            f"Space Hulk exported\n"
+            f"number_of_rooms_per_origin: "
+            f"{st.session_state[MIN_NUMBER_OF_ROOMS_KEY]}\n"
+            f"{st.session_state[LAYOUT_KEY]}"
+        ),
+    )
 
 # Show details
 with st.expander("Details"):

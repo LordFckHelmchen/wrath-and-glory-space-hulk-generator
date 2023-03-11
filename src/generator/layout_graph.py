@@ -36,8 +36,13 @@ class Node:
     connected_nodes: List[str] = field(default_factory=list)
 
     def to_dot(self) -> Dict[str, str]:
-        return {"name": self.name, "width": str(self.size.x), "height": str(self.size.y), "shape": self.shape.value,
-                "fixedsize": "true"}
+        return {
+            "name": self.name,
+            "width": str(self.size.x),
+            "height": str(self.size.y),
+            "shape": self.shape.value,
+            "fixedsize": "true",
+        }
 
     @property
     def number_of_connections(self) -> NonNegativeInt:
@@ -45,7 +50,6 @@ class Node:
 
 
 class GraphStats(ABC):
-
     @property
     @abstractmethod
     def number_of_nodes(self) -> NonNegativeInt:
@@ -122,6 +126,7 @@ class LayoutGraph(Graph, GraphStats):
             render_layout_pdf(layout_file)
 
             from PyPDF2 import PdfMerger
+
             merger = PdfMerger()
             for pdf in [hulk_file, layout_file]:
                 merger.append(str(pdf))

@@ -34,8 +34,9 @@ class LayoutGraphCreator(GraphStats):
         self._nodes[node.name] = node
 
     def add_edge(self, from_node: str, to_node: str, avoid_duplicates: bool = True) -> None:
-        if from_node not in self._nodes or to_node not in self._nodes:
-            raise ValueError(f"unknown nodes {from_node} or {to_node}")
+        for node in (from_node, to_node):
+            if node not in self._nodes:
+                raise ValueError(f"unknown nodes {from_node} or {to_node}")
 
         edge = sorted((from_node, to_node))
         if edge not in self._edges or not avoid_duplicates:
@@ -46,11 +47,15 @@ class LayoutGraphCreator(GraphStats):
         layout = LayoutGraph(**graph_attrs)
         largest_node_name = max(self._nodes.values(), key=lambda x: x.size.area).name
         for node in sorted(self._nodes.values(), key=lambda x: x.name):
-            label = node.name.replace(' ', '\n')  # Make labels multi-line to avoid overfull boxes.
+            label = node.name.replace(" ", "\n")  # Make labels multi-line to avoid overfull boxes.
             if add_node_size_to_node_label:
                 label = f"{label}\n{node.size.x}x{node.size.y} {node.size.unit.value}"
-            layout.node(**node.to_dot(), label=label, root=str(node.name == largest_node_name).lower(),
-                        fontsize=str(self._get_scaled_font_size(node, layout.global_node_font_size)))
+            layout.node(
+                **node.to_dot(),
+                label=label,
+                root=str(node.name == largest_node_name).lower(),
+                fontsize=str(self._get_scaled_font_size(node, layout.global_node_font_size)),
+            )
         for edge in sorted(self._edges):
             layout.edge(*edge)
         return layout

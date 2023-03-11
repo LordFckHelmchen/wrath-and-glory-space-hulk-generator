@@ -25,15 +25,16 @@ def modify_space_hulk_properties():
         table_name: str = ""
 
         for table_name, _ in st.session_state.space_hulk:
-
             options = st.session_state.generator.get_table_events(table_name)
             defaults = []
             for selected_name in st.session_state.space_hulk.get_event_names(table_name):
                 defaults.append(next(option for option in options if option.name == selected_name))
-            st.multiselect(label=table_name.capitalize(),
-                           options=options,
-                           default=defaults,
-                           format_func=lambda x: x.name_with_description,
-                           on_change=on_hulk_property_change_callback,
-                           args=(table_name,),
-                           key=f"{table_name}_selection")
+            st.multiselect(
+                label=table_name.capitalize(),
+                options=options,
+                default=defaults,
+                format_func=lambda x: x.name_with_description,
+                on_change=on_hulk_property_change_callback,
+                args=(table_name,),
+                key=f"{table_name}_selection",
+            )

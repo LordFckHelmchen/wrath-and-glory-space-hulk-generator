@@ -50,8 +50,12 @@ class MapObjectSize(BaseModel):
         return self.x * self.y
 
     def __setitem__(self, key: str, value: Union[MapObjectSizeInt, UnitOfMeasurement]) -> None:
-        if key in ["x", "y"] and not isinstance(value, MapObjectSizeInt) \
-                or key == "unit" and not isinstance(value, UnitOfMeasurement):
+        if (
+            key in ["x", "y"]
+            and not isinstance(value, MapObjectSizeInt)
+            or key == "unit"
+            and not isinstance(value, UnitOfMeasurement)
+        ):
             raise TypeError(f"Unsupported type '{type(value)}' for attribute '{key}'")
 
         setattr(self, key, value)
@@ -77,13 +81,18 @@ class MapObjectSizeConstraint(BaseModel):
         return MapObjectSize(x=self.x.get_random_value(), y=self.y.get_random_value())
 
     @validator("y", allow_reuse=True, always=True)
-    def copy_x_limits_if_y_limits_are_unassigned(cls, y: MapObjectDimensionConstraint,
-                                                 values) -> MapObjectDimensionConstraint:
+    def copy_x_limits_if_y_limits_are_unassigned(
+        cls, y: MapObjectDimensionConstraint, values
+    ) -> MapObjectDimensionConstraint:
         return values["x"] if y is None else y
 
     def __setitem__(self, key: str, value: Union[MapObjectDimensionConstraint, UnitOfMeasurement]) -> None:
-        if key in ["x", "y"] and not isinstance(value, MapObjectDimensionConstraint) \
-                or key == "unit" and not isinstance(value, UnitOfMeasurement):
+        if (
+            key in ["x", "y"]
+            and not isinstance(value, MapObjectDimensionConstraint)
+            or key == "unit"
+            and not isinstance(value, UnitOfMeasurement)
+        ):
             raise TypeError(f"Unsupported type '{type(value)}' for attribute '{key}'")
 
         setattr(self, key, value)
@@ -93,5 +102,7 @@ class MapObjectSizeConstraint(BaseModel):
 
 
 GlobalMapObjectSizeConstraint = MapObjectSizeConstraint(
-    x=MapObjectDimensionConstraint(minimum=MapObjectSizeInt(MapObjectSizeInt.ge),
-                                   maximum=MapObjectSizeInt(MapObjectSizeInt.le)))
+    x=MapObjectDimensionConstraint(
+        minimum=MapObjectSizeInt(MapObjectSizeInt.ge), maximum=MapObjectSizeInt(MapObjectSizeInt.le)
+    )
+)
