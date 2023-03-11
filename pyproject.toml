@@ -33,7 +33,10 @@ line-length = 120        # Keep in synch with tool.ruff
 [tool.ruff]
 select = ["ALL"]
 ignore = ["A003",    # Class attributes "shadowing" built-ins
+          "ANN002",  # Missing function annotation for *args
+          "ANN003",  # Missing function annotation for **kwargs
           "ANN10",   # No annotation for self/cls - not useful
+          "ANN401",  # Dynamically typed expressions are disallowed - disable by the plug-ing itself
           "COM",     # All commas warnings - covered by black
           "D",       # All pydocstyle warnings
           "G004",    # Logging statement uses f-string
