@@ -39,7 +39,7 @@ def is_space_hulk_created() -> bool:
     return SPACE_HULK_KEY in st.session_state
 
 
-def create_new_hulk_and_layout():
+def create_new_hulk_and_layout() -> None:
     st.session_state[SPACE_HULK_KEY] = st.session_state[GENERATOR_KEY].create_hulk(
         number_of_rooms_per_origin=st.session_state[MIN_NUMBER_OF_ROOMS_KEY]
     )
@@ -72,7 +72,7 @@ def update_metrics() -> None:
 
 @st.experimental_memo
 def get_app_version() -> str:
-    with open("pyproject.toml") as pyproject_toml_file:
+    with Path("pyproject.toml").open() as pyproject_toml_file:
         pyproject_toml = toml.load(pyproject_toml_file)
     try:
         return pyproject_toml["tool"]["poetry"]["version"]
@@ -162,17 +162,17 @@ with space_hulk_header_columns[1]:
         create_new_layout_if_hulk_is_created()
 
 with st.spinner("Rendering layout..."):
-    preview_file = create_preview_file(
+    preview_file_name = create_preview_file(
         st.session_state[LAYOUT_KEY],
         layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
         edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY],
     )
-    download_file = create_download_file(
+    download_file_name = create_download_file(
         space_hulk=st.session_state[SPACE_HULK_KEY], layout=st.session_state[LAYOUT_KEY]
     )
 
 # Prepare download
-with space_hulk_header_columns[2], open(download_file, "rb") as file:
+with space_hulk_header_columns[2], Path(download_file_name).open("rb") as file:
     file_name = Path(file.name)
     st.download_button(
         label=f"Download {file_name.suffix.replace('.', '').upper()}",
@@ -198,4 +198,4 @@ for index, (metric_key, (state_key, attribute_name)) in enumerate(METRIC_STATE_A
 
 # Show preview
 st.caption("Map preview - Use the download button above to access the vectorized version")
-st.image(image=preview_file, use_column_width=True, width=20)
+st.image(image=preview_file_name, use_column_width=True, width=20)
