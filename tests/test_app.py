@@ -21,7 +21,9 @@ class TestRandomTable(unittest.TestCase):
         print(logger.level)
 
         # add console handler
-        logger.addHandler(logging.StreamHandler())
+        ch = logging.StreamHandler()
+        ch.setLevel(logger.level)
+        logger.addHandler(ch)
 
     def tearDown(self) -> None:
         # Restore log level.
