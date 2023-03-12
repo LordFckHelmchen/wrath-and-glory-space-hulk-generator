@@ -1,4 +1,3 @@
-import logging
 import unittest
 from pathlib import Path
 from shutil import which
@@ -11,15 +10,6 @@ import toml
 
 
 class TestRandomTable(unittest.TestCase):
-    def setUp(self) -> None:
-        # get root logger
-        logger = logging.getLogger()
-        logger.setLevel(logging.INFO)
-
-        # add console handler
-        ch = logging.StreamHandler()
-        logger.addHandler(ch)
-
     def test_run_app_curl_main_page_expect_same_result_as_always(self):
         # ARRANGE
         test_dir = Path(__file__).parent
