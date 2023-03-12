@@ -7,8 +7,19 @@ on:
     branches: [ "main" ]
 
 jobs:
+  setup:
+    name: Setup Python, Poetry & install dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4  # Uses .python-version by default
+      - uses: benjavicente/setup-poetry@main
+        with:
+          poetry-version: 1.4.0
+
   unittests:
     name: Unittests
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,13 +32,15 @@ jobs:
 
   formatting:
     name: Formatting (black)
+    needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: psf/black@stable
 
   linting:
     name: Linting (ruff)
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
