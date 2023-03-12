@@ -30,13 +30,16 @@ class TestApp(unittest.TestCase):
             sleep(0.5)  # Give it some time to start, if taken longer, curl will take care of retries.
             response = run([curl, app_url, *curl_args], capture_output=True, text=True)
             app.terminate()
-        actual_html = response.stdout
-        (test_dir / f"generated_{expected_html_file.name}").write_text(actual_html)
-        actual_return_code = response.returncode
 
         # ASSERT
-        self.assertEqual(actual_html, expected_html)
-        self.assertEqual(actual_return_code, 0)
+        with self.subTest(i="Successfully returns with 0"):
+            actual_return_code = response.returncode
+            msg = f"\ncurl error '{response.stderr}'"
+            self.assertEqual(actual_return_code, 0, msg=msg)
+        with self.subTest(i="Response contains correct html"):
+            actual_html = response.stdout
+            (test_dir / f"generated_{expected_html_file.name}").write_text(actual_html)
+            self.assertEqual(actual_html, expected_html)
 
 
 if __name__ == "__main__":
