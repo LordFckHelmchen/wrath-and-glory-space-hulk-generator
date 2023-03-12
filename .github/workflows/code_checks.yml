@@ -29,6 +29,10 @@ jobs:
           poetry-version: 1.4.0
       - uses: ts-graphviz/setup-graphviz@v1
       - run: poetry run python -m unittest discover -s tests/ -v
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Curl result from app test
+          path: tests/generated_streamlit_http_get_response.html
 
   formatting:
     name: Formatting (black)
