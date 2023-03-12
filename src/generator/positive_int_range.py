@@ -1,5 +1,4 @@
-from typing import Dict
-from typing import Generator
+from collections.abc import Generator
 from typing import SupportsInt
 
 from pydantic import BaseModel
@@ -12,9 +11,10 @@ class PositiveIntRange(BaseModel):
     maximum: PositiveInt
 
     @validator("maximum", allow_reuse=True)
-    def assert_min_not_larger_than_max(cls, maximum: PositiveInt, values: Dict[str, PositiveInt]) -> PositiveInt:
+    def assert_min_not_larger_than_max(cls, maximum: PositiveInt, values: dict[str, PositiveInt]) -> PositiveInt:
         if (minimum := values.get("minimum", False)) and minimum > maximum:
-            raise ValueError(f"Maximum must be larger than minimum, was: minimum {minimum}, maximum {maximum}")
+            msg = f"Maximum must be larger than minimum, was: minimum {minimum}, maximum {maximum}"
+            raise ValueError(msg)
         return maximum
 
     def __contains__(self, other: SupportsInt) -> bool:

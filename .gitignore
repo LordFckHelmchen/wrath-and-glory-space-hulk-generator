@@ -3,9 +3,14 @@
 **/__pycache__/
 
 # Generated files
-/tests/generated_*/
+/tests/generated_*
 /space_hulks/
 
 # IntelliJ
 /.idea/
 
+# Linting
+/.ruff_cache/
+
+# Logs
+/exported_logs/

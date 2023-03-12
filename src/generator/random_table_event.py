@@ -1,4 +1,3 @@
-from typing import List
 from typing import Optional
 
 from pydantic import BaseModel
@@ -21,12 +20,14 @@ class RandomTableEvent(BaseModel):
         return f"{self.name}{f' - {self.description}' if self.description else ''}"
 
     def __lt__(self, other: "RandomTableEvent") -> bool:
-        return self.name_with_description < other.name_with_description \
-               or (self.is_sized() and other.is_sized() and self.size < other.size)
+        return self.name_with_description < other.name_with_description or (
+            self.is_sized() and other.is_sized() and self.size < other.size
+        )
 
     def __gt__(self, other: "RandomTableEvent") -> bool:
-        return self.name_with_description > other.name_with_description \
-               or (self.is_sized() and other.is_sized() and other.size < self.size)
+        return self.name_with_description > other.name_with_description or (
+            self.is_sized() and other.is_sized() and other.size < self.size
+        )
 
     def __eq__(self, other: "RandomTableEvent") -> bool:
         return not (self < other or self > other)
@@ -40,9 +41,11 @@ class RandomTableEventInfo(RandomTableEvent):
         return self.size_constraint is not None
 
     def as_event(self) -> RandomTableEvent:
-        return RandomTableEvent(name=self.name,
-                                description=self.description,
-                                size=self.size_constraint.get_random_size() if self.has_size_constraint() else None)
+        return RandomTableEvent(
+            name=self.name,
+            description=self.description,
+            size=self.size_constraint.get_random_size() if self.has_size_constraint() else None,
+        )
 
 
-RandomTableEventInfoList = List[RandomTableEventInfo]
+RandomTableEventInfoList = list[RandomTableEventInfo]

@@ -1,10 +1,9 @@
+from collections.abc import Iterable
 from enum import Enum
 from math import ceil
 from math import log10
 from random import randint
 from typing import ClassVar
-from typing import Iterable
-from typing import List
 from typing import Literal
 
 from pydantic import BaseModel
@@ -25,29 +24,32 @@ class SequencedDie(BaseModel):
     number_of_dice: PositiveInt = Field(exclude=True)
 
     @classmethod
-    def from_die_type(cls, die_type: DieType):
+    def from_die_type(cls, die_type: DieType) -> "SequencedDie":
         if die_type is DieType.D6:
-            return SequencedDie(sides=6, number_of_dice=1)
+            return cls(sides=6, number_of_dice=1)
+
         if die_type is DieType.D66:
-            return SequencedDie(sides=6, number_of_dice=2)
-        raise TypeError(f"Unsupported die type '{die_type}'")
+            return cls(sides=6, number_of_dice=2)
+
+        msg = f"Unsupported die type '{die_type}'"
+        raise TypeError(msg)
 
     @staticmethod
     def _make_roll_from_sequence(sequence_of_rolls: Iterable[PositiveInt]) -> PositiveInt:
         return int("".join(str(i) for i in sequence_of_rolls))
 
     @staticmethod
-    def _get_sequence_from_roll(roll: PositiveInt) -> List[PositiveInt]:
+    def _get_sequence_from_roll(roll: PositiveInt) -> list[PositiveInt]:
         return [PositiveInt(s) for s in str(roll)]
 
     def roll(self) -> PositiveInt:
         return self._make_roll_from_sequence(randint(1, self.sides) for _ in range(self.number_of_dice))
 
-    def roll_bulk(self, number_of_rolls: PositiveInt) -> List[PositiveInt]:
+    def roll_bulk(self, number_of_rolls: PositiveInt) -> list[PositiveInt]:
         return [self.roll() for _ in range(number_of_rolls)]
 
     def get_ones_die_from_roll(self, roll: PositiveInt) -> PositiveInt:
-        return roll % 10 ** self.decimal_dimension
+        return roll % 10**self.decimal_dimension
 
     @property
     def decimal_dimension(self) -> PositiveInt:
@@ -67,9 +69,10 @@ class SequencedDie(BaseModel):
         return roll_2 == self._make_roll_from_sequence(next_roll_to_1_single_rolls)
 
     @classmethod
-    def from_events(cls, events: List):
+    def from_events(cls, events: list) -> "SequencedDie":
         if len(events) == 0:
-            raise ValueError("Events list must be non-empty!")
+            msg = "Events list must be non-empty!"
+            raise ValueError(msg)
 
         number_of_dice = 0
         sides = 0
@@ -90,5 +93,7 @@ class SequencedSixSidedDieRange(PositiveIntRange):
     @validator("*", allow_reuse=True)
     def assert_digits_in_range_for_six_sided_die(cls, v: PositiveInt) -> PositiveInt:
         if not all(1 <= int(d) <= cls.SIDES for d in str(v)):
-            raise ValueError(f"All digits must be within [1, {cls.SIDES}, was {v}")
+            msg = f"All digits must be within [1, {cls.SIDES}, was {v}"
+            raise ValueError(msg)
+
         return v
