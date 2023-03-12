@@ -9,7 +9,7 @@ from time import sleep
 import toml
 
 
-class TestRandomTable(unittest.TestCase):
+class TestApp(unittest.TestCase):
     def test_run_app_curl_main_page_expect_same_result_as_always(self):
         # ARRANGE
         test_dir = Path(__file__).parent
