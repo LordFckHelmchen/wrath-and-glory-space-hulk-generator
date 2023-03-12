@@ -3,7 +3,7 @@
 **/__pycache__/
 
 # Generated files
-/tests/generated_*/
+/tests/generated_*
 /space_hulks/
 
 # IntelliJ
