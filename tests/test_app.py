@@ -27,7 +27,7 @@ class TestApp(unittest.TestCase):
 
         # ACT
         with Popen([poetry, "run", "streamlit", "run", app_name, *streamlit_args], cwd=working_dir, stdout=PIPE) as app:
-            sleep(0.5)  # Give it some time to start, if taken longer, curl will take care of retries.
+            sleep(2)  # Give it some time to start, if taken longer, curl will take care of retries.
             response = run([curl, app_url, *curl_args], capture_output=True, text=True)
             app.terminate()
 
@@ -36,6 +36,8 @@ class TestApp(unittest.TestCase):
             actual_return_code = response.returncode
             msg = f"\ncurl error '{response.stderr}'"
             self.assertEqual(actual_return_code, 0, msg=msg)
+            if actual_return_code == 0 and response.stderr != "":
+                print(f"Although the test passed, something went wrong:\n    '{response.stderr}'")
         with self.subTest(i="Response contains correct html"):
             actual_html = response.stdout
             (test_dir / f"generated_{expected_html_file.name}").write_text(actual_html)
