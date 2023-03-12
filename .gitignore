@@ -11,3 +11,6 @@
 
 # Linting
 /.ruff_cache/
+
+# Logs
+/exported_logs/
