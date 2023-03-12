@@ -36,8 +36,8 @@ class TestRandomTable(unittest.TestCase):
         actual_return_code = response.returncode
 
         # ASSERT
-        self.assertEqual(actual_return_code, 0)
         self.assertEqual(actual_html, expected_html)
+        self.assertEqual(actual_return_code, 0)
 
 
 if __name__ == "__main__":
