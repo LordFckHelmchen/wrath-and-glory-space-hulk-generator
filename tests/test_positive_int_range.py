@@ -14,11 +14,10 @@ class TestPositiveIntRange(unittest.TestCase):
 
 
 class TestSequencedSixSidedDieRange(unittest.TestCase):
-
     def test_init_with_out_of_range_limits_expect_ValueError(self):
         with self.assertRaises(ValueError):
             _ = SequencedSixSidedDieRange(minimum=0, maximum=5)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

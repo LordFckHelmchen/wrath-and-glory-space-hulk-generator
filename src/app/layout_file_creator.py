@@ -8,28 +8,35 @@ from src.generator.indexable_enums import LayoutFormat
 from src.generator.layout_graph import LayoutGraph
 from src.generator.space_hulk import SpaceHulk
 
+DEFAULT_BASE_PATH = Path("space_hulks")
 
-def make_file_name(layout_engine: LayoutEngine,
-                   layout_edge_type: LayoutEdgeType,
-                   layout_format: LayoutFormat,
-                   base_path: Path = Path("space_hulks")) -> Path:
+
+def make_file_name(
+    layout_engine: LayoutEngine,
+    layout_edge_type: LayoutEdgeType,
+    layout_format: LayoutFormat,
+    base_path: Path = DEFAULT_BASE_PATH,
+) -> Path:
     return base_path / f"{layout_engine.value}_{layout_edge_type.value}_layout.{layout_format.value}"
 
 
 @st.cache
-def create_preview_file(layout: LayoutGraph,
-                        layout_engine: LayoutEngine,  # Used for hashing
-                        edge_type: LayoutEdgeType,  # Used for hashing
-                        layout_format: LayoutFormat = LayoutFormat.PNG  # Used for hashing
-                        ) -> str:
+def create_preview_file(
+    layout: LayoutGraph,
+    layout_engine: LayoutEngine,  # Used for hashing
+    edge_type: LayoutEdgeType,  # Used for hashing
+    layout_format: LayoutFormat = LayoutFormat.PNG,  # Used for hashing
+) -> str:
     """
     Caches the preview file as long as the layout and engine didn't change
     """
-    return layout.render(engine=layout_engine.value,
-                         format=layout_format.value,
-                         outfile=str(make_file_name(layout_engine, edge_type, layout_format)),
-                         cleanup=True,
-                         view=False)
+    return layout.render(
+        engine=layout_engine.value,
+        format=layout_format.value,
+        outfile=str(make_file_name(layout_engine, edge_type, layout_format)),
+        cleanup=True,
+        view=False,
+    )
 
 
 @st.cache

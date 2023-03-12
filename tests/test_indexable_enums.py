@@ -10,5 +10,5 @@ class TestIndexableEnum(unittest.TestCase):
                 self.assertEqual(expected_index, member.index)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -1,16 +1,17 @@
 import unittest
 from dataclasses import fields
 
-from src.generator.random_table_event_collection import EventCountConstraint
 from src.generator.random_table import RandomTable
 from src.generator.random_table_event import RandomTableEventInfo
+from src.generator.random_table_event_collection import EventCountConstraint
 from src.generator.sequenced_die import SequencedSixSidedDieRange
 from src.generator.space_hulk_tables import SpaceHulkTables
 
-DUMMY_TABLE = RandomTable(table_name="Dummy table",
-                          event_count_constraint=EventCountConstraint(maximum=5),
-                          events=[RandomTableEventInfo(name="dummy event",
-                                                       range=SequencedSixSidedDieRange(minimum=1, maximum=5))])
+DUMMY_TABLE = RandomTable(
+    table_name="Dummy table",
+    event_count_constraint=EventCountConstraint(maximum=5),
+    events=[RandomTableEventInfo(name="dummy event", range=SequencedSixSidedDieRange(minimum=1, maximum=5))],
+)
 
 
 class TestSpaceHulkTables(unittest.TestCase):
@@ -27,5 +28,5 @@ class TestSpaceHulkTables(unittest.TestCase):
             _ = self.dummy_tables["asdf932nass"]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

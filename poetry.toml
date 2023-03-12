@@ -1,0 +1,7 @@
+[virtualenvs]
+prefer-active-python = true
+in-project = true
+create = true
+
+[virtualenvs.options]
+no-setuptools = true

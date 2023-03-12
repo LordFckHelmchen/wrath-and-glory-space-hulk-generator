@@ -8,7 +8,3 @@ class EventCountOutOfRangeError(SpaceHulkGeneratorError, ValueError):
 
 class EventTypeError(SpaceHulkGeneratorError, TypeError):
     """Raise when the wrong type of container or container element is passed to set events."""
-
-
-class ValueNotParsableToEnumMember(SpaceHulkGeneratorError, TypeError):
-    """Raise when a given value cannot be parsed into an IndexableEnum member."""

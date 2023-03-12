@@ -4,6 +4,7 @@ from random import randint
 from typing import Optional
 
 from pydantic import PositiveInt
+from pydantic.types import PositiveFloat  # noqa: TCH002 - If guarded, streamlit fails with missing dep.
 
 from .indexable_enums import LayoutEdgeType
 from .indexable_enums import LayoutEngine
@@ -17,33 +18,33 @@ from .space_hulk import SpaceHulk
 
 DEFAULT_EDGE_TYPE = LayoutEdgeType.ORTHO
 DEFAULT_LAYOUT_ENGINE = LayoutEngine.FDP
-DEFAULT_GRAPH_PROPERTIES: GraphProperties = {"engine": DEFAULT_LAYOUT_ENGINE.value,
-                                             "graph_attr": {"bgcolor": "black",
-                                                            "center": "true",
-                                                            "dpi": "1280",
-                                                            "margin": "0",
-                                                            "pad": "2",
-                                                            "rankdir": "TD",
-                                                            "size": "1,1",
-                                                            "splines": DEFAULT_EDGE_TYPE.value,
-                                                            "sep": "+20",
-                                                            "esep": "+40",
-                                                            "K": "8",
-                                                            "concentrate": "true"},
-                                             "node_attr": {"color": "gray",
-                                                           "fillcolor": "white",
-                                                           "fontsize": "20",
-                                                           "penwidth": "13",
-                                                           "style": "filled"},
-                                             "edge_attr": {"color": "gray", "penwidth": "25"}}
+DEFAULT_GRAPH_PROPERTIES: GraphProperties = {
+    "engine": DEFAULT_LAYOUT_ENGINE.value,
+    "graph_attr": {
+        "bgcolor": "black",
+        "center": "true",
+        "dpi": "1280",
+        "margin": "0",
+        "pad": "2",
+        "rankdir": "TD",
+        "size": "1,1",
+        "splines": DEFAULT_EDGE_TYPE.value,
+        "sep": "+20",
+        "esep": "+40",
+        "K": "8",
+        "concentrate": "true",
+    },
+    "node_attr": {"color": "gray", "fillcolor": "white", "fontsize": "20", "penwidth": "13", "style": "filled"},
+    "edge_attr": {"color": "gray", "penwidth": "25"},
+}
 
 
 class SpaceHulkLayouter:
     MAX_FONT_SIZE = 700
 
-    def __init__(self,
-                 max_number_of_connections_per_room: PositiveInt = 10,
-                 graph_properties: Optional[GraphProperties] = None):
+    def __init__(
+        self, max_number_of_connections_per_room: PositiveInt = 10, graph_properties: Optional[GraphProperties] = None
+    ) -> None:
         """
         Constructor
 
@@ -55,18 +56,17 @@ class SpaceHulkLayouter:
         self.graph_properties = (graph_properties if graph_properties else {}) | DEFAULT_GRAPH_PROPERTIES
 
     @staticmethod
-    def _get_other_room(current_room: RandomTableEvent, space_hulk: SpaceHulk,
-                        avoid_self_connection: bool = True) -> RandomTableEvent:
+    def _get_other_room(current_room: RandomTableEvent, space_hulk: SpaceHulk) -> RandomTableEvent:
         other_room = random.choice(space_hulk.rooms.events)
-        while avoid_self_connection and other_room.name == current_room.name:
+        while other_room.name == current_room.name:
             other_room = random.choice(space_hulk.rooms.events)
         return other_room
 
     def create_layout(self, space_hulk: SpaceHulk) -> LayoutGraph:
-
-        def get_scaled_font_size(node: Node, base_font_size: float):
+        def get_scaled_font_size(node: Node, base_font_size: PositiveFloat) -> PositiveFloat:
             slope = (self.MAX_FONT_SIZE - base_font_size) / (
-                    GlobalMapObjectSizeConstraint.x.maximum - GlobalMapObjectSizeConstraint.x.minimum)
+                GlobalMapObjectSizeConstraint.x.maximum - GlobalMapObjectSizeConstraint.x.minimum
+            )
             offset = base_font_size - slope * GlobalMapObjectSizeConstraint.x.minimum
             return round(slope * float(node.size.x) + offset)
 
@@ -100,5 +100,3 @@ class SpaceHulkLayouter:
 
     def get_layout_engine(self) -> LayoutEngine:
         return LayoutEngine(self.graph_properties["engine"])
-
-

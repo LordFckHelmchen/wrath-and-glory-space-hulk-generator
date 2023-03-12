@@ -10,5 +10,5 @@ class TestMapObjectSize(unittest.TestCase):
             _ = MapObjectDimensionConstraint(minimum=MapObjectSizeInt(1), maximum=MapObjectSizeInt(1))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

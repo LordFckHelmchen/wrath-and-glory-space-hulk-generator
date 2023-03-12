@@ -1,0 +1,57 @@
+name: "Code checks"
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request: # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+
+jobs:
+  setup:
+    name: Setup Python, Poetry & install dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4  # Uses .python-version by default
+      - uses: benjavicente/setup-poetry@main
+        with:
+          poetry-version: 1.4.0
+
+  unittests:
+    name: Unittests
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4  # Uses .python-version by default
+      - uses: benjavicente/setup-poetry@main
+        with:
+          poetry-version: 1.4.0
+      - uses: ts-graphviz/setup-graphviz@v1
+      - run: poetry run python -m unittest discover -s tests/ -v
+      - name: Archive curl result from app test
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: Curl result from app test
+          path: tests/generated_streamlit_http_get_response.html
+
+  formatting:
+    name: Formatting (black)
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: psf/black@stable
+
+  linting:
+    name: Linting (ruff)
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4  # Uses .python-version by default
+      - uses: benjavicente/setup-poetry@main
+        with:
+          poetry-version: 1.4.0
+      - run: poetry run ruff .
