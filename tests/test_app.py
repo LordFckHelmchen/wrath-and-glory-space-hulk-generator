@@ -31,11 +31,12 @@ class TestRandomTable(unittest.TestCase):
             sleep(2)  # Wait until started.
             response = run([curl, app_url], capture_output=True, text=True)
             app.terminate()
-
-        # ASSERT
-        self.assertEqual(response.returncode, 0)
         actual_html = response.stdout
         (test_dir / f"generated_{expected_html_file.name}").write_text(actual_html)
+        actual_return_code = response.returncode
+
+        # ASSERT
+        self.assertEqual(actual_return_code, 0)
         self.assertEqual(actual_html, expected_html)
 
 
