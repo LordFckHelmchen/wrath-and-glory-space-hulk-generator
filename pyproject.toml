@@ -6,13 +6,14 @@ authors = ["LordFckHelmchen <dj_mack@gmx.de>"]
 license = "GPLv3"
 readme = "README.md"
 homepage = "https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main"
-keywords = ["rpg", "rpg-tool", "wrathandglory"]
+keywords = ["graphviz", "rpg-tool", "streamlit", "wrathandglory", "wrath-and-glory"]
 repository = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator"
-classifiers = ["Programming Language :: Python :: 3.9",
+classifiers = ["Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3.9",
 ]
 
 [tool.poetry.urls]
-Changelog = "https://github.com/LordFckHelmchen/WrathAndGloryXPOptimizer/releases"
+Changelog = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/releases"
 
 [tool.poetry.dependencies]
 PyPDF2 = "^2.4.1"
