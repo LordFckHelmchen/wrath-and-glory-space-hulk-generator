@@ -52,6 +52,7 @@ line-length = 120        # Keep in synch with tool.black
 "test_*.py" = ["ANN201",  # No return type check for tests
                "N802",    # Function name should be lowercase - used when expecting errors
                "SLF",     # Allow private member access in tests
+               "T201",    # Allow print output in tests
               ]
 
 [tool.ruff.isort]
