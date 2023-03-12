@@ -14,11 +14,18 @@ class TestRandomTable(unittest.TestCase):
     def setUp(self) -> None:
         # get root logger
         logger = logging.getLogger()
-        logger.setLevel(logging.INFO)
+        print(logger)
+        print(logger.level)
+        self.previous_log_level = logger.level
+        logger.setLevel(logging.NOTSET)
+        print(logger.level)
 
         # add console handler
-        ch = logging.StreamHandler()
-        logger.addHandler(ch)
+        logger.addHandler(logging.StreamHandler())
+
+    def tearDown(self) -> None:
+        # Restore log level.
+        logging.getLogger().setLevel(self.previous_log_level)
 
     def test_run_app_curl_main_page_expect_same_result_as_always(self):
         # ARRANGE
