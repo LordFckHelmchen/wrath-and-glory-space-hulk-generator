@@ -23,7 +23,7 @@ class TestRandomTable(unittest.TestCase):
 
         # ACT
         with Popen(
-            [poetry, "run", "streamlit", "run", app_name, "--server.headless", "true"],
+            [poetry, "run", "streamlit", "run", app_name, "--server.headless", "true", "--logger.level", "debug"],
             cwd=working_dir,
             stdout=PIPE,
         ) as app:
