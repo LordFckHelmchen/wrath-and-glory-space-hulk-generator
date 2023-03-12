@@ -17,7 +17,8 @@ class TestRandomTable(unittest.TestCase):
         app_name = working_dir / "streamlit_app.py"
         streamlit_config = toml.load(working_dir / ".streamlit" / "config.toml")
         app_url = f"http://localhost:{streamlit_config['server']['port']}"
-        expected_response = (test_dir / "assets" / "streamlit_http_get_response.html").read_text()
+        expected_html_file = test_dir / "assets" / "streamlit_http_get_response.html"
+        expected_html = expected_html_file.read_text()
         poetry = which("poetry")
         curl = which("curl")
 
@@ -33,7 +34,9 @@ class TestRandomTable(unittest.TestCase):
 
         # ASSERT
         self.assertEqual(response.returncode, 0)
-        self.assertEqual(response.stdout, expected_response)
+        actual_html = response.stdout
+        (test_dir / f"generated_{expected_html_file.name}").write_text(actual_html)
+        self.assertEqual(actual_html, expected_html)
 
 
 if __name__ == "__main__":
