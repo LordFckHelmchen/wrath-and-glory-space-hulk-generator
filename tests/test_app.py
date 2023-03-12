@@ -21,7 +21,9 @@ class TestRandomTable(unittest.TestCase):
         print(logger.level)
 
         # add console handler
-        logger.addHandler(logging.StreamHandler())
+        ch = logging.StreamHandler()
+        ch.setLevel(logger.level)
+        logger.addHandler(ch)
 
     def tearDown(self) -> None:
         # Restore log level.
@@ -39,9 +41,6 @@ class TestRandomTable(unittest.TestCase):
         curl = which("curl")
 
         # ACT
-        logger = logging.getLogger()
-        print(logger)
-        print(logger.level)
         with Popen(
             [poetry, "run", "streamlit", "run", app_name, "--server.headless", "true", "--logger.level", "debug"],
             cwd=working_dir,
@@ -50,7 +49,6 @@ class TestRandomTable(unittest.TestCase):
             sleep(2)  # Wait until started.
             response = run([curl, app_url], capture_output=True, text=True)
             app.terminate()
-        print(logger.level)
 
         # ASSERT
         self.assertEqual(response.returncode, 0)
