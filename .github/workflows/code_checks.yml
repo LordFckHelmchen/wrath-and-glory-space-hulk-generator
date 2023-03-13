@@ -1,10 +1,6 @@
 name: "Code checks"
 
-on:
-  push:
-    branches: [ "**" ]
-  pull_request: # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+on: ["push", "pull_request"]
 
 jobs:
   setup:
@@ -28,13 +24,15 @@ jobs:
         with:
           poetry-version: 1.4.0
       - uses: ts-graphviz/setup-graphviz@v1
-      - run: poetry run python -m unittest discover -s tests/ -v
+      - run: poetry run pytest --cov-report term --cov-report lcov:coverage.lcov --cov
       - name: Archive curl result from app test
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: Curl result from app test
           path: tests/generated_streamlit_http_get_response.html
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
 
   formatting:
     name: Formatting (black)
