@@ -6,7 +6,6 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v0.json)](https://github.com/charliermarsh/ruff)
 
-
 The _Wrath & Glory Space Hulk Generator_ contains a random map generator for [Cubicle7](https://cubicle7games.com)'s
 Warhammer
 40k role-playing
@@ -46,6 +45,33 @@ Or event better create
 a [pull request](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/pulls) (PR) with the
 recommended code change.
 If you create a PR, Please make sure to add/update the [unittests](tests) accordingly.
+
+### Unittests
+
+Run the unittests via pytest + coverage with:
+
+```bash
+poetry run pytest --cov
+```
+
+### Linting
+
+Linting is done with [ruff](https://github.com/charliermarsh/ruff) because it's so fast and convenient. To check the
+code run:
+
+```bash
+poetry poetry run ruff .
+```
+
+If you want to auto-fix fixable issues is the `--fix` flag in addition.
+
+### Formatting
+
+The code is [black](https://github.com/psf/black) as my soul, so format it accordingly with:
+
+```bash
+poetry poetry run ruff .
+```
 
 ## License
 
