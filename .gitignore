@@ -11,6 +11,7 @@
 
 # Linting
 /.ruff_cache/
+/.coverage
 
 # Logs
 /exported_logs/

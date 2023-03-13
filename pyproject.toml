@@ -16,20 +16,29 @@ classifiers = ["Development Status :: 5 - Production/Stable",
 Changelog = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/releases"
 
 [tool.poetry.dependencies]
+python = "^3.9"
 PyPDF2 = "^2.4.1"
 fpdf = "^1.7.2"
 graphviz = "^0.20"
 pydantic = "^1.9.1"
-python = "^3.9"
 streamlit = "^1.10.0"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d"], version = "^23.1.0"}
+pytest = "^7.2.2"
+pytest-cov = "^4.0.0"
 ruff = "^0.0.254"
 toml = "^0.10.2"
 
 [tool.black]
 line-length = 120  # Keep in synch with tool.ruff
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+fail_under = 76
 
 [tool.ruff]
 select = ["ALL"]
