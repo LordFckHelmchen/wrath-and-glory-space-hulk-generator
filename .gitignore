@@ -11,6 +11,8 @@
 
 # Linting
 /.ruff_cache/
+/.coverage
+/coverage.xml
 
 # Logs
 /exported_logs/

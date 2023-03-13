@@ -1,3 +1,4 @@
+import sys
 import unittest
 from pathlib import Path
 from shutil import which
@@ -9,38 +10,57 @@ from time import sleep
 import toml
 
 
+def get_executable(name: str) -> Path:
+    if (executable := which(name)) is not None:
+        executable = Path(executable)
+        if executable.exists():
+            return executable
+
+    # This can happen if the dependencies for poetry/curl are not available or the PATH isn't properly set up.
+    # Try adding ~/.poetry/bin/poetry if this fails for poetry.
+    msg = f"Couldn't find executable for '{name}'! sys.path contained the following entries:\n" + "\n".join(sys.path)
+    raise OSError(msg)
+
+
 class TestApp(unittest.TestCase):
     def test_run_app_curl_main_page_expect_same_result_as_always(self):
         # ARRANGE
         test_dir = Path(__file__).parent
         working_dir = test_dir.parent
-        app_name = working_dir / "streamlit_app.py"
         streamlit_config = toml.load(working_dir / ".streamlit" / "config.toml")
         app_url = f"http://localhost:{streamlit_config['server']['port']}"
         expected_html_file = test_dir / "assets" / "streamlit_http_get_response.html"
         expected_html = expected_html_file.read_text()
-        poetry = which("poetry")
-        streamlit_args = ["--server.headless", "true"]
-        curl = which("curl")
-        # Sometime setup takes longer, and we retry to get the connection.
-        curl_args = ["--raw", "--retry-connrefused", "--retry", "2", "--show-error", "--silent"]
+        actual_html_file = test_dir / f"generated_{expected_html_file.name}"
+        actual_html_file.unlink(missing_ok=True)
+        poetry = get_executable("poetry")
+        app = (poetry, "run", "streamlit", "run", working_dir / "streamlit_app.py", "--server.headless", "true")
+
+        # Set up curl command to app
+        max_retries = 9
+        retry_wait_in_sec = 2
+        curl_cmd = (get_executable("curl"), app_url, "--raw", "--show-error", "--silent", "--output", actual_html_file)
+
+        def curl_app() -> int:
+            sleep(retry_wait_in_sec)  # Always wait to be ready.
+            response = run(curl_cmd, stderr=PIPE, text=True, timeout=retry_wait_in_sec)
+            if response.stderr != "":
+                print(f"Curl had difficulties: '{response.stderr}'")
+            return response.returncode
 
         # ACT
-        with Popen([poetry, "run", "streamlit", "run", app_name, *streamlit_args], cwd=working_dir, stdout=PIPE) as app:
-            sleep(2)  # Give it some time to start, if taken longer, curl will take care of retries.
-            response = run([curl, app_url, *curl_args], capture_output=True, text=True)
+        with Popen(app, cwd=working_dir) as app:
+            try_id = 1
+            while (actual_return_code := curl_app()) != 0 and try_id <= max_retries:
+                print(f"Couldn't get a response from the app on try {try_id}/{max_retries}. Retrying...")
+                try_id += 1
             app.terminate()
 
         # ASSERT
         with self.subTest(i="Successfully returns with 0"):
-            actual_return_code = response.returncode
-            msg = f"\ncurl error '{response.stderr}'"
-            self.assertEqual(actual_return_code, 0, msg=msg)
-            if actual_return_code == 0 and response.stderr != "":
-                print(f"Although the test passed, something went wrong:\n    '{response.stderr}'")
+            self.assertEqual(actual_return_code, 0)
         with self.subTest(i="Response contains correct html"):
-            actual_html = response.stdout
-            (test_dir / f"generated_{expected_html_file.name}").write_text(actual_html)
+            actual_html = actual_html_file.read_text()
             self.assertEqual(actual_html, expected_html)
 
 
