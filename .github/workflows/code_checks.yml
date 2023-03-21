@@ -25,14 +25,12 @@ jobs:
           poetry-version: 1.4.0
       - uses: ts-graphviz/setup-graphviz@v1
       - name: Run PyTest with coverage
-        run: poetry run pytest --cov-report term --cov-report lcov:coverage.lcov --cov
-      - name: Run pytest
         uses: pavelzw/pytest-action@v2
         with:
           custom-pytest: 'poetry run pytest'
           custom-arguments: '--cov-report term --cov-report lcov:coverage.lcov --cov'
           verbose: true
-          job-summary: true
+          job-summary: false
           report-title: 'Test Report'
           click-to-expand: true
           emoji: false
