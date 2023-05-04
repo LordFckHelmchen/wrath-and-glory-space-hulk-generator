@@ -1,0 +1,57 @@
+{
+    "srcType": "BitmapSet",
+    "dest": "space_hulk_map.png",
+    "model": {
+        "type": "adjacent"
+    },
+    "tiles": [
+        {"value": "corner_large", "src": "corner_large.png", "tileSymmetry": "L"},
+        {"value": "corner_with_large_room", "src": "corner_with_large_room.png", "tileSymmetry": "L"},
+        {"value": "corner_with_room", "src": "corner_with_room.png", "tileSymmetry": "L"},
+        {"value": "corner_with_small_room", "src": "corner_with_small_room.png", "tileSymmetry": "L"},
+        {"value": "corner", "src": "corner.png", "tileSymmetry": "L"},
+
+        {"value": "crossway_asymmetric_with_gigantic_room", "src": "crossway_asymmetric_with_gigantic_room.png", "tileSymmetry": "F"},
+
+        {"value": "crossway_windmill_with_room", "src": "crossway_windmill_with_room.png", "tileSymmetry": "cyc"},
+
+        {"value": "crossway_with_room", "src": "crossway_with_room.png", "tileSymmetry": "X"},
+        {"value": "crossway", "src": "crossway.png", "tileSymmetry": "X"},
+
+        {"value": "dead_end_with_gigantic_room", "src": "dead_end_with_gigantic_room.png", "tileSymmetry": "T"},
+        {"value": "dead_end_with_large_room", "src": "dead_end_with_large_room.png", "tileSymmetry": "T"},
+        {"value": "dead_end_with_small_room", "src": "dead_end_with_small_room.png", "tileSymmetry": "T"},
+        {"value": "dead_end", "src": "dead_end.png", "tileSymmetry": "T"},
+
+        {"value": "hallway_straight_cornered_narrow", "src": "hallway_straight_cornered_narrow.png", "tileSymmetry": "F"},
+        {"value": "hallway_straight_cornered_with_room", "src": "hallway_straight_cornered_with_room.png", "tileSymmetry": "F"},
+        {"value": "hallway_straight_cornered_with_small_room", "src": "hallway_straight_cornered_with_small_room.png", "tileSymmetry": "F"},
+        {"value": "hallway_straight_cornered", "src": "hallway_straight_cornered.png", "tileSymmetry": "F"},
+
+        {"value": "hallway_straight_large", "src": "hallway_straight_large.png", "tileSymmetry": "I"},
+        {"value": "hallway_straight_normal_to_large", "src": "hallway_straight_normal_to_large.png", "tileSymmetry": "T"},
+        {"value": "hallway_straight_with_gigantic_room", "src": "hallway_straight_with_gigantic_room.png", "tileSymmetry": "I"},
+        {"value": "hallway_straight_with_hole", "src": "hallway_straight_with_hole.png", "tileSymmetry": "E"},
+        {"value": "hallway_straight_with_room", "src": "hallway_straight_with_room.png", "tileSymmetry": "I"},
+        {"value": "hallway_straight", "src": "hallway_straight.png", "tileSymmetry": "I"},
+        
+        {"value": "t_cross_asymmetric_with_dead_end", "src": "t_cross_asymmetric_with_dead_end.png", "tileSymmetry": "F"},
+        {"value": "t_cross_asymmetric", "src": "t_cross_asymmetric.png", "tileSymmetry": "F"},
+
+        {"value": "t_cross_large", "src": "t_cross_large.png", "tileSymmetry": "E"},
+        {"value": "t_cross_normal_and_large", "src": "t_cross_normal_and_large.png", "tileSymmetry": "I"},
+        {"value": "t_cross_with_room", "src": "t_cross_with_room.png", "tileSymmetry": "E"},
+        {"value": "t_cross_with_small_room", "src": "t_cross_with_small_room.png", "tileSymmetry": "E"},
+        {"value": "t_cross", "src": "t_cross.png", "tileSymmetry": "E"}        
+    ],
+    "adjacencies": [
+        {
+            "left": [
+                "corner_large.png"
+            ],
+            "down": [
+                2
+            ]
+        }
+    ]
+}
