@@ -2,7 +2,7 @@ import pickle
 from pathlib import Path
 
 from src.generator.space_hulk import SpaceHulk
-from src.layouter.graphviz_layouter.graphviz_layouter import SpaceHulkLayouter
+from src.layouter.graphviz_layouter.graphviz_layouter import GraphvizLayouter
 from src.layouter.graphviz_layouter.layout_graph import LayoutGraph
 
 ASSET_PATH = Path(__file__).parent
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     space_hulk = load_space_hulk()
 
     # Recompute layout
-    layout = SpaceHulkLayouter().create_layout(space_hulk)
+    layout = GraphvizLayouter().create_layout(space_hulk)
     with TEST_HULK_LAYOUT_FILE.open("wb") as file:
         pickle.dump(layout, file)
 

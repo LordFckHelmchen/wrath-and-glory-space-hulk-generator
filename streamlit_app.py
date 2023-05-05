@@ -10,9 +10,9 @@ from src.app.layout_file_creator import create_download_file
 from src.app.layout_file_creator import create_preview_file
 from src.generator.space_hulk_generator import RoomCount
 from src.generator.space_hulk_generator import SpaceHulkGenerator
-from src.layouter.graphviz_layouter.graphviz_layouter import SpaceHulkLayouter
-from src.layouter.graphviz_layouter.indexable_enums import LayoutEdgeType
-from src.layouter.graphviz_layouter.indexable_enums import LayoutEngine
+from src.layouter.graphviz_layouter.graphviz_edge_type import GraphvizEdgeType
+from src.layouter.graphviz_layouter.graphviz_engine import GraphvizEngine
+from src.layouter.graphviz_layouter.graphviz_layouter import GraphvizLayouter
 
 # Session state keys
 GENERATOR_KEY = "generator"
@@ -110,7 +110,7 @@ st.header("Generator Settings")
 if GENERATOR_KEY not in st.session_state:
     st.session_state[GENERATOR_KEY] = SpaceHulkGenerator()
 if LAYOUTER_KEY not in st.session_state:
-    st.session_state[LAYOUTER_KEY] = SpaceHulkLayouter()
+    st.session_state[LAYOUTER_KEY] = GraphvizLayouter()
 
 generator_settings_columns = st.columns(3)
 
@@ -129,7 +129,7 @@ with generator_settings_columns[0]:
 with generator_settings_columns[1]:
     st.selectbox(
         "Layout engine",
-        options=list(LayoutEngine),
+        options=list(GraphvizEngine),
         format_func=lambda x: x.value,
         index=st.session_state.get(LAYOUT_ENGINE_KEY, st.session_state[LAYOUTER_KEY].get_layout_engine()).index,
         key=LAYOUT_ENGINE_KEY,
@@ -139,7 +139,7 @@ with generator_settings_columns[1]:
 with generator_settings_columns[2]:
     st.selectbox(
         "Connection type",
-        options=list(LayoutEdgeType),
+        options=list(GraphvizEdgeType),
         format_func=lambda x: x.value,
         index=st.session_state.get(LAYOUT_EDGE_TYPE_KEY, st.session_state[LAYOUTER_KEY].get_layout_edge_type()).index,
         key=LAYOUT_EDGE_TYPE_KEY,

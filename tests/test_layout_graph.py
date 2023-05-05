@@ -2,8 +2,8 @@ import shutil
 import unittest
 from copy import copy
 
-from src.layouter.graphviz_layouter.indexable_enums import LayoutEdgeType
-from src.layouter.graphviz_layouter.indexable_enums import LayoutEngine
+from src.layouter.graphviz_layouter.graphviz_edge_type import GraphvizEdgeType
+from src.layouter.graphviz_layouter.graphviz_engine import GraphvizEngine
 from tests.assets.helpers import TEST_PATH
 from tests.assets.helpers import load_space_hulk
 from tests.assets.helpers import load_space_hulk_layout
@@ -40,7 +40,7 @@ class TestLayoutGraph(unittest.TestCase):
         self.assertEqual(expected_comment, self.layout.comment)
 
     def test_render_all_possible_engines_expect_no_errors(self) -> None:
-        for engine in LayoutEngine:
+        for engine in GraphvizEngine:
             engine_name = engine.value
             with self.subTest(i=engine_name):
                 self.layout.engine = engine_name
@@ -49,12 +49,12 @@ class TestLayoutGraph(unittest.TestCase):
                 )
 
     def test_layout_edge_type_property_access_expect_set_type_returned(self) -> None:
-        for expected_value in LayoutEdgeType:
+        for expected_value in GraphvizEdgeType:
             self.layout.edge_type = expected_value
             self.assertEqual(expected_value, self.layout.edge_type)
 
     def test_layout_engine_property_access_expect_set_engine_returned(self) -> None:
-        for expected_value in LayoutEngine:
+        for expected_value in GraphvizEngine:
             self.layout.layout_engine = expected_value
             self.assertEqual(expected_value, self.layout.layout_engine)
 

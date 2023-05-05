@@ -3,18 +3,18 @@ from pathlib import Path
 import streamlit as st
 
 from src.generator.space_hulk import SpaceHulk
-from src.layouter.graphviz_layouter.indexable_enums import LayoutEdgeType
-from src.layouter.graphviz_layouter.indexable_enums import LayoutEngine
-from src.layouter.graphviz_layouter.indexable_enums import LayoutFormat
+from src.layouter.graphviz_layouter.graphviz_edge_type import GraphvizEdgeType
+from src.layouter.graphviz_layouter.graphviz_engine import GraphvizEngine
+from src.layouter.graphviz_layouter.graphviz_format import GraphvizFormat
 from src.layouter.graphviz_layouter.layout_graph import LayoutGraph
 
 DEFAULT_BASE_PATH = Path("space_hulks")
 
 
 def make_file_name(
-    layout_engine: LayoutEngine,
-    layout_edge_type: LayoutEdgeType,
-    layout_format: LayoutFormat,
+    layout_engine: GraphvizEngine,
+    layout_edge_type: GraphvizEdgeType,
+    layout_format: GraphvizFormat,
     base_path: Path = DEFAULT_BASE_PATH,
 ) -> Path:
     return base_path / f"{layout_engine.value}_{layout_edge_type.value}_layout.{layout_format.value}"
@@ -23,9 +23,9 @@ def make_file_name(
 @st.cache
 def create_preview_file(
     layout: LayoutGraph,
-    layout_engine: LayoutEngine,  # Used for hashing
-    edge_type: LayoutEdgeType,  # Used for hashing
-    layout_format: LayoutFormat = LayoutFormat.PNG,  # Used for hashing
+    layout_engine: GraphvizEngine,  # Used for hashing
+    edge_type: GraphvizEdgeType,  # Used for hashing
+    layout_format: GraphvizFormat = GraphvizFormat.PNG,  # Used for hashing
 ) -> str:
     """
     Caches the preview file as long as the layout and engine didn't change
@@ -41,6 +41,6 @@ def create_preview_file(
 
 @st.cache
 def create_download_file(space_hulk: SpaceHulk, layout: LayoutGraph) -> str:
-    file_name = make_file_name(layout.layout_engine, layout.layout_edge_type, LayoutFormat.PDF)
+    file_name = make_file_name(layout.layout_engine, layout.layout_edge_type, GraphvizFormat.PDF)
     layout.render_pdf(file_name=file_name, space_hulk=space_hulk)
     return str(file_name)

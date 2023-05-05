@@ -10,15 +10,15 @@ from src.generator.map_object_size import GlobalMapObjectSizeConstraint
 from src.generator.random_table_event import RandomTableEvent
 from src.generator.space_hulk import SpaceHulk
 
-from .indexable_enums import LayoutEdgeType
-from .indexable_enums import LayoutEngine
+from .graphviz_edge_type import GraphvizEdgeType
+from .graphviz_engine import GraphvizEngine
 from .layout_graph import LayoutGraph
 from .layout_graph import Node
 from .layout_graph_creator import GraphProperties
 from .layout_graph_creator import LayoutGraphCreator
 
-DEFAULT_EDGE_TYPE = LayoutEdgeType.ORTHO
-DEFAULT_LAYOUT_ENGINE = LayoutEngine.FDP
+DEFAULT_EDGE_TYPE = GraphvizEdgeType.ORTHO
+DEFAULT_LAYOUT_ENGINE = GraphvizEngine.FDP
 DEFAULT_GRAPH_PROPERTIES: GraphProperties = {
     "engine": DEFAULT_LAYOUT_ENGINE.value,
     "graph_attr": {
@@ -40,7 +40,7 @@ DEFAULT_GRAPH_PROPERTIES: GraphProperties = {
 }
 
 
-class SpaceHulkLayouter:
+class GraphvizLayouter:
     MAX_FONT_SIZE = 700
 
     def __init__(
@@ -90,14 +90,14 @@ class SpaceHulkLayouter:
 
         return layout_creator.create(self.graph_properties | {"comment": space_hulk.json()})
 
-    def set_layout_edge_type(self, edge_type: LayoutEdgeType) -> None:
+    def set_layout_edge_type(self, edge_type: GraphvizEdgeType) -> None:
         self.graph_properties["graph_attr"]["splines"] = edge_type.value
 
-    def get_layout_edge_type(self) -> LayoutEdgeType:
-        return LayoutEdgeType(self.graph_properties["graph_attr"]["splines"])
+    def get_layout_edge_type(self) -> GraphvizEdgeType:
+        return GraphvizEdgeType(self.graph_properties["graph_attr"]["splines"])
 
-    def set_layout_engine(self, engine: LayoutEngine) -> None:
+    def set_layout_engine(self, engine: GraphvizEngine) -> None:
         self.graph_properties["engine"] = engine.value
 
-    def get_layout_engine(self) -> LayoutEngine:
-        return LayoutEngine(self.graph_properties["engine"])
+    def get_layout_engine(self) -> GraphvizEngine:
+        return GraphvizEngine(self.graph_properties["engine"])

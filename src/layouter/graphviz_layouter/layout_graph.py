@@ -15,9 +15,9 @@ from pydantic import PositiveFloat
 from src.generator.map_object_size import MapObjectSize
 from src.generator.space_hulk import SpaceHulk
 
-from .indexable_enums import LayoutEdgeType
-from .indexable_enums import LayoutEngine
-from .indexable_enums import LayoutFormat
+from .graphviz_edge_type import GraphvizEdgeType
+from .graphviz_engine import GraphvizEngine
+from .graphviz_format import GraphvizFormat
 
 
 class NodeShape(Enum):
@@ -76,19 +76,19 @@ class LayoutGraph(Graph, GraphStats):
         return float(self.node_attr.get("fontsize", "16"))
 
     @property
-    def layout_edge_type(self) -> LayoutEdgeType:
-        return LayoutEdgeType(self.graph_attr["splines"])
+    def layout_edge_type(self) -> GraphvizEdgeType:
+        return GraphvizEdgeType(self.graph_attr["splines"])
 
     @layout_edge_type.setter
-    def layout_edge_type(self, edge_type: LayoutEdgeType) -> None:
+    def layout_edge_type(self, edge_type: GraphvizEdgeType) -> None:
         self.graph_attr["splines"] = edge_type.value
 
     @property
-    def layout_engine(self) -> LayoutEngine:
-        return LayoutEngine(self.engine)
+    def layout_engine(self) -> GraphvizEngine:
+        return GraphvizEngine(self.engine)
 
     @layout_engine.setter
-    def layout_engine(self, engine: LayoutEngine) -> None:
+    def layout_engine(self, engine: GraphvizEngine) -> None:
         self.engine = engine.value
 
     def __str__(self) -> str:
@@ -107,7 +107,7 @@ class LayoutGraph(Graph, GraphStats):
         return self_as_string
 
     def render_pdf(self, file_name: Path, space_hulk: Optional[SpaceHulk] = None) -> None:
-        file_format = LayoutFormat.PDF.value
+        file_format = GraphvizFormat.PDF.value
 
         def render_layout_pdf(name: Path) -> None:
             self.render(engine=self.engine, format=file_format, outfile=name, cleanup=True, view=False)
