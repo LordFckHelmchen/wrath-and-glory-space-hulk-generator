@@ -59,5 +59,16 @@ class SpaceHulk(BaseModel):
 
         return "\n".join(self_as_string)
 
-    def render_pdf(self, file_name: Path) -> None:
+    def render_to_file(self, file_name: Path, file_type="pdf") -> None:  # noqa: ARG002, ANN001
+        """
+        Creates a PDF from the description
+
+        Parameters
+        ----------
+
+        file_name
+            Full name of the file to render to
+        file_type
+            Type of the output file (ignored; always PDF; this is only used to duck-type into ILayout.render_to_file)
+        """
         Markdown2PdfParser().parse(self.as_markdown()).output(name=str(file_name))

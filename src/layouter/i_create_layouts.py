@@ -1,14 +1,9 @@
 from abc import ABC
 from abc import abstractmethod
-from pathlib import Path
 
 from src.generator.space_hulk import SpaceHulk
 
-
-class ILayout:
-    @abstractmethod
-    def render_pdf(self, file_name: Path) -> None:
-        """Create a PDF of the layout"""
+from .i_layout import ILayout
 
 
 class ICreateLayouts(ABC):

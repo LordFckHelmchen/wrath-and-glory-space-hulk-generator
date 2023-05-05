@@ -4,6 +4,7 @@ from copy import copy
 
 from src.layouter.graphviz_layouter.graphviz_edge_type import GraphvizEdgeType
 from src.layouter.graphviz_layouter.graphviz_engine import GraphvizEngine
+from src.layouter.layout_file_type import LayoutFileType
 from tests.assets.helpers import TEST_PATH
 from tests.assets.helpers import load_space_hulk
 from tests.assets.helpers import load_space_hulk_layout
@@ -58,8 +59,8 @@ class TestLayoutGraph(unittest.TestCase):
             self.layout.layout_engine = expected_value
             self.assertEqual(expected_value, self.layout.layout_engine)
 
-    def test_render_pdf_expect_no_errors(self) -> None:
-        self.layout.render_pdf(file_name=self.OUTPUT_FOLDER / "space_hulk.pdf")
+    def test_render_to_file_expect_no_errors(self) -> None:
+        self.layout.render_to_file(file_name=self.OUTPUT_FOLDER / "space_hulk", file_type=LayoutFileType.PDF)
 
 
 if __name__ == "__main__":

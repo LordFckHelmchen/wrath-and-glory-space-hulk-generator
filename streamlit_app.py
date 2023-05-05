@@ -181,11 +181,7 @@ with space_hulk_header_columns[1]:
         create_new_layout_if_hulk_is_created()
 
 with st.spinner("Rendering layout..."):
-    preview_file_name = create_layout_preview_file(
-        layout=st.session_state[LAYOUT_KEY],
-        layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
-        edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY],
-    )
+    preview_file_name = create_layout_preview_file(layout=st.session_state[LAYOUT_KEY])
     download_file_name = create_combined_file(
         space_hulk=st.session_state[SPACE_HULK_KEY], layout=st.session_state[LAYOUT_KEY]
     )
