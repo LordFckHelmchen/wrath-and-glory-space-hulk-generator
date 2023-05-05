@@ -1,6 +1,8 @@
+import tempfile
 from pathlib import Path
 
 import streamlit as st
+from PyPDF2 import PdfMerger
 
 from src.generator.space_hulk import SpaceHulk
 from src.layouter.graphviz_layouter.graphviz_edge_type import GraphvizEdgeType
@@ -21,7 +23,7 @@ def make_file_name(
 
 
 @st.cache
-def create_preview_file(
+def create_layout_preview_file(
     layout: LayoutGraph,
     layout_engine: GraphvizEngine,  # Used for hashing
     edge_type: GraphvizEdgeType,  # Used for hashing
@@ -40,7 +42,20 @@ def create_preview_file(
 
 
 @st.cache
-def create_download_file(space_hulk: SpaceHulk, layout: LayoutGraph) -> str:
-    file_name = make_file_name(layout.layout_engine, layout.layout_edge_type, GraphvizFormat.PDF)
-    layout.render_pdf(file_name=file_name, space_hulk=space_hulk)
+def create_combined_file(space_hulk: SpaceHulk, layout: LayoutGraph) -> str:
+    """Create a full file with space hulk description & rendered layout"""
+    file_format = GraphvizFormat.PDF
+    file_name = make_file_name(layout.layout_engine, layout.layout_edge_type, file_format)
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_directory = Path(temp_dir)
+        merger = PdfMerger()
+        for obj in [space_hulk, layout]:
+            obj_file_name = temp_directory / f"{type(obj).__name__}.{file_format}"
+            obj.render_pdf(obj_file_name)
+            merger.append(str(obj_file_name))
+
+        merger.write(str(file_name))
+        merger.close()
+
     return str(file_name)

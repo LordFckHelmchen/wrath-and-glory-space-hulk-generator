@@ -1,19 +1,17 @@
 import re
-import tempfile
 from abc import ABC
 from abc import abstractmethod
 from dataclasses import dataclass
 from dataclasses import field
 from enum import Enum
 from pathlib import Path
-from typing import Optional
 
 from graphviz import Graph
 from pydantic import NonNegativeInt
 from pydantic import PositiveFloat
 
 from src.generator.map_object_size import MapObjectSize
-from src.generator.space_hulk import SpaceHulk
+from src.layouter.i_create_layouts import ILayout
 
 from .graphviz_edge_type import GraphvizEdgeType
 from .graphviz_engine import GraphvizEngine
@@ -60,7 +58,7 @@ class GraphStats(ABC):
         pass
 
 
-class LayoutGraph(Graph, GraphStats):
+class LayoutGraph(Graph, GraphStats, ILayout):
     GRAPH_VIZ_EDGE_STRING_PATTERN = r"\t(\".+\"|.+) -- (\".+\"|.+)\n"
 
     @property
@@ -106,29 +104,5 @@ class LayoutGraph(Graph, GraphStats):
 
         return self_as_string
 
-    def render_pdf(self, file_name: Path, space_hulk: Optional[SpaceHulk] = None) -> None:
-        file_format = GraphvizFormat.PDF.value
-
-        def render_layout_pdf(name: Path) -> None:
-            self.render(engine=self.engine, format=file_format, outfile=name, cleanup=True, view=False)
-
-        if not space_hulk:
-            render_layout_pdf(file_name)
-            return
-
-        with tempfile.TemporaryDirectory() as temp_dir:
-            temp_directory = Path(temp_dir)
-            hulk_file = temp_directory / f"hulk.{file_format}"
-            space_hulk.render_pdf(hulk_file)
-
-            layout_file = temp_directory / f"layout.{file_format}"
-            render_layout_pdf(layout_file)
-
-            from PyPDF2 import PdfMerger
-
-            merger = PdfMerger()
-            for pdf in [hulk_file, layout_file]:
-                merger.append(str(pdf))
-
-            merger.write(str(file_name))
-            merger.close()
+    def render_pdf(self, file_name: Path) -> None:
+        self.render(engine=self.engine, format=GraphvizFormat.PDF.value, outfile=file_name, cleanup=True, view=False)

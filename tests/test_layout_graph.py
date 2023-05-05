@@ -59,7 +59,7 @@ class TestLayoutGraph(unittest.TestCase):
             self.assertEqual(expected_value, self.layout.layout_engine)
 
     def test_render_pdf_expect_no_errors(self) -> None:
-        self.layout.render_pdf(file_name=self.OUTPUT_FOLDER / "space_hulk.pdf", space_hulk=self.space_hulk)
+        self.layout.render_pdf(file_name=self.OUTPUT_FOLDER / "space_hulk.pdf")
 
 
 if __name__ == "__main__":

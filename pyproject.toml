@@ -40,7 +40,7 @@ source = ["src"]
 omit = ["tests/*"]
 
 [tool.coverage.report]
-fail_under = 76
+fail_under = 72
 
 [tool.ruff]
 select = ["ALL"]

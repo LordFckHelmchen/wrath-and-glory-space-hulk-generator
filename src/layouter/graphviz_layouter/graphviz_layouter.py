@@ -9,6 +9,7 @@ from pydantic.types import PositiveFloat  # noqa: TCH002 - If guarded, streamlit
 from src.generator.map_object_size import GlobalMapObjectSizeConstraint
 from src.generator.random_table_event import RandomTableEvent
 from src.generator.space_hulk import SpaceHulk
+from src.layouter.i_create_layouts import ICreateLayouts
 
 from .graphviz_edge_type import GraphvizEdgeType
 from .graphviz_engine import GraphvizEngine
@@ -40,7 +41,7 @@ DEFAULT_GRAPH_PROPERTIES: GraphProperties = {
 }
 
 
-class GraphvizLayouter:
+class GraphvizLayouter(ICreateLayouts):
     MAX_FONT_SIZE = 700
 
     def __init__(
