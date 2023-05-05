@@ -34,12 +34,15 @@ HELP_DATA: dict[str, Path] = {"About": Path("docs/APP_ABOUT.md"), "Usage": Path(
 METRIC_STATE_ATTRIBUTE_MAP = {
     NUMBER_OF_ORIGINS_METRIC_KEY: (SPACE_HULK_KEY, "number_of_origins"),
     NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY: (SPACE_HULK_KEY, "number_of_rooms"),
-    NUMBER_OF_EDGES_METRIC_KEY: (LAYOUT_KEY, "number_of_edges"),
 }
 
 
 def is_space_hulk_created() -> bool:
     return SPACE_HULK_KEY in st.session_state
+
+
+def is_graphviz_layouter() -> bool:
+    return st.session_state.get(LAYOUTER_TYPE) == LayouterType.GRAPHVIZ
 
 
 def create_new_hulk_and_layout() -> None:
@@ -58,6 +61,10 @@ def create_new_layout_if_hulk_is_created() -> None:
 def store_layouter_type() -> None:
     layouter_class = st.session_state[LAYOUTER_TYPE].value
     st.session_state[LAYOUTER_KEY] = layouter_class()
+    if hasattr(st.session_state[LAYOUTER_KEY], "number_of_edges"):
+        METRIC_STATE_ATTRIBUTE_MAP[NUMBER_OF_EDGES_METRIC_KEY] = (LAYOUT_KEY, "number_of_edges")
+    else:
+        _ = METRIC_STATE_ATTRIBUTE_MAP.pop(NUMBER_OF_EDGES_METRIC_KEY, None)
 
 
 def store_layout_engine() -> None:
@@ -73,9 +80,8 @@ def store_layout_edge_type() -> None:
 
 
 def update_metrics() -> None:
-    st.session_state[NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY] = st.session_state[SPACE_HULK_KEY].number_of_rooms
-    st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state[SPACE_HULK_KEY].number_of_origins
-    st.session_state[NUMBER_OF_EDGES_METRIC_KEY] = st.session_state[LAYOUT_KEY].number_of_edges
+    for _metric_key, (_state_key, _attribute_name) in METRIC_STATE_ATTRIBUTE_MAP.items():
+        st.session_state[_metric_key] = getattr(st.session_state[_state_key], _attribute_name)
 
 
 @st.experimental_memo
@@ -144,7 +150,7 @@ with generator_settings_columns[1]:
         on_change=store_layouter_type,
     )
 
-if st.session_state[LAYOUTER_TYPE] == LayouterType.GRAPHVIZ:
+if is_graphviz_layouter():
     st.subheader("Layouter Settings")
 
     layouter_settings_columns = st.columns(2)
