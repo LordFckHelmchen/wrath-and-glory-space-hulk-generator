@@ -2,8 +2,8 @@ import pickle
 from pathlib import Path
 
 from src.generator.space_hulk import SpaceHulk
-from src.graphviz_layouter.graphviz_layouter import SpaceHulkLayouter
-from src.graphviz_layouter.layout_graph import LayoutGraph
+from src.layouter.graphviz_layouter.graphviz_layouter import SpaceHulkLayouter
+from src.layouter.graphviz_layouter.layout_graph import LayoutGraph
 
 ASSET_PATH = Path(__file__).parent
 TEST_HULK_FILE = ASSET_PATH / "space_hulk_for_test.json"

@@ -1,6 +1,6 @@
 import unittest
 
-from src.graphviz_layouter.indexable_enums import IndexableEnum
+from src.layouter.graphviz_layouter.indexable_enums import IndexableEnum
 
 
 class TestIndexableEnum(unittest.TestCase):

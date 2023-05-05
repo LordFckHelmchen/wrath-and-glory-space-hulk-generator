@@ -1,8 +1,8 @@
 import unittest
 
-from src.graphviz_layouter.graphviz_layouter import SpaceHulkLayouter
-from src.graphviz_layouter.indexable_enums import LayoutEdgeType
-from src.graphviz_layouter.indexable_enums import LayoutEngine
+from src.layouter.graphviz_layouter.graphviz_layouter import SpaceHulkLayouter
+from src.layouter.graphviz_layouter.indexable_enums import LayoutEdgeType
+from src.layouter.graphviz_layouter.indexable_enums import LayoutEngine
 
 
 class TestSpaceHulkLayouter(unittest.TestCase):

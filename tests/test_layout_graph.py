@@ -2,8 +2,8 @@ import shutil
 import unittest
 from copy import copy
 
-from src.graphviz_layouter.indexable_enums import LayoutEdgeType
-from src.graphviz_layouter.indexable_enums import LayoutEngine
+from src.layouter.graphviz_layouter.indexable_enums import LayoutEdgeType
+from src.layouter.graphviz_layouter.indexable_enums import LayoutEngine
 from tests.assets.helpers import TEST_PATH
 from tests.assets.helpers import load_space_hulk
 from tests.assets.helpers import load_space_hulk_layout

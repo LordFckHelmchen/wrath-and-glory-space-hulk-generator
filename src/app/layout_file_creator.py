@@ -3,10 +3,10 @@ from pathlib import Path
 import streamlit as st
 
 from src.generator.space_hulk import SpaceHulk
-from src.graphviz_layouter.indexable_enums import LayoutEdgeType
-from src.graphviz_layouter.indexable_enums import LayoutEngine
-from src.graphviz_layouter.indexable_enums import LayoutFormat
-from src.graphviz_layouter.layout_graph import LayoutGraph
+from src.layouter.graphviz_layouter.indexable_enums import LayoutEdgeType
+from src.layouter.graphviz_layouter.indexable_enums import LayoutEngine
+from src.layouter.graphviz_layouter.indexable_enums import LayoutFormat
+from src.layouter.graphviz_layouter.layout_graph import LayoutGraph
 
 DEFAULT_BASE_PATH = Path("space_hulks")
 
