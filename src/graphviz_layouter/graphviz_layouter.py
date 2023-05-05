@@ -6,15 +6,16 @@ from typing import Optional
 from pydantic import PositiveInt
 from pydantic.types import PositiveFloat  # noqa: TCH002 - If guarded, streamlit fails with missing dep.
 
+from src.generator.map_object_size import GlobalMapObjectSizeConstraint
+from src.generator.random_table_event import RandomTableEvent
+from src.generator.space_hulk import SpaceHulk
+
 from .indexable_enums import LayoutEdgeType
 from .indexable_enums import LayoutEngine
 from .layout_graph import LayoutGraph
 from .layout_graph import Node
 from .layout_graph_creator import GraphProperties
 from .layout_graph_creator import LayoutGraphCreator
-from .map_object_size import GlobalMapObjectSizeConstraint
-from .random_table_event import RandomTableEvent
-from .space_hulk import SpaceHulk
 
 DEFAULT_EDGE_TYPE = LayoutEdgeType.ORTHO
 DEFAULT_LAYOUT_ENGINE = LayoutEngine.FDP

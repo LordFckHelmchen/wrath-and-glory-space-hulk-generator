@@ -1,6 +1,7 @@
 {
     "srcType": "BitmapSet",
-    "dest": "space_hulk_map.png",
+    "baseDirectory": "generated",
+    "dest": "../space_hulk_map.png",
     "model": {
         "type": "adjacent"
     },
@@ -9,7 +10,7 @@
     "reflectionalSymmetry": true,
     "periodic": false,
     "width": 21,
-    "height": 7,
+    "height": 21,
     "tiles": [
         {
             "value": "corridorCornered_symF",
@@ -168,12 +169,6 @@
             "multiplyFrequency": 0.01
         },
         {
-            "value": "intersection4way_with_room_symX",
-            "src": "intersection4way_with_room_symX.png",
-            "tileSymmetry": "X",
-            "multiplyFrequency": 0.0267
-        },
-        {
             "value": "intersection4way_symX",
             "src": "intersection4way_symX.png",
             "tileSymmetry": "X",
@@ -225,6 +220,18 @@
             "count": 1,
             "tiles": [
                 "entryPoint_symT"
+            ]
+        },
+        {
+            "type": "maxConsecutive",
+            "maxCount": 1,
+            "tiles": [
+                "corridorTurn_symL",
+                "corridorTurnWide_symL",
+                "intersection3way_symE",
+                "intersection3wayAsym_symF",
+                "intersection4way_sym",
+                "Xintersection4wayAsym_symF"
             ]
         },
         {

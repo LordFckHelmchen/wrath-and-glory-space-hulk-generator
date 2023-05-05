@@ -12,11 +12,12 @@ from graphviz import Graph
 from pydantic import NonNegativeInt
 from pydantic import PositiveFloat
 
+from src.generator.map_object_size import MapObjectSize
+from src.generator.space_hulk import SpaceHulk
+
 from .indexable_enums import LayoutEdgeType
 from .indexable_enums import LayoutEngine
 from .indexable_enums import LayoutFormat
-from .map_object_size import MapObjectSize
-from .space_hulk import SpaceHulk
 
 
 class NodeShape(Enum):
