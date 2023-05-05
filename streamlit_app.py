@@ -55,6 +55,11 @@ def create_new_layout_if_hulk_is_created() -> None:
         update_metrics()
 
 
+def store_layouter_type() -> None:
+    layouter_class = st.session_state[LAYOUTER_TYPE].value
+    st.session_state[LAYOUTER_KEY] = layouter_class()
+
+
 def store_layout_engine() -> None:
     st.session_state[LAYOUTER_KEY].set_layout_engine(st.session_state[LAYOUT_ENGINE_KEY])
     if LAYOUT_KEY in st.session_state:
@@ -133,12 +138,13 @@ with generator_settings_columns[1]:
     st.selectbox(
         "Layouter type",
         options=list(LayouterType),
-        format_func=lambda x: x.value,
+        format_func=lambda x: x.value.__name__,
         index=st.session_state.get(LAYOUTER_TYPE, DEFAULT_LAYOUTER).index,
         key=LAYOUTER_TYPE,
+        on_change=store_layouter_type,
     )
 
-if st.session_state.get(LAYOUTER_TYPE, DEFAULT_LAYOUTER) == LayouterType.GRAPHVIZ:
+if st.session_state[LAYOUTER_TYPE] == LayouterType.GRAPHVIZ:
     st.subheader("Layouter Settings")
 
     layouter_settings_columns = st.columns(2)

@@ -20,7 +20,7 @@ def create_layout_preview_file(layout: ILayout, file_type: LayoutFileType = Layo
     Caches the preview file as long as the layout and engine didn't change
     """
     file_name = make_file_name(file_type, postfix="_preview")
-    layout.render_to_file(file_name=file_name, file_type=file_type)
+    layout.render_to_file(file_name=file_name)
     return str(file_name)
 
 
@@ -35,8 +35,8 @@ def create_combined_file(space_hulk: SpaceHulk, layout: ILayout) -> str:
         temp_directory = Path(temp_dir)
         merger = PdfMerger()
         for obj in [space_hulk, layout]:
-            obj_file_name = temp_directory / f"{type(obj).__name__}.{file_type}"
-            obj.render_to_file(file_name=obj_file_name, file_type=file_type)
+            obj_file_name = temp_directory / f"{type(obj).__name__}{file_name.suffix}"  # Use '.ext'-behavior of Path
+            obj.render_to_file(file_name=obj_file_name)
             merger.append(str(obj_file_name))
 
         merger.write(str(file_name))

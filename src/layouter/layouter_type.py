@@ -4,5 +4,5 @@ from .indexable_enums import IndexableEnum
 
 
 class LayouterType(IndexableEnum):
-    GRAPHVIZ = GraphvizLayouter.__name__
-    DE_BROGLIE = DeBroglieLayouter.__name__
+    GRAPHVIZ = GraphvizLayouter
+    DE_BROGLIE = DeBroglieLayouter

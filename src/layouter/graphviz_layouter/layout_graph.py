@@ -12,7 +12,6 @@ from pydantic import PositiveFloat
 
 from src.generator.map_object_size import MapObjectSize
 from src.layouter.i_layout import ILayout
-from src.layouter.layout_file_type import LayoutFileType
 
 from .graphviz_edge_type import GraphvizEdgeType
 from .graphviz_engine import GraphvizEngine
@@ -104,5 +103,6 @@ class LayoutGraph(Graph, GraphStats, ILayout):
 
         return self_as_string
 
-    def render_to_file(self, file_name: Path, file_type: LayoutFileType) -> None:
-        self.render(engine=self.engine, format=file_type.value, outfile=file_name, cleanup=True, view=False)
+    def render_to_file(self, file_name: Path) -> None:
+        layout_format = file_name.suffix[1:]  # Clip dot from extension.
+        self.render(engine=self.engine, format=layout_format, outfile=file_name, cleanup=True, view=False)

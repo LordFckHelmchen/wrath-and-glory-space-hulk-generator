@@ -1,4 +1,5 @@
 import pickle
+import shutil
 from pathlib import Path
 
 from src.generator.space_hulk import SpaceHulk
@@ -10,6 +11,14 @@ TEST_HULK_FILE = ASSET_PATH / "space_hulk_for_test.json"
 TEST_HULK_LAYOUT_FILE = ASSET_PATH / "space_hulk_layout_for_test.pickle"
 TEST_HULK_MARKDOWN_FILE = ASSET_PATH / "space_hulk_markdown_for_test.md"
 TEST_PATH = ASSET_PATH.parent
+
+
+def create_clean_test_folder(folder_name: str) -> Path:
+    folder = TEST_PATH / folder_name
+    shutil.rmtree(folder, ignore_errors=True)
+    folder.mkdir()
+
+    return folder
 
 
 def load_space_hulk(file_name: Path = TEST_HULK_FILE) -> SpaceHulk:

@@ -5,7 +5,7 @@ from src.layouter.graphviz_layouter.graphviz_engine import GraphvizEngine
 from src.layouter.graphviz_layouter.graphviz_layouter import GraphvizLayouter
 
 
-class TestSpaceHulkLayouter(unittest.TestCase):
+class TestGraphvizLayouter(unittest.TestCase):
     def test_set_get_layout_edge_type_expect_set_type_returned(self):
         layouter = GraphvizLayouter()
         for expected_value in GraphvizEdgeType:
