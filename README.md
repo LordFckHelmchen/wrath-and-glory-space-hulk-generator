@@ -61,7 +61,7 @@ Linting is done with [ruff](https://github.com/charliermarsh/ruff) because it's 
 code run:
 
 ```bash
-poetry poetry run ruff .
+poetry run ruff .
 ```
 
 If you want to auto-fix fixable issues is the `--fix` flag in addition.
@@ -71,7 +71,7 @@ If you want to auto-fix fixable issues is the `--fix` flag in addition.
 The code is [black](https://github.com/psf/black) as my soul, so format it accordingly with:
 
 ```bash
-poetry poetry run ruff .
+poetry run black .
 ```
 
 ## License
