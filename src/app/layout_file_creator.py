@@ -15,11 +15,18 @@ def make_file_name(file_type: LayoutFileType, postfix: str = "") -> Path:
 
 
 @st.cache
-def create_layout_preview_file(layout: ILayout, file_type: LayoutFileType = LayoutFileType.PNG) -> str:
+def create_layout_preview_file(space_hulk: SpaceHulk, layout: ILayout) -> str:  # noqa: ARG001  # Arg used for caching
     """
     Caches the preview file as long as the layout and engine didn't change
+
+    Parameters
+    ----------
+    space_hulk: The space hulk; used for caching, e.g. to detect if there are changes.
+    layout: The current layouter to render the file on.
     """
+    file_type = LayoutFileType.PNG
     file_name = make_file_name(file_type, postfix="_preview")
+
     layout.render_to_file(file_name=file_name)
     return str(file_name)
 

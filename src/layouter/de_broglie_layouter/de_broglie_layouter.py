@@ -1,6 +1,7 @@
 import json
 import shutil
 import subprocess
+import uuid
 from pathlib import Path
 
 import img2pdf
@@ -42,6 +43,7 @@ class DeBroglieLayouter(ICreateLayouts):
 class DeBroglieLayoutWrapper(ILayout):
     def __init__(self, output_file: Path) -> None:
         self._output_file = output_file
+        self.creation_id = uuid.uuid4()
 
     def render_to_file(self, file_name: Path) -> None:
         file_type = LayoutFileType(file_name.suffix[1:].casefold())  # Clip dot from suffix

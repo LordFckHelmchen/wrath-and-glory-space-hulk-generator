@@ -61,6 +61,11 @@ def create_new_layout_if_hulk_is_created() -> None:
 def store_layouter_type() -> None:
     layouter_class = st.session_state[LAYOUTER_TYPE].value
     st.session_state[LAYOUTER_KEY] = layouter_class()
+
+    # Clear layout if present
+    create_new_layout_if_hulk_is_created()
+
+    # Add layouter-specific metrics
     if hasattr(st.session_state[LAYOUTER_KEY], "number_of_edges"):
         METRIC_STATE_ATTRIBUTE_MAP[NUMBER_OF_EDGES_METRIC_KEY] = (LAYOUT_KEY, "number_of_edges")
     else:
@@ -176,6 +181,16 @@ if is_graphviz_layouter():
             key=LAYOUT_EDGE_TYPE_KEY,
             on_change=store_layout_edge_type,
         )
+elif st.session_state[LAYOUTER_TYPE] == LayouterType.DE_BROGLIE:
+    st.subheader("Layouter Settings")
+
+    st.markdown(
+        """
+        Using map tiles from the Space Hulk board game as curated by [aknight2015](https://github.com/aknight2015).
+
+        See [Issue #12](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/issues/12) for details.
+        """
+    )
 
 st.header("Space Hulk")
 
@@ -193,7 +208,9 @@ with space_hulk_header_columns[1]:
         create_new_layout_if_hulk_is_created()
 
 with st.spinner("Rendering layout..."):
-    preview_file_name = create_layout_preview_file(layout=st.session_state[LAYOUT_KEY])
+    preview_file_name = create_layout_preview_file(
+        space_hulk=st.session_state[SPACE_HULK_KEY], layout=st.session_state[LAYOUT_KEY]
+    )
     download_file_name = create_combined_file(
         space_hulk=st.session_state[SPACE_HULK_KEY], layout=st.session_state[LAYOUT_KEY]
     )

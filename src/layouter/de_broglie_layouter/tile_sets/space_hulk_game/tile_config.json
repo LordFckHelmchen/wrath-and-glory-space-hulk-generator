@@ -223,18 +223,6 @@
             ]
         },
         {
-            "type": "maxConsecutive",
-            "maxCount": 1,
-            "tiles": [
-                "corridorTurn_symL",
-                "corridorTurnWide_symL",
-                "intersection3way_symE",
-                "intersection3wayAsym_symF",
-                "intersection4way_sym",
-                "Xintersection4wayAsym_symF"
-            ]
-        },
-        {
             "type": "edgedPath",
             "exits": {
                 "corridorCornered_symF": [
