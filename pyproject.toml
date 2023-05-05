@@ -22,6 +22,7 @@ fpdf = "^1.7.2"
 graphviz = "^0.20"
 pydantic = "^1.9.1"
 streamlit = "^1.10.0"
+img2pdf = "^0.4.4"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["d"], version = "^23.1.0"}
