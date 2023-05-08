@@ -47,8 +47,9 @@ class DeBroglieLayoutWrapper(ILayout):
 
     def render_to_file(self, file_name: Path) -> None:
         file_type = LayoutFileType(file_name.suffix[1:].casefold())  # Clip dot from suffix
+        file_name.parent.mkdir(parents=True, exist_ok=True)  # Assert that the target directory exists
         if file_type == LayoutFileType.PNG:
-            shutil.copy2(self._output_file, file_name)
+            shutil.copyfile(self._output_file, file_name)
         elif file_type == LayoutFileType.PDF:
             with file_name.open("wb") as f:
                 f.write(img2pdf.convert(str(self._output_file)))
