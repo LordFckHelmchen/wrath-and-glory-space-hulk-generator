@@ -24,8 +24,7 @@ def create_layout_preview_file(space_hulk: SpaceHulk, layout: ILayout) -> str:  
     space_hulk: The space hulk; used for caching, e.g. to detect if there are changes.
     layout: The current layouter to render the file on.
     """
-    file_type = LayoutFileType.PNG
-    file_name = make_file_name(file_type, postfix="_preview")
+    file_name = make_file_name(LayoutFileType.PNG, postfix="_preview")
 
     layout.render_to_file(file_name=file_name)
     return str(file_name)
@@ -34,8 +33,7 @@ def create_layout_preview_file(space_hulk: SpaceHulk, layout: ILayout) -> str:  
 @st.cache
 def create_combined_file(space_hulk: SpaceHulk, layout: ILayout) -> str:
     """Create a full file with space hulk description & rendered layout"""
-    file_type = LayoutFileType.PDF
-    file_name = make_file_name(file_type)
+    file_name = make_file_name(LayoutFileType.PDF)
 
     # Merge description & layout into single PDF
     with tempfile.TemporaryDirectory() as temp_dir:
