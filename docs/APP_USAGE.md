@@ -70,6 +70,21 @@ Only available of the according _Layouter type_ is selected. This layouter curre
 
 ### Space Hulk
 
-This section allows you to create a new space hulk, a new layout or to export the space hulk with layout as a vectorized
-(read "high-resolution") PDF file. Initially, only the _Create new hulk?_ option is available. After you created a first
+This section allows you to 
+
+- *Create new hulk?*
+
+  This generates a new space hulk and a new map
+
+- *Create new layout*
+
+  This only creates a new map but keeps the generated space hulk
+
+- *Download PDF*
+
+  This lets you download the generated space hulk and the created map
+  - The *GraphvizLayouter* generates a vectorized (read "high-resolution") map 
+  - The *DeBroglieLayouter* only creates a (rather low-res) bitmap
+
+Initially, only the _Create new hulk?_ option is available. After you created a first
 hulk, the other two options become visible.
