@@ -6,17 +6,19 @@ from random import randint
 import streamlit as st
 import toml
 
-from src.app.layout_file_creator import create_download_file
-from src.app.layout_file_creator import create_preview_file
-from src.generator.indexable_enums import LayoutEdgeType
-from src.generator.indexable_enums import LayoutEngine
+from src.app.layout_file_creator import create_combined_file
+from src.app.layout_file_creator import create_layout_preview_file
 from src.generator.space_hulk_generator import RoomCount
 from src.generator.space_hulk_generator import SpaceHulkGenerator
-from src.generator.space_hulk_layouter import SpaceHulkLayouter
+from src.layouter.graphviz_layouter.graphviz_edge_type import GraphvizEdgeType
+from src.layouter.graphviz_layouter.graphviz_engine import GraphvizEngine
+from src.layouter.graphviz_layouter.graphviz_layouter import GraphvizLayouter
+from src.layouter.layouter_type import LayouterType
 
 # Session state keys
 GENERATOR_KEY = "generator"
 LAYOUTER_KEY = "layouter"
+LAYOUTER_TYPE = "layouter_type"
 LAYOUT_EDGE_TYPE_KEY = "layout_edge_type"
 LAYOUT_ENGINE_KEY = "layout_engine"
 LAYOUT_KEY = "layout"
@@ -27,16 +29,20 @@ NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY = "#Rooms"
 SPACE_HULK_KEY = "space_hulk"
 
 # Misc. Constants
+DEFAULT_LAYOUTER = LayouterType.GRAPHVIZ
 HELP_DATA: dict[str, Path] = {"About": Path("docs/APP_ABOUT.md"), "Usage": Path("docs/APP_USAGE.md")}
 METRIC_STATE_ATTRIBUTE_MAP = {
     NUMBER_OF_ORIGINS_METRIC_KEY: (SPACE_HULK_KEY, "number_of_origins"),
     NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY: (SPACE_HULK_KEY, "number_of_rooms"),
-    NUMBER_OF_EDGES_METRIC_KEY: (LAYOUT_KEY, "number_of_edges"),
 }
 
 
 def is_space_hulk_created() -> bool:
     return SPACE_HULK_KEY in st.session_state
+
+
+def is_graphviz_layouter() -> bool:
+    return st.session_state.get(LAYOUTER_TYPE) == LayouterType.GRAPHVIZ
 
 
 def create_new_hulk_and_layout() -> None:
@@ -52,6 +58,20 @@ def create_new_layout_if_hulk_is_created() -> None:
         update_metrics()
 
 
+def store_layouter_type() -> None:
+    layouter_class = st.session_state[LAYOUTER_TYPE].value
+    st.session_state[LAYOUTER_KEY] = layouter_class()
+
+    # Clear layout if present
+    create_new_layout_if_hulk_is_created()
+
+    # Add layouter-specific metrics
+    if hasattr(st.session_state[LAYOUTER_KEY], "number_of_edges"):
+        METRIC_STATE_ATTRIBUTE_MAP[NUMBER_OF_EDGES_METRIC_KEY] = (LAYOUT_KEY, "number_of_edges")
+    else:
+        _ = METRIC_STATE_ATTRIBUTE_MAP.pop(NUMBER_OF_EDGES_METRIC_KEY, None)
+
+
 def store_layout_engine() -> None:
     st.session_state[LAYOUTER_KEY].set_layout_engine(st.session_state[LAYOUT_ENGINE_KEY])
     if LAYOUT_KEY in st.session_state:
@@ -65,9 +85,8 @@ def store_layout_edge_type() -> None:
 
 
 def update_metrics() -> None:
-    st.session_state[NUMBER_OF_ROOMS_IN_HULK_METRIC_KEY] = st.session_state[SPACE_HULK_KEY].number_of_rooms
-    st.session_state[NUMBER_OF_ORIGINS_METRIC_KEY] = st.session_state[SPACE_HULK_KEY].number_of_origins
-    st.session_state[NUMBER_OF_EDGES_METRIC_KEY] = st.session_state[LAYOUT_KEY].number_of_edges
+    for _metric_key, (_state_key, _attribute_name) in METRIC_STATE_ATTRIBUTE_MAP.items():
+        st.session_state[_metric_key] = getattr(st.session_state[_state_key], _attribute_name)
 
 
 @st.experimental_memo
@@ -110,9 +129,9 @@ st.header("Generator Settings")
 if GENERATOR_KEY not in st.session_state:
     st.session_state[GENERATOR_KEY] = SpaceHulkGenerator()
 if LAYOUTER_KEY not in st.session_state:
-    st.session_state[LAYOUTER_KEY] = SpaceHulkLayouter()
+    st.session_state[LAYOUTER_KEY] = GraphvizLayouter()
 
-generator_settings_columns = st.columns(3)
+generator_settings_columns = st.columns(2)
 
 with generator_settings_columns[0]:
     st.slider(
@@ -128,22 +147,49 @@ with generator_settings_columns[0]:
 
 with generator_settings_columns[1]:
     st.selectbox(
-        "Layout engine",
-        options=list(LayoutEngine),
-        format_func=lambda x: x.value,
-        index=st.session_state.get(LAYOUT_ENGINE_KEY, st.session_state[LAYOUTER_KEY].get_layout_engine()).index,
-        key=LAYOUT_ENGINE_KEY,
-        on_change=store_layout_engine,
+        "Layouter type",
+        options=list(LayouterType),
+        format_func=lambda x: x.value.__name__,
+        index=st.session_state.get(LAYOUTER_TYPE, DEFAULT_LAYOUTER).index,
+        key=LAYOUTER_TYPE,
+        on_change=store_layouter_type,
     )
 
-with generator_settings_columns[2]:
-    st.selectbox(
-        "Connection type",
-        options=list(LayoutEdgeType),
-        format_func=lambda x: x.value,
-        index=st.session_state.get(LAYOUT_EDGE_TYPE_KEY, st.session_state[LAYOUTER_KEY].get_layout_edge_type()).index,
-        key=LAYOUT_EDGE_TYPE_KEY,
-        on_change=store_layout_edge_type,
+if is_graphviz_layouter():
+    st.subheader("Layouter Settings")
+
+    layouter_settings_columns = st.columns(2)
+
+    with layouter_settings_columns[0]:
+        st.selectbox(
+            "Layout engine",
+            options=list(GraphvizEngine),
+            format_func=lambda x: x.value,
+            index=st.session_state.get(LAYOUT_ENGINE_KEY, st.session_state[LAYOUTER_KEY].get_layout_engine()).index,
+            key=LAYOUT_ENGINE_KEY,
+            on_change=store_layout_engine,
+        )
+
+    with layouter_settings_columns[1]:
+        st.selectbox(
+            "Connection type",
+            options=list(GraphvizEdgeType),
+            format_func=lambda x: x.value,
+            index=st.session_state.get(
+                LAYOUT_EDGE_TYPE_KEY, st.session_state[LAYOUTER_KEY].get_layout_edge_type()
+            ).index,
+            key=LAYOUT_EDGE_TYPE_KEY,
+            on_change=store_layout_edge_type,
+        )
+elif st.session_state[LAYOUTER_TYPE] == LayouterType.DE_BROGLIE:
+    st.subheader("Layouter Settings")
+
+    st.markdown(
+        """
+        Using map tiles from the Space Hulk board game as curated by [aknight2015](https://github.com/aknight2015).
+
+        See [Issue #12](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/issues/12) for details.
+        """
     )
 
 st.header("Space Hulk")
@@ -162,12 +208,10 @@ with space_hulk_header_columns[1]:
         create_new_layout_if_hulk_is_created()
 
 with st.spinner("Rendering layout..."):
-    preview_file_name = create_preview_file(
-        layout=st.session_state[LAYOUT_KEY],
-        layout_engine=st.session_state[LAYOUT_ENGINE_KEY],
-        edge_type=st.session_state[LAYOUT_EDGE_TYPE_KEY],
+    preview_file_name = create_layout_preview_file(
+        space_hulk=st.session_state[SPACE_HULK_KEY], layout=st.session_state[LAYOUT_KEY]
     )
-    download_file_name = create_download_file(
+    download_file_name = create_combined_file(
         space_hulk=st.session_state[SPACE_HULK_KEY], layout=st.session_state[LAYOUT_KEY]
     )
 

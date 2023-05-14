@@ -1,46 +1,50 @@
+import tempfile
+import uuid
 from pathlib import Path
 
 import streamlit as st
+from PyPDF2 import PdfMerger
 
-from src.generator.indexable_enums import LayoutEdgeType
-from src.generator.indexable_enums import LayoutEngine
-from src.generator.indexable_enums import LayoutFormat
-from src.generator.layout_graph import LayoutGraph
 from src.generator.space_hulk import SpaceHulk
+from src.layouter.i_layout import ILayout
+from src.layouter.layout_file_type import LayoutFileType
 
-DEFAULT_BASE_PATH = Path("space_hulks")
 
-
-def make_file_name(
-    layout_engine: LayoutEngine,
-    layout_edge_type: LayoutEdgeType,
-    layout_format: LayoutFormat,
-    base_path: Path = DEFAULT_BASE_PATH,
-) -> Path:
-    return base_path / f"{layout_engine.value}_{layout_edge_type.value}_layout.{layout_format.value}"
+def make_file_name(file_type: LayoutFileType, postfix: str = "") -> Path:
+    return Path("space_hulks") / f"space_hulk_{uuid.uuid4()}{postfix}.{file_type.value}"
 
 
 @st.cache
-def create_preview_file(
-    layout: LayoutGraph,
-    layout_engine: LayoutEngine,  # Used for hashing
-    edge_type: LayoutEdgeType,  # Used for hashing
-    layout_format: LayoutFormat = LayoutFormat.PNG,  # Used for hashing
-) -> str:
+def create_layout_preview_file(space_hulk: SpaceHulk, layout: ILayout) -> str:  # noqa: ARG001  # Arg used for caching
     """
     Caches the preview file as long as the layout and engine didn't change
+
+    Parameters
+    ----------
+    space_hulk: The space hulk; used for caching, e.g. to detect if there are changes.
+    layout: The current layouter to render the file on.
     """
-    return layout.render(
-        engine=layout_engine.value,
-        format=layout_format.value,
-        outfile=str(make_file_name(layout_engine, edge_type, layout_format)),
-        cleanup=True,
-        view=False,
-    )
+    file_name = make_file_name(LayoutFileType.PNG, postfix="_preview")
+
+    layout.render_to_file(file_name=file_name)
+    return str(file_name)
 
 
 @st.cache
-def create_download_file(space_hulk: SpaceHulk, layout: LayoutGraph) -> str:
-    file_name = make_file_name(layout.layout_engine, layout.layout_edge_type, LayoutFormat.PDF)
-    layout.render_pdf(file_name=file_name, space_hulk=space_hulk)
+def create_combined_file(space_hulk: SpaceHulk, layout: ILayout) -> str:
+    """Create a full file with space hulk description & rendered layout"""
+    file_name = make_file_name(LayoutFileType.PDF)
+
+    # Merge description & layout into single PDF
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_directory = Path(temp_dir)
+        merger = PdfMerger()
+        for obj in [space_hulk, layout]:
+            obj_file_name = temp_directory / f"{type(obj).__name__}{file_name.suffix}"  # Use '.ext'-behavior of Path
+            obj.render_to_file(file_name=obj_file_name)
+            merger.append(str(obj_file_name))
+
+        merger.write(str(file_name))
+        merger.close()
+
     return str(file_name)

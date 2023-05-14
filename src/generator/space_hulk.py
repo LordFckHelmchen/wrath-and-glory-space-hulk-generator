@@ -59,5 +59,14 @@ class SpaceHulk(BaseModel):
 
         return "\n".join(self_as_string)
 
-    def render_pdf(self, file_name: Path) -> None:
+    def render_to_file(self, file_name: Path) -> None:
+        """
+        Creates a PDF from the description
+
+        Parameters
+        ----------
+
+        file_name
+            Full name of the file to render to
+        """
         Markdown2PdfParser().parse(self.as_markdown()).output(name=str(file_name))

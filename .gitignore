@@ -1,17 +1,18 @@
 # Python
-/.venv/
 **/__pycache__/
+/.venv/
 
 # Generated files
-/tests/generated_*
 /space_hulks/
+/tests/generated_*
+/src/layouter/de_broglie_layouter/tile_sets/space_hulk_game/space_hulk_map.png
 
 # IntelliJ
 /.idea/
 
 # Linting
-/.ruff_cache/
 /.coverage
+/.ruff_cache/
 /coverage.xml
 
 # Logs

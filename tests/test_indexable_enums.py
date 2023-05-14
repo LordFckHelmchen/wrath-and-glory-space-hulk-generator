@@ -1,6 +1,6 @@
 import unittest
 
-from src.generator.indexable_enums import IndexableEnum
+from src.layouter.indexable_enums import IndexableEnum
 
 
 class TestIndexableEnum(unittest.TestCase):
