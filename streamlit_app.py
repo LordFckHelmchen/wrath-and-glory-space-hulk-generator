@@ -89,7 +89,7 @@ def update_metrics() -> None:
         st.session_state[_metric_key] = getattr(st.session_state[_state_key], _attribute_name)
 
 
-@st.experimental_memo
+@st.cache_data
 def get_app_version() -> str:
     with Path("pyproject.toml").open() as pyproject_toml_file:
         pyproject_toml = toml.load(pyproject_toml_file)
