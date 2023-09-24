@@ -87,4 +87,4 @@ class SpaceHulkGenerator:
         if table_name == "origins":
             events = [event for event in events if event.name != self._mixed_origin_event_string]
 
-        return events  # noqa: RET504 - not an unnecessary assignment ^^
+        return events
