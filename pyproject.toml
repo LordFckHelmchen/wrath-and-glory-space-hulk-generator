@@ -16,7 +16,7 @@ classifiers = ["Development Status :: 5 - Production/Stable",
 Changelog = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/releases"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "~3.10"
 PyPDF2 = "^2.4.1"
 fpdf = "^1.7.2"
 graphviz = "^0.20"
