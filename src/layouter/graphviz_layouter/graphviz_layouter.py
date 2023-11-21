@@ -1,7 +1,6 @@
 import random
 from copy import copy
 from random import randint
-from typing import Optional
 
 from pydantic import PositiveInt
 from pydantic.types import PositiveFloat
@@ -45,7 +44,7 @@ class GraphvizLayouter(ICreateLayouts):
     MAX_FONT_SIZE = 700
 
     def __init__(
-        self, max_number_of_connections_per_room: PositiveInt = 10, graph_properties: Optional[GraphProperties] = None
+        self, max_number_of_connections_per_room: PositiveInt = 10, graph_properties: GraphProperties | None = None
     ) -> None:
         """
         Constructor

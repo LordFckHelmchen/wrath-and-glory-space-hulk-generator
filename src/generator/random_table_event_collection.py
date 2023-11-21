@@ -2,7 +2,6 @@ from collections.abc import Generator
 from copy import deepcopy
 from typing import Any
 from typing import Literal
-from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import NonNegativeInt
@@ -17,7 +16,7 @@ from .random_table_event import RandomTableEvent
 
 
 class EventCountConstraint(PositiveIntRange):
-    minimum: Optional[NonNegativeInt] = 0
+    minimum: NonNegativeInt | None = 0
     maximum: conint(ge=0, le=1000) = 1000
 
 
@@ -85,7 +84,7 @@ class RandomTableEventCollection(BaseModel):
     def __iter__(self) -> Generator[RandomTableEvent, None, None]:
         yield from self.events
 
-    def as_markdown(self, header: Optional[str] = None, header_level: PositiveInt = 1) -> str:
+    def as_markdown(self, header: str | None = None, header_level: PositiveInt = 1) -> str:
         self_as_string = [f"{'#' * header_level} {header} (n={len(self)})\n"] if header else []
 
         if len(self) == 0:

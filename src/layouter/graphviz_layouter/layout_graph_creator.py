@@ -1,6 +1,5 @@
 import logging
-from typing import Callable
-from typing import Union
+from collections.abc import Callable
 
 from pydantic import NonNegativeInt
 from pydantic import PositiveFloat
@@ -9,7 +8,7 @@ from .layout_graph import GraphStats
 from .layout_graph import LayoutGraph
 from .layout_graph import Node
 
-GraphProperties = dict[str, Union[str, dict[str, str]]]
+GraphProperties = dict[str, str | dict[str, str]]
 
 
 class LayoutGraphCreator(GraphStats):

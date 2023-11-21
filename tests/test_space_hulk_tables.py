@@ -1,6 +1,8 @@
 import unittest
 from dataclasses import fields
 
+import pytest
+
 from src.generator.random_table import RandomTable
 from src.generator.random_table_event import RandomTableEventInfo
 from src.generator.random_table_event_collection import EventCountConstraint
@@ -24,7 +26,7 @@ class TestSpaceHulkTables(unittest.TestCase):
                 self.assertEqual(self.dummy_tables[table_field.name], DUMMY_TABLE)
 
     def test_getitem_with_invalid_item_expect_AttributeError(self):
-        with self.assertRaises(AttributeError):
+        with pytest.raises(AttributeError):
             _ = self.dummy_tables["asdf932nass"]
 
 

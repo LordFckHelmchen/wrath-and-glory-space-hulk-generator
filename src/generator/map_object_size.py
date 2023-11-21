@@ -1,8 +1,6 @@
 import logging
 from enum import Enum
 from random import randint
-from typing import Optional
-from typing import Union
 
 from pydantic import BaseModel
 from pydantic import ConstrainedInt
@@ -51,7 +49,7 @@ class MapObjectSize(BaseModel):
     def area(self) -> PositiveInt:
         return self.x * self.y
 
-    def __setitem__(self, key: str, value: Union[MapObjectSizeInt, UnitOfMeasurement]) -> None:
+    def __setitem__(self, key: str, value: MapObjectSizeInt | UnitOfMeasurement) -> None:
         if (
             key in ["x", "y"]
             and not isinstance(value, MapObjectSizeInt)
@@ -63,7 +61,7 @@ class MapObjectSize(BaseModel):
 
         setattr(self, key, value)
 
-    def __getitem__(self, item: str) -> Union[MapObjectSizeInt, UnitOfMeasurement]:
+    def __getitem__(self, item: str) -> MapObjectSizeInt | UnitOfMeasurement:
         return getattr(self, item)
 
     def __lt__(self, other: "MapObjectSize") -> bool:
@@ -78,7 +76,7 @@ class MapObjectSize(BaseModel):
 
 class MapObjectSizeConstraint(BaseModel):
     x: MapObjectDimensionConstraint
-    y: Optional[MapObjectDimensionConstraint]
+    y: MapObjectDimensionConstraint | None
     unit: UnitOfMeasurement = UnitOfMeasurement.METER
 
     def get_random_size(self) -> MapObjectSize:
@@ -90,7 +88,7 @@ class MapObjectSizeConstraint(BaseModel):
     ) -> MapObjectDimensionConstraint:
         return values["x"] if y is None else y
 
-    def __setitem__(self, key: str, value: Union[MapObjectDimensionConstraint, UnitOfMeasurement]) -> None:
+    def __setitem__(self, key: str, value: MapObjectDimensionConstraint | UnitOfMeasurement) -> None:
         if (
             key in ["x", "y"]
             and not isinstance(value, MapObjectDimensionConstraint)
@@ -102,7 +100,7 @@ class MapObjectSizeConstraint(BaseModel):
 
         setattr(self, key, value)
 
-    def __getitem__(self, item: str) -> Union[MapObjectDimensionConstraint, UnitOfMeasurement]:
+    def __getitem__(self, item: str) -> MapObjectDimensionConstraint | UnitOfMeasurement:
         return getattr(self, item)
 
 
