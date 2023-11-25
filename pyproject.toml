@@ -19,7 +19,7 @@ PyPDF2 = "^2.4.1"
 fpdf = "^1.7.2"
 graphviz = "^0.20.1"
 img2pdf = "^0.5.0"
-pydantic = "^2.5.1"
+pydantic = "^1.9.1"
 streamlit = "^1.25.0"
 
 [tool.poetry.group.dev.dependencies]
