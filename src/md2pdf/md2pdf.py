@@ -1,5 +1,6 @@
 import re
 from dataclasses import dataclass
+from typing import ClassVar
 from typing import Literal
 
 from fpdf import FPDF
@@ -14,14 +15,14 @@ class FontFormat:
 
 
 class Markdown2PdfParser:
-    font: str = "Arial"
-    header_formats: dict[str, FontFormat] = {
+    font: ClassVar[str] = "Arial"
+    header_formats: ClassVar[dict[str, FontFormat]] = {
         "#": FontFormat(style="B", size=18, height=12),
         "##": FontFormat(style="B", size=16, height=10),
         "###": FontFormat(style="B", size=14, height=8),
     }
-    body_format: FontFormat = FontFormat(style="", size=11, height=5)
-    content_regex: str = r"((?P<header_level>#+) (?P<header>.+)\n|(?P<body>[^#]*))"
+    body_format: ClassVar[FontFormat] = FontFormat(style="", size=11, height=5)
+    content_regex: ClassVar[str] = r"((?P<header_level>#+) (?P<header>.+)\n|(?P<body>[^#]*))"
 
     def parse(self, text: str) -> FPDF:
         pdf = FPDF()

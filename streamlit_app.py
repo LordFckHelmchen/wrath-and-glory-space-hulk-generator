@@ -105,7 +105,7 @@ def recreate_hulk_and_layout_if_hulk_is_created() -> None:
 
 
 def randomize_min_number_of_rooms() -> None:
-    st.session_state[MIN_NUMBER_OF_ROOMS_KEY] = randint(RoomCount.ge, RoomCount.le)
+    st.session_state[MIN_NUMBER_OF_ROOMS_KEY] = randint(RoomCount.ge, RoomCount.le)  # noqa: S311 Not for cryptographics
     recreate_hulk_and_layout_if_hulk_is_created()
 
 

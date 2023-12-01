@@ -5,6 +5,8 @@ from pydantic import BaseModel
 from pydantic import PositiveInt
 from pydantic import validator
 
+from .errors import MaximumMustBeLargerThanMinimumError
+
 
 class PositiveIntRange(BaseModel):
     minimum: PositiveInt
@@ -14,7 +16,7 @@ class PositiveIntRange(BaseModel):
     def assert_min_not_larger_than_max(cls, maximum: PositiveInt, values: dict[str, PositiveInt]) -> PositiveInt:
         if (minimum := values.get("minimum", False)) and minimum > maximum:
             msg = f"Maximum must be larger than minimum, was: minimum {minimum}, maximum {maximum}"
-            raise ValueError(msg)
+            raise MaximumMustBeLargerThanMinimumError(msg)
         return maximum
 
     def __contains__(self, other: SupportsInt) -> bool:

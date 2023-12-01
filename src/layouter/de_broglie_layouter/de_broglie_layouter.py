@@ -18,13 +18,12 @@ DEFAULT_CONFIG_FILE = Path(__file__).parent / "tile_sets" / "space_hulk_game" / 
 
 class DeBroglieLayouter(ICreateLayouts):
     def __init__(self) -> None:
-        self.config_file = DEFAULT_CONFIG_FILE
-        with self.config_file.open("r") as f:
+        with DEFAULT_CONFIG_FILE.open("r") as f:
             self._config = json.load(f)
 
     @property
     def output_file(self) -> Path:
-        base_dir = (self.config_file.parent / self._config.get("baseDirectory", ".")).expanduser().resolve()
+        base_dir = (DEFAULT_CONFIG_FILE.parent / self._config.get("baseDirectory", ".")).expanduser().resolve()
         return (base_dir / self._config["dest"]).expanduser().resolve()
 
     def create_layout(self, space_hulk: SpaceHulk) -> ILayout:  # noqa: ARG002
@@ -33,10 +32,9 @@ class DeBroglieLayouter(ICreateLayouts):
 
         Notes
         -----
-
         For now, the space_hulk is completely ignored.
         """
-        subprocess.run([DE_BROGLIE_EXECUTABLE, self.config_file])
+        subprocess.run([DE_BROGLIE_EXECUTABLE, DEFAULT_CONFIG_FILE], check=True)  # noqa: S603  Trusted input
         return DeBroglieLayoutWrapper(self.output_file)  # This has potential issues with parallelism
 
 

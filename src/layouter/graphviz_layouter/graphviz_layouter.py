@@ -58,9 +58,9 @@ class GraphvizLayouter(ICreateLayouts):
 
     @staticmethod
     def _get_other_room(current_room: RandomTableEvent, space_hulk: SpaceHulk) -> RandomTableEvent:
-        other_room = random.choice(space_hulk.rooms.events)
+        other_room = random.choice(space_hulk.rooms.events)  # noqa: S311  Not a cryptographic purpose
         while other_room.name == current_room.name:
-            other_room = random.choice(space_hulk.rooms.events)
+            other_room = random.choice(space_hulk.rooms.events)  # noqa: S311  Not a cryptographic purpose
         return other_room
 
     def create_layout(self, space_hulk: SpaceHulk) -> LayoutGraph:
@@ -79,9 +79,10 @@ class GraphvizLayouter(ICreateLayouts):
         unconnected_rooms = copy(space_hulk.rooms.events)
         room = unconnected_rooms.pop(0)
         while any(unconnected_rooms):
-            for _ in range(random.randrange(1, self.max_number_of_connections_per_room)):
+            # Suppress S311 since it's not a cryptographic purpose
+            for _ in range(random.randrange(1, self.max_number_of_connections_per_room)):  # noqa: S311
                 if any(unconnected_rooms):
-                    other_room = unconnected_rooms.pop(randint(0, len(unconnected_rooms) - 1))
+                    other_room = unconnected_rooms.pop(randint(0, len(unconnected_rooms) - 1))  # noqa: S311
                 else:
                     other_room = self._get_other_room(room, space_hulk)
                 layout_creator.add_edge(room.name, other_room.name)

@@ -7,6 +7,7 @@ from pydantic import ConstrainedInt
 from pydantic import PositiveInt
 from pydantic import validator
 
+from .errors import MaximumMustBeLargerThanMinimumError
 from .positive_int_range import PositiveIntRange
 
 
@@ -23,11 +24,11 @@ class MapObjectDimensionConstraint(PositiveIntRange):
     def assert_min_not_equal_to_max(cls, maximum: PositiveInt, values: dict[str, PositiveInt]) -> PositiveInt:
         if (minimum := values.get("minimum", False)) and minimum == maximum:
             msg = f"Minimum & maximum must not be equal, was: minimum {minimum} == maximum {maximum}"
-            raise ValueError(msg)
+            raise MaximumMustBeLargerThanMinimumError(msg)
         return maximum
 
     def get_random_value(self) -> "MapObjectSizeInt":
-        return MapObjectSizeInt(randint(self.minimum, self.maximum))
+        return MapObjectSizeInt(randint(self.minimum, self.maximum))  # noqa: S311  Not a cryptographic use case
 
 
 class UnitOfMeasurement(Enum):

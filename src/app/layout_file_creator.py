@@ -3,7 +3,7 @@ import uuid
 from pathlib import Path
 
 import streamlit as st
-from PyPDF2 import PdfMerger
+from pypdf import PdfMerger
 
 from src.generator.space_hulk import SpaceHulk
 from src.layouter.i_layout import ILayout

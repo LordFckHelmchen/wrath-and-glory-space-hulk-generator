@@ -11,6 +11,7 @@ from pydantic import Field
 from pydantic import PositiveInt
 from pydantic import validator
 
+from .errors import DigitsMustBeInRangeOfItsSidesError
 from .positive_int_range import PositiveIntRange
 
 
@@ -43,7 +44,7 @@ class SequencedDie(BaseModel):
         return [PositiveInt(s) for s in str(roll)]
 
     def roll(self) -> PositiveInt:
-        return self._make_roll_from_sequence(randint(1, self.sides) for _ in range(self.number_of_dice))
+        return self._make_roll_from_sequence(randint(1, self.sides) for _ in range(self.number_of_dice))  # noqa: S311  Not a cryptographic purpose
 
     def roll_bulk(self, number_of_rolls: PositiveInt) -> list[PositiveInt]:
         return [self.roll() for _ in range(number_of_rolls)]
@@ -94,6 +95,6 @@ class SequencedSixSidedDieRange(PositiveIntRange):
     def assert_digits_in_range_for_six_sided_die(cls, v: PositiveInt) -> PositiveInt:
         if not all(1 <= int(d) <= cls.SIDES for d in str(v)):
             msg = f"All digits must be within [1, {cls.SIDES}, was {v}"
-            raise ValueError(msg)
+            raise DigitsMustBeInRangeOfItsSidesError(msg)
 
         return v

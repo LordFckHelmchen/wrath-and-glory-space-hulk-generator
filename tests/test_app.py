@@ -43,13 +43,13 @@ class TestApp(unittest.TestCase):
 
         def curl_app() -> int:
             sleep(retry_wait_in_sec)  # Always wait to be ready.
-            response = run(curl_cmd, stderr=PIPE, text=True, timeout=retry_wait_in_sec)
+            response = run(curl_cmd, check=True, stderr=PIPE, text=True, timeout=retry_wait_in_sec)  # noqa: S603
             if response.stderr != "":
                 print(f"Curl had difficulties: '{response.stderr}'")
             return response.returncode
 
         # ACT
-        with Popen(app, cwd=working_dir) as app:
+        with Popen(app, cwd=working_dir) as app:  # noqa: S603  Trusted input
             try_id = 1
             while (actual_return_code := curl_app()) != 0 and try_id <= max_retries:
                 print(f"Couldn't get a response from the app on try {try_id}/{max_retries}. Retrying...")
