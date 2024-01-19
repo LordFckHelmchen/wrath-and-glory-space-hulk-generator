@@ -62,3 +62,24 @@ jobs:
         with:
           poetry-version: 1.4.0
       - run: poetry run ruff .
+  
+  release:
+    name: Release
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
+    needs: 
+      - setup
+      - unittests
+      - formatting
+      - linting
+    permissions:
+      id-token: write
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Python Semantic Release
+        uses: python-semantic-release/python-semantic-release@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
