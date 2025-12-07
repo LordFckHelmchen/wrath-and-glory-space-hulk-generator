@@ -16,8 +16,8 @@ def get_executable(name: str) -> Path:
         if executable.exists():
             return executable
 
-    # This can happen if the dependencies for poetry/curl are not available or the PATH isn't properly set up.
-    # Try adding ~/.poetry/bin/poetry if this fails for poetry.
+    # This can happen if the dependencies for uv/curl are not available or the PATH isn't properly set up.
+    # Try adding ~/.uv/bin/uv if this fails for uv.
     msg = f"Couldn't find executable for '{name}'! sys.path contained the following entries:\n" + "\n".join(sys.path)
     raise OSError(msg)
 
@@ -33,8 +33,8 @@ class TestApp(unittest.TestCase):
         expected_html = expected_html_file.read_text()
         actual_html_file = test_dir / f"generated_{expected_html_file.name}"
         actual_html_file.unlink(missing_ok=True)
-        poetry = get_executable("poetry")
-        app = (poetry, "run", "streamlit", "run", working_dir / "streamlit_app.py", "--server.headless", "true")
+        uv = get_executable("uv")
+        app = (uv, "run", "streamlit", "run", working_dir / "streamlit_app.py", "--server.headless", "true")
 
         # Set up curl command to app
         max_retries = 9
@@ -43,7 +43,7 @@ class TestApp(unittest.TestCase):
 
         def curl_app() -> int:
             sleep(retry_wait_in_sec)  # Always wait to be ready.
-            response = run(curl_cmd, stderr=PIPE, text=True, timeout=retry_wait_in_sec)
+            response = run(curl_cmd, check=False, stderr=PIPE, text=True, timeout=retry_wait_in_sec)
             if response.stderr != "":
                 print(f"Curl had difficulties: '{response.stderr}'")
             return response.returncode

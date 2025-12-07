@@ -94,7 +94,7 @@ def get_app_version() -> str:
     with Path("pyproject.toml").open() as pyproject_toml_file:
         pyproject_toml = toml.load(pyproject_toml_file)
     try:
-        return pyproject_toml["tool"]["poetry"]["version"]
+        return pyproject_toml["project"]["version"]
     except KeyError:
         return ""
 
@@ -197,7 +197,7 @@ st.header("Space Hulk")
 space_hulk_header_columns = st.columns(3)
 
 with space_hulk_header_columns[0]:
-    if st.button("Create new hulk?"):
+    if st.button("Create new hulk?", key="create_hulk_button"):
         create_new_hulk_and_layout()
 
 if not is_space_hulk_created():
@@ -223,7 +223,7 @@ with space_hulk_header_columns[2], Path(download_file_name).open("rb") as file:
         data=file,
         file_name=file_name.name,
         mime=mimetypes.guess_type(file_name)[0],
-        on_click=lambda: logging.info(
+        on_click=lambda: logging.getLogger(__name__).info(
             f"Space Hulk exported\n"
             f"number_of_rooms_per_origin: "
             f"{st.session_state[MIN_NUMBER_OF_ROOMS_KEY]}\n"

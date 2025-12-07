@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 import logging
 from enum import Enum
 from random import randint
 from typing import Optional
-from typing import Union
 
 from pydantic import BaseModel
 from pydantic import ConstrainedInt
@@ -28,7 +29,7 @@ class MapObjectDimensionConstraint(PositiveIntRange):
             raise ValueError(msg)
         return maximum
 
-    def get_random_value(self) -> "MapObjectSizeInt":
+    def get_random_value(self) -> MapObjectSizeInt:
         return MapObjectSizeInt(randint(self.minimum, self.maximum))
 
 
@@ -51,27 +52,24 @@ class MapObjectSize(BaseModel):
     def area(self) -> PositiveInt:
         return self.x * self.y
 
-    def __setitem__(self, key: str, value: Union[MapObjectSizeInt, UnitOfMeasurement]) -> None:
-        if (
-            key in ["x", "y"]
-            and not isinstance(value, MapObjectSizeInt)
-            or key == "unit"
-            and not isinstance(value, UnitOfMeasurement)
+    def __setitem__(self, key: str, value: MapObjectSizeInt | UnitOfMeasurement) -> None:
+        if (key in ["x", "y"] and not isinstance(value, MapObjectSizeInt)) or (
+            key == "unit" and not isinstance(value, UnitOfMeasurement)
         ):
             msg = f"Unsupported type '{type(value)}' for attribute '{key}'"
             raise TypeError(msg)
 
         setattr(self, key, value)
 
-    def __getitem__(self, item: str) -> Union[MapObjectSizeInt, UnitOfMeasurement]:
+    def __getitem__(self, item: str) -> MapObjectSizeInt | UnitOfMeasurement:
         return getattr(self, item)
 
-    def __lt__(self, other: "MapObjectSize") -> bool:
+    def __lt__(self, other: MapObjectSize) -> bool:
         if not isinstance(other, type(self)):
             msg = f"Unsupported type '{type(other)}'"
             raise TypeError(msg)
         if self.unit != other.unit:
-            logging.warning("Unit conversion between size objects isn't supported yet!")
+            logging.getLogger(__name__).warning("Unit conversion between size objects isn't supported yet!")
             return NotImplemented
         return self.area < other.area
 
@@ -90,19 +88,16 @@ class MapObjectSizeConstraint(BaseModel):
     ) -> MapObjectDimensionConstraint:
         return values["x"] if y is None else y
 
-    def __setitem__(self, key: str, value: Union[MapObjectDimensionConstraint, UnitOfMeasurement]) -> None:
-        if (
-            key in ["x", "y"]
-            and not isinstance(value, MapObjectDimensionConstraint)
-            or key == "unit"
-            and not isinstance(value, UnitOfMeasurement)
+    def __setitem__(self, key: str, value: MapObjectDimensionConstraint | UnitOfMeasurement) -> None:
+        if (key in ["x", "y"] and not isinstance(value, MapObjectDimensionConstraint)) or (
+            key == "unit" and not isinstance(value, UnitOfMeasurement)
         ):
             msg = f"Unsupported type '{type(value)}' for attribute '{key}'"
             raise TypeError(msg)
 
         setattr(self, key, value)
 
-    def __getitem__(self, item: str) -> Union[MapObjectDimensionConstraint, UnitOfMeasurement]:
+    def __getitem__(self, item: str) -> MapObjectDimensionConstraint | UnitOfMeasurement:
         return getattr(self, item)
 
 

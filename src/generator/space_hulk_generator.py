@@ -45,7 +45,7 @@ class SpaceHulkGenerator:
 
     def create_hulk(self, number_of_rooms_per_origin: PositiveInt = 10) -> SpaceHulk:
         if number_of_rooms_per_origin not in self._tables.rooms.event_count_constraint:
-            logging.warning(
+            logging.getLogger(__name__).warning(
                 f"Number of room out of range {self._tables.rooms.event_count_constraint}: "
                 f"Was {number_of_rooms_per_origin}"
             )
@@ -87,4 +87,4 @@ class SpaceHulkGenerator:
         if table_name == "origins":
             events = [event for event in events if event.name != self._mixed_origin_event_string]
 
-        return events  # noqa: RET504 - not an unnecessary assignment ^^
+        return events

@@ -1,4 +1,4 @@
-from collections.abc import Generator
+from collections.abc import Iterator
 from typing import SupportsInt
 
 from pydantic import BaseModel
@@ -20,6 +20,6 @@ class PositiveIntRange(BaseModel):
     def __contains__(self, other: SupportsInt) -> bool:
         return self.minimum <= int(other) <= self.maximum
 
-    def __iter__(self) -> Generator[PositiveInt, None, None]:
+    def __iter__(self) -> Iterator[PositiveInt]:
         yield self.minimum
         yield self.maximum

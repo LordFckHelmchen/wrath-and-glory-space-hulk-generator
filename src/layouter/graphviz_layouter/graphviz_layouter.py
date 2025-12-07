@@ -4,7 +4,7 @@ from random import randint
 from typing import Optional
 
 from pydantic import PositiveInt
-from pydantic.types import PositiveFloat  # noqa: TCH002 - If guarded, streamlit fails with missing dep.
+from pydantic.types import PositiveFloat
 
 from src.generator.map_object_size import GlobalMapObjectSizeConstraint
 from src.generator.random_table_event import RandomTableEvent

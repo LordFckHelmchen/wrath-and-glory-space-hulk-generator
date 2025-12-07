@@ -36,7 +36,7 @@ class DeBroglieLayouter(ICreateLayouts):
 
         For now, the space_hulk is completely ignored.
         """
-        subprocess.run([DE_BROGLIE_EXECUTABLE, self.config_file])
+        subprocess.run([DE_BROGLIE_EXECUTABLE, self.config_file], check=False)  # noqa: S603  # TODO(djm): https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/issues/28
         return DeBroglieLayoutWrapper(self.output_file)  # This has potential issues with parallelism
 
 

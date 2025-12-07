@@ -27,7 +27,7 @@ class RandomTable(BaseModel):
         # check if events are consecutive
         for event_i, event_j in zip(self.events[0:-2], self.events[1:-1]):
             if not self._die.are_consecutive_rolls(event_i.range.maximum, event_j.range.minimum):
-                logging.debug(
+                logging.getLogger(__name__).debug(
                     f"Events should be consecutive for the die determination to work properly: "
                     f"'{event_i.name} {event_i.range}' is non-consecutive to "
                     f"'{event_j.name} {event_j.range}' -> determined die: {self._die}"
@@ -49,15 +49,14 @@ class RandomTable(BaseModel):
 
     def generate_single_event(self) -> RandomTableEvent:
         while not (event_info := next((info for info in self.events if self._die.roll() in info.range), None)):
-            logging.debug("Re-rolling due to result being in an non-consecutive area")
+            logging.getLogger(__name__).debug("Re-rolling due to result being in an non-consecutive area")
 
         return event_info.as_event()
 
     def generate_events(self, number_of_events: PositiveInt = 1) -> RandomTableEventCollection:
         if number_of_events > self.event_count_constraint.maximum:
-            logging.warning(
-                f"Number of events may not be larger than {self.event_count_constraint.maximum}: "
-                f"Was {number_of_events}"
+            logging.getLogger(__name__).warning(
+                f"Number of events may not be larger than {self.event_count_constraint.maximum}: Was {number_of_events}"
             )
             number_of_events = self.event_count_constraint.maximum
 
