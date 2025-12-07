@@ -27,7 +27,7 @@ class LayoutGraphCreator(GraphStats):
 
     def add_node(self, node: Node) -> None:
         if node.name in self._nodes:
-            logging.warning(f"Node '{node.name}' has already been added, ignoring duplicate!")
+            logging.getLogger(__name__).warning(f"Node '{node.name}' has already been added, ignoring duplicate!")
         self._nodes[node.name] = node
 
     def add_edge(self, from_node: str, to_node: str) -> None:

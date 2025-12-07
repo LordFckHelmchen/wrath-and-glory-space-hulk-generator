@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 
 from pydantic import BaseModel
@@ -19,18 +21,21 @@ class RandomTableEvent(BaseModel):
     def name_with_description(self) -> str:
         return f"{self.name}{f' - {self.description}' if self.description else ''}"
 
-    def __lt__(self, other: "RandomTableEvent") -> bool:
+    def __lt__(self, other: RandomTableEvent) -> bool:
         return self.name_with_description < other.name_with_description or (
             self.is_sized() and other.is_sized() and self.size < other.size
         )
 
-    def __gt__(self, other: "RandomTableEvent") -> bool:
+    def __gt__(self, other: RandomTableEvent) -> bool:
         return self.name_with_description > other.name_with_description or (
             self.is_sized() and other.is_sized() and other.size < self.size
         )
 
-    def __eq__(self, other: "RandomTableEvent") -> bool:
+    def __eq__(self, other: RandomTableEvent) -> bool:
         return not (self < other or self > other)
+
+    def __hash__(self) -> int:
+        return hash((self.name, self.description, self.size))
 
 
 class RandomTableEventInfo(RandomTableEvent):

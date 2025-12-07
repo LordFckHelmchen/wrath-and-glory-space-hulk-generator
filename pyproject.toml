@@ -1,40 +1,45 @@
-[tool.poetry]
+[project]
 name = "wrath-and-glory-space-hulk-generator"
 version = "2.0.0"
 description = "Generates Space Hulks based on the tables provided in the Redacted Records rulebook of Cubicle 7"
-authors = ["LordFckHelmchen <dj_mack@gmx.de>"]
-license = "GPLv3"
+authors = [{name = "LordFckHelmchen", email = "dj_mack@gmx.de"}]
+license = "GPL-3.0-or-later"
 readme = "README.md"
-homepage = "https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main"
 keywords = ["graphviz", "rpg-tool", "streamlit", "wrathandglory", "wrath-and-glory", "space-hulk-board-game"]
-repository = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator"
-classifiers = ["Development Status :: 5 - Production/Stable",
-    "Programming Language :: Python :: 3.9",
+classifiers = [
+"Development Status :: 5 - Production/Stable",
+"Programming Language :: Python",
+"Programming Language :: Python :: 3.9",
 ]
 
-[tool.poetry.urls]
+requires-python = "==3.9.13" # Keep in sync with ruff.target-version below
+dependencies = [
+    "altair==4.2.2",  # Required for streamlit to work properly
+    "fpdf==1.7.2",
+    "graphviz==0.20.1",
+    "img2pdf==0.4.4",
+    "pydantic==1.10.6",
+    "PyPDF2==2.12.1",
+    "streamlit==1.12.0",
+]
+
+[project.urls]
 Changelog = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/releases"
+Homepage = "https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main"
+Issues = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/issues"
+Repository = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator"
 
-[tool.poetry.dependencies]
-python = "^3.9"
-PyPDF2 = "^2.4.1"
-fpdf = "^1.7.2"
-graphviz = "^0.20"
-pydantic = "^1.9.1"
-streamlit = "^1.10.0"
-img2pdf = "^0.4.4"
 
-[tool.poetry.group.dev.dependencies]
-black = {extras = ["d"], version = "^23.1.0"}
-pytest = "^7.2.2"
-pytest-cov = "^4.0.0"
-pytest-emoji = "^0.2.0"  # For avelzw/pytest-action
-pytest-md = "^0.2.0"     # For avelzw/pytest-action
-ruff = "^0.0.254"
-toml = "^0.10.2"
-
-[tool.black]
-line-length = 120  # Keep in synch with tool.ruff
+[dependency-groups]
+dev = [
+    "fawltydeps>=0.13.3",
+    "pytest==7.3.1",
+    "pytest-cov==4.0.0",
+    "pytest-emoji>=0.2.0",
+    "pytest-md>=0.2.0",
+    "ruff==0.14.8",        # Pinned to make ruff-action work - if changed, also change in .github/workflows/code_checks.yml
+    "toml==0.10.2",
+]
 
 [tool.coverage.run]
 source = ["src"]
@@ -43,43 +48,64 @@ omit = ["tests/*"]
 [tool.coverage.report]
 fail_under = 74
 
+[tool.fawltydeps]
+ignore_unused = [
+    "fawltydeps",
+    "ruff",
+    "pytest",
+    "pytest-cov",
+    "pytest-emoji",
+    "pytest-md",
+]
+
 [tool.ruff]
+target-version = "py39" # Keep in sync with requires-python above
+line-length = 120
+
+[tool.ruff.format]
+docstring-code-format = true
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint]
 select = ["ALL"]
-ignore = ["A003",    # Class attributes "shadowing" built-ins
-          "ANN002",  # Missing function annotation for *args
-          "ANN003",  # Missing function annotation for **kwargs
-          "ANN10",   # No annotation for self/cls - not useful
-          "ANN401",  # Dynamically typed expressions are disallowed - disable by the plug-ing itself
-          "COM",     # All commas warnings - covered by black
-          "D",       # All pydocstyle warnings
-          "G004",    # Logging statement uses f-string
-          "N805",    # First argument of a method should be named self -> False-positive for pydantic validators
-          "PT009",   # Use a regular `assert` instead of unittest-style `assertEqual`
-          "T10",     # Debugger warnings
-          "TRY003",  # Avoid specifying long messages outside the exception class
-         ]
-target-version = "py39"  # Keep in synch with .python-version
-line-length = 120        # Keep in synch with tool.black
+ignore = [
+    "A003",   # Class attributes "shadowing" built-ins
+    "ANN002", # Missing function annotation for *args
+    "ANN003", # Missing function annotation for **kwargs
+    "ANN10",  # No annotation for self/cls - not useful
+    "ANN401", # Dynamically typed expressions are disallowed - disable by the plug-in itself
+    "COM",    # All commas warnings - covered by black
+    "D",      # All pydocstyle warnings
+    "FIX002", # Allow TODO comments
+    "G004",   # Logging statement uses f-string
+    "N805",   # First argument of a method should be named self -> False-positive for pydantic validators
+    "PT009",  # Use a regular `assert` instead of unittest-style `assertEqual`
+    "T10",    # Debugger warnings
+    "TC00",   # Don't use TYPE_CHECKING blocks - too much issues in py3.9
+    "TD003",  # Allow TODO without Issue link
+    "TRY003", # Avoid specifying long messages outside the exception class
+    "S311",   # We have no cryptographic code - so don't check for security of random operations
+    "UP045",  # TODO(djm): Switch to union operator once we update to a recent Python version
+]
 
-[tool.ruff.per-file-ignores]
-"test_*.py" = ["ANN201",  # No return type check for tests
-               "N802",    # Function name should be lowercase - used when expecting errors
-               "SLF",     # Allow private member access in tests
-               "T201",    # Allow print output in tests
-              ]
+[tool.ruff.lint.per-file-ignores]
+"test_*.py" = [
+    "ANN201", # No return type check for tests
+    "N802",   # Function name should be lowercase - used when expecting errors
+    "PT027",  # Allow unittest assertions until we fully migrate to pytest style
+    "SLF",    # Allow private member access in tests
+    "S603",   # Allow untrusted subprocess input in tests
+    "T201",   # Allow print output in tests
+]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 force-single-line = true
 
-[tool.ruff.flake8-type-checking]
+[tool.ruff.lint.flake8-type-checking]
 strict = true
 
-[tool.ruff.pydocstyle]
-convention = "numpy"  # Accepts: "google", "numpy", or "pep257".
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 
 [tool.semantic_release]
 version_variables = ["pyproject.toml:version"]

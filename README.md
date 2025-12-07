@@ -34,8 +34,8 @@ An initial analysis of the use cases for the generator is given in [USE_CASES.md
 Currently, there is no stand-alone installation. To locally use the project, e.g. for making code changes,
 
 1. Install the external dependencies from [packages.txt](packages.txt) (e.g. the graphviz backend)
-2. Install the Python dependencies via [poetry](https://python-poetry.org) from [pyproject.toml](pyproject.toml)
-3. Run the app via `poetry run streamlit run streamlit_app.py` from the repository root
+2. Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
+3. Run the app via `uv run streamlit run streamlit_app.py` from the repository root
 
 ## Contributing
 
@@ -52,7 +52,7 @@ If you create a PR, Please make sure to add/update the [unittests](tests) accord
 Run the unittests via pytest + coverage with:
 
 ```bash
-poetry run pytest --cov
+uv run pytest --cov
 ```
 
 ### Linting
@@ -61,7 +61,7 @@ Linting is done with [ruff](https://github.com/charliermarsh/ruff) because it's 
 code run:
 
 ```bash
-poetry run ruff .
+uv run ruff check .
 ```
 
 If you want to auto-fix fixable issues is the `--fix` flag in addition.
@@ -71,7 +71,7 @@ If you want to auto-fix fixable issues is the `--fix` flag in addition.
 The code is [black](https://github.com/psf/black) as my soul, so format it accordingly with:
 
 ```bash
-poetry run black .
+uv run ruff format .
 ```
 
 ## License

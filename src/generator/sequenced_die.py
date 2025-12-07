@@ -83,8 +83,15 @@ class SequencedDie(BaseModel):
                 sides = max(sides, *lim_digits)
         return cls(sides=sides, number_of_dice=number_of_dice)
 
-    def __eq__(self, other: "SequencedDie") -> bool:
-        return self.sides == other.sides and self.number_of_dice == other.number_of_dice
+    def __eq__(self, other: object) -> bool:
+        return (
+            isinstance(other, SequencedDie)
+            and self.sides == other.sides
+            and self.number_of_dice == other.number_of_dice
+        )
+
+    def __hash__(self) -> int:
+        return hash((self.sides, self.number_of_dice))
 
 
 class SequencedSixSidedDieRange(PositiveIntRange):

@@ -1,4 +1,4 @@
-from collections.abc import Generator
+from collections.abc import Iterator
 from copy import deepcopy
 from typing import Any
 from typing import Literal
@@ -82,7 +82,7 @@ class RandomTableEventCollection(BaseModel):
     def __len__(self) -> NonNegativeInt:
         return len(self.events)
 
-    def __iter__(self) -> Generator[RandomTableEvent, None, None]:
+    def __iter__(self) -> Iterator[RandomTableEvent]:
         yield from self.events
 
     def as_markdown(self, header: Optional[str] = None, header_level: PositiveInt = 1) -> str:

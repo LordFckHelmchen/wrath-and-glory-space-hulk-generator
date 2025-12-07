@@ -32,7 +32,7 @@ def load_space_hulk_markdown(file_name: Path = TEST_HULK_MARKDOWN_FILE) -> str:
 def load_space_hulk_layout(file_name: Path = TEST_HULK_LAYOUT_FILE) -> LayoutGraph:
     # noinspection PyShadowingNames
     with file_name.open("rb") as file:
-        return pickle.load(file)
+        return pickle.load(file)  # noqa: S301  # Pickle is safe here
 
 
 if __name__ == "__main__":
