@@ -80,7 +80,6 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "test_*.py" = [
-    "N802",   # Function name should be lowercase - used when expecting errors
     "SLF",    # Private member access
     "S101",   # Bare asserts (pytest-style)
     "S603",   # Untrusted subprocess input

@@ -25,7 +25,7 @@ class TestSpaceHulkTables(unittest.TestCase):
             with self.subTest(i=table_field.name):
                 assert self.dummy_tables[table_field.name] == DUMMY_TABLE
 
-    def test_getitem_with_invalid_item_expect_AttributeError(self) -> None:
+    def test_getitem_with_invalid_item_expect_error(self) -> None:
         with pytest.raises(AttributeError):
             _ = self.dummy_tables["asdf932nass"]
 
