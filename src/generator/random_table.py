@@ -1,3 +1,4 @@
+import itertools
 import logging
 
 from pydantic import BaseModel
@@ -25,7 +26,7 @@ class RandomTable(BaseModel):
         self._die = SequencedDie.from_events(self.events)
 
         # check if events are consecutive
-        for event_i, event_j in zip(self.events[0:-2], self.events[1:-1]):
+        for event_i, event_j in itertools.pairwise(self.events):
             if not self._die.are_consecutive_rolls(event_i.range.maximum, event_j.range.minimum):
                 logging.getLogger(__name__).debug(
                     f"Events should be consecutive for the die determination to work properly: "
@@ -35,10 +36,10 @@ class RandomTable(BaseModel):
 
     @validator("events", allow_reuse=True)
     def assure_event_ranges_are_sorted_and_non_overlapping(
-        cls, events: RandomTableEventInfoList
+        self, events: RandomTableEventInfoList
     ) -> RandomTableEventInfoList:
         events.sort(key=lambda x: x.range.minimum)
-        for event_i, event_j in zip(events[0:-2], events[1:-1]):
+        for event_i, event_j in itertools.pairwise(events):
             if event_i.range.maximum >= event_j.range.minimum:
                 msg = (
                     f"Event ranges must be non-overlapping: "

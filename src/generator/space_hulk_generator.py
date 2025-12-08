@@ -20,7 +20,7 @@ class RoomCount(ConstrainedInt):
     strict = False
 
     @classmethod
-    def from_int(cls, i: int) -> "RoomCount":
+    def from_int(cls, i: int) -> RoomCount:
         if i < cls.ge:
             i = cls.ge
         elif i > cls.le:

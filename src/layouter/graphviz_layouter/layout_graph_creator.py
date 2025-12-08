@@ -1,6 +1,5 @@
 import logging
-from typing import Callable
-from typing import Union
+from collections.abc import Callable
 
 from pydantic import NonNegativeInt
 from pydantic import PositiveFloat
@@ -9,17 +8,19 @@ from .layout_graph import GraphStats
 from .layout_graph import LayoutGraph
 from .layout_graph import Node
 
-GraphProperties = dict[str, Union[str, dict[str, str]]]
+GraphProperties = dict[str, str | dict[str, str]]
 
 
 class LayoutGraphCreator(GraphStats):
     def __init__(self, get_scaled_font_size: Callable[[Node, PositiveFloat], PositiveFloat] = lambda _, s: s) -> None:
         """
-        Constructor
+        Create a new LayoutGraphCreator.
 
-        :param get_scaled_font_size: A lambda that takes the base font size (either from the layout or a default value
-        of 16) and a Node and returns a scaled font size. This can be used to adjust the font size to a nodes attributes
-        (e.g. its size).
+        Parameters
+        ----------
+        get_scaled_font_size
+            A lambda that takes the base font size (either from the layout or a default value of 16) and a Node and
+            returns a scaled font size. This can be used to adjust the font size to a nodes attributes (e.g. its size).
         """
         self._nodes: dict[str, Node] = {}
         self._edges: list[tuple[str, str]] = []

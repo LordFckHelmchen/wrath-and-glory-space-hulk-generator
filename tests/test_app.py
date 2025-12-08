@@ -23,7 +23,7 @@ def get_executable(name: str) -> Path:
 
 
 class TestApp(unittest.TestCase):
-    def test_run_app_curl_main_page_expect_same_result_as_always(self):
+    def test_run_app_curl_main_page_expect_same_result_as_always(self) -> None:
         # ARRANGE
         test_dir = Path(__file__).parent
         working_dir = test_dir.parent
@@ -58,10 +58,10 @@ class TestApp(unittest.TestCase):
 
         # ASSERT
         with self.subTest(i="Successfully returns with 0"):
-            self.assertEqual(actual_return_code, 0)
+            assert actual_return_code == 0
         with self.subTest(i="Response contains correct html"):
             actual_html = actual_html_file.read_text()
-            self.assertEqual(actual_html, expected_html)
+            assert actual_html == expected_html
 
 
 if __name__ == "__main__":

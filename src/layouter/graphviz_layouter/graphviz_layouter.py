@@ -1,7 +1,6 @@
 import random
 from copy import copy
 from random import randint
-from typing import Optional
 
 from pydantic import PositiveInt
 from pydantic.types import PositiveFloat
@@ -45,14 +44,18 @@ class GraphvizLayouter(ICreateLayouts):
     MAX_FONT_SIZE = 700
 
     def __init__(
-        self, max_number_of_connections_per_room: PositiveInt = 10, graph_properties: Optional[GraphProperties] = None
+        self, max_number_of_connections_per_room: PositiveInt = 10, graph_properties: GraphProperties | None = None
     ) -> None:
         """
-        Constructor
+        Create a new GraphvizLayouter.
 
-        :param max_number_of_connections_per_room: The max. number of edges per node (e.g. the max. degree). The lower
-        the number, the more connected and regular the layout gets. Higher numbers will cause more clustered layouts.
-        :param graph_properties: graphviz properties for the layout. Default: DEFAULT_GRAPH_PROPERTIES
+        Parameters
+        ----------
+        max_number_of_connections_per_room
+            The max. number of edges per node (e.g. the max. degree). The lower the number, the more connected and
+            regular the layout gets. Higher numbers will cause more clustered layouts.
+        graph_properties
+            graphviz properties for the layout. Default: DEFAULT_GRAPH_PROPERTIES
         """
         self.max_number_of_connections_per_room = max_number_of_connections_per_room
         self.graph_properties = (graph_properties if graph_properties else {}) | DEFAULT_GRAPH_PROPERTIES
