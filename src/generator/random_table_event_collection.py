@@ -1,8 +1,6 @@
 from collections.abc import Iterator
 from copy import deepcopy
-from typing import Any
 from typing import Literal
-from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import NonNegativeInt
@@ -17,7 +15,7 @@ from .random_table_event import RandomTableEvent
 
 
 class EventCountConstraint(PositiveIntRange):
-    minimum: Optional[NonNegativeInt] = 0
+    minimum: NonNegativeInt | None = 0
     maximum: conint(ge=0, le=1000) = 1000
 
 
@@ -26,7 +24,7 @@ class RandomTableEventCollection(BaseModel):
     events: list[RandomTableEvent]
 
     @validator("events", allow_reuse=True)
-    def get_sorted_unique_events(cls, events: list) -> list:
+    def get_sorted_unique_events(self, events: list) -> list:
         event_counts = {}
         for event in events:
             if event.name not in event_counts:
@@ -45,12 +43,12 @@ class RandomTableEventCollection(BaseModel):
 
         return sorted(new_events, key=lambda x: x.name)
 
-    def is_valid_event_collection(self, values: Any) -> bool:
+    def is_valid_event_collection(self, values: object) -> bool:
         return isinstance(values, type(self.events)) and all(
             type(v) in self.__annotations__["events"].__args__ for v in values
         )
 
-    def __setattr__(self, key: Literal["events", "event_count_constraint"], value: Any) -> None:
+    def __setattr__(self, key: Literal["events", "event_count_constraint"], value: object) -> None:
         _ = getattr(self, key)  # Raise AttributeError if not present
 
         is_events = key == "events"
@@ -85,7 +83,7 @@ class RandomTableEventCollection(BaseModel):
     def __iter__(self) -> Iterator[RandomTableEvent]:
         yield from self.events
 
-    def as_markdown(self, header: Optional[str] = None, header_level: PositiveInt = 1) -> str:
+    def as_markdown(self, header: str | None = None, header_level: PositiveInt = 1) -> str:
         self_as_string = [f"{'#' * header_level} {header} (n={len(self)})\n"] if header else []
 
         if len(self) == 0:
