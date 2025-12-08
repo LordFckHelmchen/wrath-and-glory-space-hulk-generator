@@ -24,14 +24,14 @@ class TestDeBroglieLayouter(unittest.TestCase):
 
         self.output_file_hash = None
 
-    def assertNonEmptyFileExists(self, file_name: Path) -> None:
+    def assert_nonempty_file_exists(self, file_name: Path) -> None:
         msg = f"'{file_name}' is not a valid file!"
         assert file_name.is_file(), msg
 
         msg = f"'{file_name}' was empty!"
         assert file_name.stat().st_size > 0, msg
 
-    def assertOutputFileUnchanged(self) -> None:
+    def assert_output_file_unchanged(self) -> None:
         new_output_file_hash = self.get_file_hash(self.layouter.output_file)
         msg = new_output_file_hash, f"Content of output file '{self.layouter.output_file}' has changed!"
         assert self.output_file_hash == new_output_file_hash, msg
@@ -41,7 +41,7 @@ class TestDeBroglieLayouter(unittest.TestCase):
         assert not self.layouter.output_file.exists()
 
         _ = self.layouter.create_layout(self.space_hulk)
-        self.assertNonEmptyFileExists(self.layouter.output_file)
+        self.assert_nonempty_file_exists(self.layouter.output_file)
 
     def test_render_to_file_expect_output_file_exists_unchanged_and_target_file_created(self) -> None:
         for file_type in LayoutFileType:
@@ -58,4 +58,4 @@ class TestDeBroglieLayouter(unittest.TestCase):
                 # ASSERT
                 msg = f"Content of output file '{self.layouter.output_file}' has changed!"
                 assert expected_output_file_hash == actual_output_file_hash, msg
-                self.assertNonEmptyFileExists(target_file)
+                self.assert_nonempty_file_exists(target_file)
