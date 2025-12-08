@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from pydantic.v1.json import pydantic_encoder
+from pydantic.json import pydantic_encoder
 from pydantic.v1.main import ModelMetaclass
 
 from src.generator.map_object_size import MapObjectSizeConstraint

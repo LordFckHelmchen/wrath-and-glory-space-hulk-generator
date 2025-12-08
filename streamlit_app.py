@@ -8,7 +8,8 @@ import toml
 
 from src.app.layout_file_creator import create_combined_file
 from src.app.layout_file_creator import create_layout_preview_file
-from src.generator.space_hulk_generator import RoomCount
+from src.generator.space_hulk_generator import MAX_NUMBER_OF_ROOMS
+from src.generator.space_hulk_generator import MIN_NUMBER_OF_ROOMS
 from src.generator.space_hulk_generator import SpaceHulkGenerator
 from src.layouter.graphviz_layouter.graphviz_edge_type import GraphvizEdgeType
 from src.layouter.graphviz_layouter.graphviz_engine import GraphvizEngine
@@ -105,7 +106,7 @@ def recreate_hulk_and_layout_if_hulk_is_created() -> None:
 
 
 def randomize_min_number_of_rooms() -> None:
-    st.session_state[MIN_NUMBER_OF_ROOMS_KEY] = randint(RoomCount.ge, RoomCount.le)
+    st.session_state[MIN_NUMBER_OF_ROOMS_KEY] = randint(MIN_NUMBER_OF_ROOMS, MAX_NUMBER_OF_ROOMS)
     recreate_hulk_and_layout_if_hulk_is_created()
 
 
@@ -136,8 +137,8 @@ generator_settings_columns = st.columns(2)
 with generator_settings_columns[0]:
     st.slider(
         "Minimum number of rooms (per origin)",
-        min_value=RoomCount.ge,
-        max_value=RoomCount.le,
+        min_value=MIN_NUMBER_OF_ROOMS,
+        max_value=MAX_NUMBER_OF_ROOMS,
         value=10,
         key=MIN_NUMBER_OF_ROOMS_KEY,
         on_change=recreate_hulk_and_layout_if_hulk_is_created,
