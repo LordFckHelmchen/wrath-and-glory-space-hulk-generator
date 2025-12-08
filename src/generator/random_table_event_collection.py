@@ -2,11 +2,11 @@ from collections.abc import Iterator
 from copy import deepcopy
 from typing import Literal
 
-from pydantic import BaseModel
-from pydantic import NonNegativeInt
-from pydantic import PositiveInt
-from pydantic import conint
-from pydantic import validator
+from pydantic.v1 import BaseModel
+from pydantic.v1 import NonNegativeInt
+from pydantic.v1 import PositiveInt
+from pydantic.v1 import conint
+from pydantic.v1 import validator
 
 from .exceptions import EventCountOutOfRangeError
 from .exceptions import EventTypeError

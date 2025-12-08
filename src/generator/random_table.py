@@ -1,11 +1,11 @@
 import itertools
 import logging
 
-from pydantic import BaseModel
-from pydantic import Field
-from pydantic import PositiveInt
-from pydantic import PrivateAttr
-from pydantic import validator
+from pydantic.v1 import BaseModel
+from pydantic.v1 import Field
+from pydantic.v1 import PositiveInt
+from pydantic.v1 import PrivateAttr
+from pydantic.v1 import validator
 
 from .random_table_event import RandomTableEvent
 from .random_table_event import RandomTableEventInfoList

@@ -4,7 +4,7 @@ from typing import ClassVar
 from typing import Literal
 
 from fpdf import FPDF
-from pydantic import PositiveInt
+from pydantic.v1 import PositiveInt
 
 
 @dataclass

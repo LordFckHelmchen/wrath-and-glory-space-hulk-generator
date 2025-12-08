@@ -1,8 +1,8 @@
 import json
 import unittest
 
-from pydantic.json import pydantic_encoder
-from pydantic.main import ModelMetaclass
+from pydantic.v1.json import pydantic_encoder
+from pydantic.v1.main import ModelMetaclass
 
 from src.generator.map_object_size import MapObjectSizeConstraint
 from src.generator.random_table import RandomTable
