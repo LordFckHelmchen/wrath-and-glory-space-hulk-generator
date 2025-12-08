@@ -4,14 +4,12 @@ from math import ceil
 from math import log10
 from random import randint
 from typing import ClassVar
-from typing import Literal
 
-from pydantic.v1 import BaseModel
-from pydantic.v1 import Field
-from pydantic.v1 import PositiveInt
-from pydantic.v1 import validator
+from pydantic import BaseModel
+from pydantic import Field
+from pydantic import PositiveInt
+from pydantic import field_validator
 
-from .exceptions import DigitOutOfRangeOfDieError
 from .positive_int_range import PositiveIntRange
 
 
@@ -26,14 +24,14 @@ class SequencedDie(BaseModel):
 
     @classmethod
     def from_die_type(cls, die_type: DieType) -> SequencedDie:
-        if die_type is DieType.D6:
-            return cls(sides=6, number_of_dice=1)
-
-        if die_type is DieType.D66:
-            return cls(sides=6, number_of_dice=2)
-
-        msg = f"Unsupported die type '{die_type}'"
-        raise TypeError(msg)
+        match die_type:
+            case DieType.D6:
+                return cls(sides=6, number_of_dice=1)
+            case DieType.D66:
+                return cls(sides=6, number_of_dice=2)
+            case _:
+                msg = f"Unsupported die type '{die_type}'"
+                raise ValueError(msg)
 
     @staticmethod
     def _make_roll_from_sequence(sequence_of_rolls: Iterable[PositiveInt]) -> PositiveInt:
@@ -96,12 +94,13 @@ class SequencedDie(BaseModel):
 
 
 class SequencedSixSidedDieRange(PositiveIntRange):
-    SIDES: ClassVar[Literal[6]] = 6
+    SIDES: ClassVar[PositiveInt] = 6
 
-    @validator("*", allow_reuse=True)
-    def assert_digits_in_range_for_six_sided_die(self, v: PositiveInt) -> PositiveInt:
-        if not all(1 <= int(d) <= self.SIDES for d in str(v)):
-            msg = f"All digits must be within [1, {self.SIDES}, was {v}"
-            raise DigitOutOfRangeOfDieError(msg)
+    @field_validator("*")
+    @classmethod
+    def assert_digits_in_range_for_six_sided_die(cls, v: PositiveInt) -> PositiveInt:
+        if not all(1 <= int(d) <= cls.SIDES for d in str(v)):
+            msg = f"All digits must be within [1, {cls.SIDES}], was {v}"
+            raise ValueError(msg)
 
         return v

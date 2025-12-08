@@ -1,12 +1,13 @@
 from collections.abc import Iterator
 from copy import deepcopy
+from typing import Annotated
 from typing import Literal
 
-from pydantic.v1 import BaseModel
-from pydantic.v1 import NonNegativeInt
-from pydantic.v1 import PositiveInt
-from pydantic.v1 import conint
-from pydantic.v1 import validator
+from pydantic import BaseModel
+from pydantic import Field
+from pydantic import NonNegativeInt
+from pydantic import PositiveInt
+from pydantic import field_validator
 
 from .exceptions import EventCountOutOfRangeError
 from .exceptions import EventTypeError
@@ -15,16 +16,17 @@ from .random_table_event import RandomTableEvent
 
 
 class EventCountConstraint(PositiveIntRange):
-    minimum: NonNegativeInt | None = 0
-    maximum: conint(ge=0, le=1000) = 1000
+    minimum: Annotated[int, Field(ge=0, le=999)] = 0
+    maximum: Annotated[int, Field(ge=1, le=1000)] = 1000
 
 
 class RandomTableEventCollection(BaseModel):
     event_count_constraint: EventCountConstraint
     events: list[RandomTableEvent]
 
-    @validator("events", allow_reuse=True)
-    def get_sorted_unique_events(self, events: list) -> list:
+    @field_validator("events")
+    @classmethod
+    def get_sorted_unique_events(cls, events: list) -> list:
         event_counts = {}
         for event in events:
             if event.name not in event_counts:
@@ -44,9 +46,11 @@ class RandomTableEventCollection(BaseModel):
         return sorted(new_events, key=lambda x: x.name)
 
     def is_valid_event_collection(self, values: object) -> bool:
-        return isinstance(values, type(self.events)) and all(
-            type(v) in self.__annotations__["events"].__args__ for v in values
-        )
+        return isinstance(values, type(self.events)) and all(type(v) in self.valid_event_types() for v in values)
+
+    @staticmethod
+    def valid_event_types() -> list[type]:
+        return RandomTableEventCollection.model_fields["events"].annotation.__args__
 
     def __setattr__(self, key: Literal["events", "event_count_constraint"], value: object) -> None:
         _ = getattr(self, key)  # Raise AttributeError if not present

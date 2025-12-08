@@ -33,7 +33,7 @@ class TestDeBroglieLayouter(unittest.TestCase):
 
     def assert_output_file_unchanged(self) -> None:
         new_output_file_hash = self.get_file_hash(self.layouter.output_file)
-        msg = new_output_file_hash, f"Content of output file '{self.layouter.output_file}' has changed!"
+        msg = f"Content of output file '{self.layouter.output_file}' has changed!"
         assert self.output_file_hash == new_output_file_hash, msg
 
     def test_create_layout_expect_output_file_created(self) -> None:

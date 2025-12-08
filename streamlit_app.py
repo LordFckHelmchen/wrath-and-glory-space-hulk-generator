@@ -8,7 +8,8 @@ import toml
 
 from src.app.layout_file_creator import create_combined_file
 from src.app.layout_file_creator import create_layout_preview_file
-from src.generator.space_hulk_generator import RoomCount
+from src.generator.space_hulk_generator import MAX_NUMBER_OF_ROOMS
+from src.generator.space_hulk_generator import MIN_NUMBER_OF_ROOMS
 from src.generator.space_hulk_generator import SpaceHulkGenerator
 from src.layouter.graphviz_layouter.graphviz_edge_type import GraphvizEdgeType
 from src.layouter.graphviz_layouter.graphviz_engine import GraphvizEngine
@@ -89,14 +90,11 @@ def update_metrics() -> None:
         st.session_state[_metric_key] = getattr(st.session_state[_state_key], _attribute_name)
 
 
-@st.experimental_memo
+@st.cache_data
 def get_app_version() -> str:
     with Path("pyproject.toml").open() as pyproject_toml_file:
         pyproject_toml = toml.load(pyproject_toml_file)
-    try:
-        return pyproject_toml["project"]["version"]
-    except KeyError:
-        return ""
+    return pyproject_toml["project"]["version"]
 
 
 def recreate_hulk_and_layout_if_hulk_is_created() -> None:
@@ -105,7 +103,7 @@ def recreate_hulk_and_layout_if_hulk_is_created() -> None:
 
 
 def randomize_min_number_of_rooms() -> None:
-    st.session_state[MIN_NUMBER_OF_ROOMS_KEY] = randint(RoomCount.ge, RoomCount.le)
+    st.session_state[MIN_NUMBER_OF_ROOMS_KEY] = randint(MIN_NUMBER_OF_ROOMS, MAX_NUMBER_OF_ROOMS)
     recreate_hulk_and_layout_if_hulk_is_created()
 
 
@@ -136,8 +134,8 @@ generator_settings_columns = st.columns(2)
 with generator_settings_columns[0]:
     st.slider(
         "Minimum number of rooms (per origin)",
-        min_value=RoomCount.ge,
-        max_value=RoomCount.le,
+        min_value=MIN_NUMBER_OF_ROOMS,
+        max_value=MAX_NUMBER_OF_ROOMS,
         value=10,
         key=MIN_NUMBER_OF_ROOMS_KEY,
         on_change=recreate_hulk_and_layout_if_hulk_is_created,
@@ -208,12 +206,8 @@ with space_hulk_header_columns[1]:
         create_new_layout_if_hulk_is_created()
 
 with st.spinner("Rendering layout..."):
-    preview_file_name = create_layout_preview_file(
-        space_hulk=st.session_state[SPACE_HULK_KEY], layout=st.session_state[LAYOUT_KEY]
-    )
-    download_file_name = create_combined_file(
-        space_hulk=st.session_state[SPACE_HULK_KEY], layout=st.session_state[LAYOUT_KEY]
-    )
+    preview_file_name = create_layout_preview_file(st.session_state[SPACE_HULK_KEY], st.session_state[LAYOUT_KEY])
+    download_file_name = create_combined_file(st.session_state[SPACE_HULK_KEY], st.session_state[LAYOUT_KEY])
 
 # Prepare download
 with space_hulk_header_columns[2], Path(download_file_name).open("rb") as file:
@@ -242,4 +236,4 @@ for index, (metric_key, (state_key, attribute_name)) in enumerate(METRIC_STATE_A
 
 # Show preview
 st.caption("Map preview - Use the download button above to access the vectorized version")
-st.image(image=preview_file_name, use_column_width=True, width=20)
+st.image(image=preview_file_name, width="content")

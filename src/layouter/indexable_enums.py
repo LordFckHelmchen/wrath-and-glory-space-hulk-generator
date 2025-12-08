@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic.v1 import NonNegativeInt
+from pydantic import NonNegativeInt
 
 
 class IndexableEnum(Enum):

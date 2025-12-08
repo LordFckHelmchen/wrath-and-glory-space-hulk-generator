@@ -18,7 +18,7 @@ class TestLayoutGraph(unittest.TestCase):
     def setUpClass(cls) -> None:
         # Store hulk & layout
         space_hulk_file = cls.output_folder / "space_hulk.json"
-        space_hulk_file.write_text(cls._space_hulk.json(exclude_none=True, indent=2))
+        space_hulk_file.write_text(cls._space_hulk.model_dump_json(exclude_none=True, indent=2))
         cls._layout.save(directory=cls.output_folder, filename="space_hulk_layout.dot")
 
     def setUp(self) -> None:

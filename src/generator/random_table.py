@@ -1,11 +1,11 @@
 import itertools
 import logging
 
-from pydantic.v1 import BaseModel
-from pydantic.v1 import Field
-from pydantic.v1 import PositiveInt
-from pydantic.v1 import PrivateAttr
-from pydantic.v1 import validator
+from pydantic import BaseModel
+from pydantic import Field
+from pydantic import PositiveInt
+from pydantic import PrivateAttr
+from pydantic import field_validator
 
 from .random_table_event import RandomTableEvent
 from .random_table_event import RandomTableEventInfoList
@@ -34,9 +34,10 @@ class RandomTable(BaseModel):
                     f"'{event_j.name} {event_j.range}' -> determined die: {self._die}"
                 )
 
-    @validator("events", allow_reuse=True)
+    @field_validator("events")
+    @classmethod
     def assure_event_ranges_are_sorted_and_non_overlapping(
-        self, events: RandomTableEventInfoList
+        cls, events: RandomTableEventInfoList
     ) -> RandomTableEventInfoList:
         events.sort(key=lambda x: x.range.minimum)
         for event_i, event_j in itertools.pairwise(events):

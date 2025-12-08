@@ -2,8 +2,8 @@ import random
 from copy import copy
 from random import randint
 
-from pydantic.v1 import PositiveInt
-from pydantic.v1.types import PositiveFloat
+from pydantic import PositiveInt
+from pydantic.types import PositiveFloat
 
 from src.generator.map_object_size import GlobalMapObjectSizeConstraint
 from src.generator.random_table_event import RandomTableEvent

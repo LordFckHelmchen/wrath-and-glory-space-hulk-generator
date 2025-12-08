@@ -1,9 +1,9 @@
 from collections.abc import Generator
 from pathlib import Path
 
-from pydantic.v1 import BaseModel
-from pydantic.v1 import NonNegativeInt
-from pydantic.v1 import PositiveInt
+from pydantic import BaseModel
+from pydantic import NonNegativeInt
+from pydantic import PositiveInt
 
 from src.md2pdf.md2pdf import Markdown2PdfParser
 

@@ -1,8 +1,8 @@
 import logging
 from collections.abc import Callable
 
-from pydantic.v1 import NonNegativeInt
-from pydantic.v1 import PositiveFloat
+from pydantic import NonNegativeInt
+from pydantic import PositiveFloat
 
 from .layout_graph import GraphStats
 from .layout_graph import LayoutGraph
