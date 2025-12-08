@@ -14,13 +14,12 @@ classifiers = [
 
 requires-python = "==3.14.2" # Keep in sync with ruff.target-version below
 dependencies = [
-    "altair==4.2.2",  # Required for streamlit to work properly
-    "fpdf==1.7.2",
-    "graphviz==0.20.1",
-    "img2pdf==0.4.4",
-    "pydantic==1.10.6",
-    "PyPDF2==2.12.1",
-    "streamlit==1.12.0",
+    "fpdf>=1.7.2",
+    "graphviz>=0.21.0",
+    "img2pdf>=0.6.3",
+    "pydantic>=2.12.5",
+    "PyPDF2>=3.0.1",
+    "streamlit>=1.52.1",
 ]
 
 [project.urls]

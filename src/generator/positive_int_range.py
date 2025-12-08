@@ -1,9 +1,9 @@
 from collections.abc import Iterator
 from typing import SupportsInt
 
-from pydantic import BaseModel
-from pydantic import PositiveInt
-from pydantic import validator
+from pydantic.v1 import BaseModel
+from pydantic.v1 import PositiveInt
+from pydantic.v1 import validator
 
 from .exceptions import RangeNotSortedError
 

@@ -7,8 +7,8 @@ from enum import Enum
 from pathlib import Path
 
 from graphviz import Graph
-from pydantic import NonNegativeInt
-from pydantic import PositiveFloat
+from pydantic.v1 import NonNegativeInt
+from pydantic.v1 import PositiveFloat
 
 from src.generator.map_object_size import MapObjectSize
 from src.layouter.i_layout import ILayout

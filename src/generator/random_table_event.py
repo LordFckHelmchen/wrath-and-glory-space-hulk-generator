@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pydantic import BaseModel
+from pydantic.v1 import BaseModel
 
 from .map_object_size import MapObjectSize
 from .map_object_size import MapObjectSizeConstraint

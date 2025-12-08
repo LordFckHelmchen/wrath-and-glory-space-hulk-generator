@@ -3,9 +3,9 @@ from dataclasses import fields
 from pathlib import Path
 from typing import ClassVar
 
-from pydantic import ConstrainedInt
-from pydantic import PositiveInt
-from pydantic import conint
+from pydantic.v1 import ConstrainedInt
+from pydantic.v1 import PositiveInt
+from pydantic.v1 import conint
 
 from .random_table import RandomTable
 from .random_table_event import RandomTableEventInfoList

@@ -6,10 +6,10 @@ from random import randint
 from typing import ClassVar
 from typing import Literal
 
-from pydantic import BaseModel
-from pydantic import Field
-from pydantic import PositiveInt
-from pydantic import validator
+from pydantic.v1 import BaseModel
+from pydantic.v1 import Field
+from pydantic.v1 import PositiveInt
+from pydantic.v1 import validator
 
 from .exceptions import DigitOutOfRangeOfDieError
 from .positive_int_range import PositiveIntRange

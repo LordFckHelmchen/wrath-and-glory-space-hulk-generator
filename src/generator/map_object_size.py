@@ -4,10 +4,10 @@ import logging
 from enum import Enum
 from random import randint
 
-from pydantic import BaseModel
-from pydantic import ConstrainedInt
-from pydantic import PositiveInt
-from pydantic import validator
+from pydantic.v1 import BaseModel
+from pydantic.v1 import ConstrainedInt
+from pydantic.v1 import PositiveInt
+from pydantic.v1 import validator
 
 from .positive_int_range import PositiveIntRange
 
