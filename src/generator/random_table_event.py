@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional
-
 from pydantic import BaseModel
 
 from .map_object_size import MapObjectSize
@@ -11,8 +9,8 @@ from .sequenced_die import SequencedSixSidedDieRange
 
 class RandomTableEvent(BaseModel):
     name: str
-    description: Optional[str] = None
-    size: Optional[MapObjectSize] = None
+    description: str | None = None
+    size: MapObjectSize | None = None
 
     def is_sized(self) -> bool:
         return self.size is not None
@@ -40,7 +38,7 @@ class RandomTableEvent(BaseModel):
 
 class RandomTableEventInfo(RandomTableEvent):
     range: SequencedSixSidedDieRange
-    size_constraint: Optional[MapObjectSizeConstraint] = None
+    size_constraint: MapObjectSizeConstraint | None = None
 
     def has_size_constraint(self) -> bool:
         return self.size_constraint is not None

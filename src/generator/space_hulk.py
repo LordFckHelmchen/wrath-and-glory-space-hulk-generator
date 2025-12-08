@@ -27,7 +27,7 @@ class SpaceHulk(BaseModel):
     def number_of_rooms(self) -> NonNegativeInt:
         return len(self.rooms)
 
-    def __iter__(self) -> Generator[tuple[str, RandomTableEventCollection], None, None]:
+    def __iter__(self) -> Generator[tuple[str, RandomTableEventCollection]]:
         for field in self.__fields__:
             field_value = getattr(self, field)
             if isinstance(field_value, RandomTableEventCollection):

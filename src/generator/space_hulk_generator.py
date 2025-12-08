@@ -1,11 +1,11 @@
 import logging
 from dataclasses import fields
 from pathlib import Path
+from typing import Annotated
 from typing import ClassVar
 
-from pydantic import ConstrainedInt
+from pydantic import Field
 from pydantic import PositiveInt
-from pydantic import conint
 
 from .random_table import RandomTable
 from .random_table_event import RandomTableEventInfoList
@@ -13,25 +13,14 @@ from .random_table_event_collection import RandomTableEventCollection
 from .space_hulk import SpaceHulk
 from .space_hulk_tables import SpaceHulkTables
 
-
-class RoomCount(ConstrainedInt):
-    ge = 3
-    le = 100
-    strict = False
-
-    @classmethod
-    def from_int(cls, i: int) -> "RoomCount":
-        if i < cls.ge:
-            i = cls.ge
-        elif i > cls.le:
-            i = cls.le
-        return cls(i)
+MIN_NUMBER_OF_ROOMS = 3
+MAX_NUMBER_OF_ROOMS = 100
 
 
 class SpaceHulkGenerator:
     _default_table_folder: ClassVar[Path] = Path(__file__).parent / "assets"
     _mixed_origin_event_string: ClassVar[str] = "Mixed Origin"
-    _minimum_number_of_origins_for_mixed_origin_event: ClassVar[conint(gt=1, lt=5)] = 2
+    _minimum_number_of_origins_for_mixed_origin_event: ClassVar[Annotated[int, Field(gt=1, lt=5)]] = 2
 
     def __init__(
         self, table_folder: Path = _default_table_folder, table_name_glob_pattern: str = "table_*.json"
@@ -53,8 +42,9 @@ class SpaceHulkGenerator:
         number_of_origins = len(origins)
 
         # Account for mixed origins
-        number_of_rooms = RoomCount.from_int(number_of_origins * number_of_rooms_per_origin)
-
+        number_of_rooms = max(
+            MIN_NUMBER_OF_ROOMS, min(MAX_NUMBER_OF_ROOMS, number_of_origins * number_of_rooms_per_origin)
+        )
         return SpaceHulk(
             origins=origins,
             occupations=self._tables.occupations.generate_events(number_of_events=number_of_origins),

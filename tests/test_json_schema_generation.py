@@ -2,7 +2,7 @@ import json
 import unittest
 
 from pydantic.json import pydantic_encoder
-from pydantic.main import ModelMetaclass
+from pydantic.v1.main import ModelMetaclass
 
 from src.generator.map_object_size import MapObjectSizeConstraint
 from src.generator.random_table import RandomTable
@@ -20,7 +20,7 @@ class TestSchemaGeneration(unittest.TestCase):
         with schema_file.open("w") as schema_file:
             json.dump(schema_cls.schema(), schema_file, indent=2, default=pydantic_encoder)
 
-    def test_generate_json_schemas_expect_no_errors(self):
+    def test_generate_json_schemas_expect_no_errors(self) -> None:
         for schema_cls in [MapObjectSizeConstraint, RandomTable, SequencedDie, SpaceHulk]:
             with self.subTest(i=schema_cls.__name__):
                 self.generate_schema(schema_cls)
