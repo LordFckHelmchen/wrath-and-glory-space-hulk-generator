@@ -2,6 +2,15 @@
 
 <!-- version list -->
 
+## v2.2.0 (2025-12-14)
+
+### Features
+
+- Switch to Python 3.14
+  ([#29](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/pull/29),
+  [`29ad3da`](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/commit/29ad3da1c52ad813082d538c9acf26814938f199))
+
+
 ## v2.1.0 (2025-12-14)
 
 ### Build System
