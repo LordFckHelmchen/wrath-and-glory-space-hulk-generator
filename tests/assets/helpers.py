@@ -22,7 +22,7 @@ def create_clean_test_folder(folder_name: str) -> Path:
 
 
 def load_space_hulk(file_name: Path = TEST_HULK_FILE) -> SpaceHulk:
-    return SpaceHulk.parse_file(file_name)
+    return SpaceHulk.model_validate_json(file_name.read_text())
 
 
 def load_space_hulk_markdown(file_name: Path = TEST_HULK_MARKDOWN_FILE) -> str:

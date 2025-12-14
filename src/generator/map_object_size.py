@@ -3,28 +3,30 @@ from __future__ import annotations
 import logging
 from enum import Enum
 from random import randint
-from typing import Optional
+from typing import Annotated
 
 from pydantic import BaseModel
-from pydantic import ConstrainedInt
+from pydantic import Field
 from pydantic import PositiveInt
-from pydantic import validator
+from pydantic import ValidationInfo
+from pydantic import field_validator
 
 from .positive_int_range import PositiveIntRange
 
+MAP_OBJECT_SIZE_INT_MIN = 1
+MAP_OBJECT_SIZE_INT_MAX = 500
 
-class MapObjectSizeInt(ConstrainedInt):
-    ge = 1
-    le = 500
+MapObjectSizeInt = Annotated[int, Field(ge=MAP_OBJECT_SIZE_INT_MIN, le=MAP_OBJECT_SIZE_INT_MAX)]
 
 
 class MapObjectDimensionConstraint(PositiveIntRange):
     minimum: MapObjectSizeInt
     maximum: MapObjectSizeInt
 
-    @validator("maximum", allow_reuse=True)
-    def assert_min_not_equal_to_max(cls, maximum: PositiveInt, values: dict[str, PositiveInt]) -> PositiveInt:
-        if (minimum := values.get("minimum", False)) and minimum == maximum:
+    @field_validator("maximum")
+    @classmethod
+    def assert_min_not_equal_to_max(cls, maximum: PositiveInt, info: ValidationInfo) -> PositiveInt:
+        if (minimum := info.data.get("minimum", False)) and minimum == maximum:
             msg = f"Minimum & maximum must not be equal, was: minimum {minimum} == maximum {maximum}"
             raise ValueError(msg)
         return maximum
@@ -38,15 +40,15 @@ class UnitOfMeasurement(Enum):
 
 
 class MapObjectSize(BaseModel):
-    x: MapObjectSizeInt = MapObjectSizeInt.ge
-    y: MapObjectSizeInt = MapObjectSizeInt.ge
+    # Default to min. sized map object
+    x: MapObjectSizeInt = MAP_OBJECT_SIZE_INT_MIN
+    y: MapObjectSizeInt = MAP_OBJECT_SIZE_INT_MIN
     unit: UnitOfMeasurement = UnitOfMeasurement.METER
 
-    @validator("y", allow_reuse=True, always=True)
-    def copy_x_dimension_if_y_is_unassigned(
-        cls, y: MapObjectSizeInt, values: dict[str, MapObjectSizeInt]
-    ) -> MapObjectSizeInt:
-        return values["x"] if y is None else y
+    @field_validator("y")
+    @classmethod
+    def copy_x_dimension_if_y_is_unassigned(cls, y: MapObjectSizeInt, info: ValidationInfo) -> MapObjectSizeInt:
+        return y or info.data["x"]
 
     @property
     def area(self) -> PositiveInt:
@@ -76,17 +78,18 @@ class MapObjectSize(BaseModel):
 
 class MapObjectSizeConstraint(BaseModel):
     x: MapObjectDimensionConstraint
-    y: Optional[MapObjectDimensionConstraint]
+    y: MapObjectDimensionConstraint | None = None
     unit: UnitOfMeasurement = UnitOfMeasurement.METER
 
     def get_random_size(self) -> MapObjectSize:
         return MapObjectSize(x=self.x.get_random_value(), y=self.y.get_random_value())
 
-    @validator("y", allow_reuse=True, always=True)
+    @field_validator("y")
+    @classmethod
     def copy_x_limits_if_y_limits_are_unassigned(
-        cls, y: MapObjectDimensionConstraint, values: dict[str, MapObjectDimensionConstraint]
+        cls, y: MapObjectDimensionConstraint | None, info: ValidationInfo
     ) -> MapObjectDimensionConstraint:
-        return values["x"] if y is None else y
+        return y or info.data["x"]
 
     def __setitem__(self, key: str, value: MapObjectDimensionConstraint | UnitOfMeasurement) -> None:
         if (key in ["x", "y"] and not isinstance(value, MapObjectDimensionConstraint)) or (
@@ -102,7 +105,5 @@ class MapObjectSizeConstraint(BaseModel):
 
 
 GlobalMapObjectSizeConstraint = MapObjectSizeConstraint(
-    x=MapObjectDimensionConstraint(
-        minimum=MapObjectSizeInt(MapObjectSizeInt.ge), maximum=MapObjectSizeInt(MapObjectSizeInt.le)
-    )
+    x=MapObjectDimensionConstraint(minimum=MAP_OBJECT_SIZE_INT_MIN, maximum=MAP_OBJECT_SIZE_INT_MAX)
 )

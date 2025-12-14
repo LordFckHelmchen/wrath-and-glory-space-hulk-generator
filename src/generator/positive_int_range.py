@@ -3,16 +3,18 @@ from typing import SupportsInt
 
 from pydantic import BaseModel
 from pydantic import PositiveInt
-from pydantic import validator
+from pydantic import ValidationInfo
+from pydantic import field_validator
 
 
 class PositiveIntRange(BaseModel):
     minimum: PositiveInt
     maximum: PositiveInt
 
-    @validator("maximum", allow_reuse=True)
-    def assert_min_not_larger_than_max(cls, maximum: PositiveInt, values: dict[str, PositiveInt]) -> PositiveInt:
-        if (minimum := values.get("minimum", False)) and minimum > maximum:
+    @field_validator("maximum")
+    @classmethod
+    def assert_min_not_larger_than_max(cls, maximum: PositiveInt, info: ValidationInfo) -> PositiveInt:
+        if (minimum := info.data.get("minimum", False)) and minimum > maximum:
             msg = f"Maximum must be larger than minimum, was: minimum {minimum}, maximum {maximum}"
             raise ValueError(msg)
         return maximum

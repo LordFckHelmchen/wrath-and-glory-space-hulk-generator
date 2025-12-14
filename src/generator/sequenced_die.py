@@ -4,12 +4,11 @@ from math import ceil
 from math import log10
 from random import randint
 from typing import ClassVar
-from typing import Literal
 
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import PositiveInt
-from pydantic import validator
+from pydantic import field_validator
 
 from .positive_int_range import PositiveIntRange
 
@@ -24,15 +23,15 @@ class SequencedDie(BaseModel):
     number_of_dice: PositiveInt = Field(exclude=True)
 
     @classmethod
-    def from_die_type(cls, die_type: DieType) -> "SequencedDie":
-        if die_type is DieType.D6:
-            return cls(sides=6, number_of_dice=1)
-
-        if die_type is DieType.D66:
-            return cls(sides=6, number_of_dice=2)
-
-        msg = f"Unsupported die type '{die_type}'"
-        raise TypeError(msg)
+    def from_die_type(cls, die_type: DieType) -> SequencedDie:
+        match die_type:
+            case DieType.D6:
+                return cls(sides=6, number_of_dice=1)
+            case DieType.D66:
+                return cls(sides=6, number_of_dice=2)
+            case _:
+                msg = f"Unsupported die type '{die_type}'"
+                raise ValueError(msg)
 
     @staticmethod
     def _make_roll_from_sequence(sequence_of_rolls: Iterable[PositiveInt]) -> PositiveInt:
@@ -69,7 +68,7 @@ class SequencedDie(BaseModel):
         return roll_2 == self._make_roll_from_sequence(next_roll_to_1_single_rolls)
 
     @classmethod
-    def from_events(cls, events: list) -> "SequencedDie":
+    def from_events(cls, events: list) -> SequencedDie:
         if len(events) == 0:
             msg = "Events list must be non-empty!"
             raise ValueError(msg)
@@ -95,12 +94,13 @@ class SequencedDie(BaseModel):
 
 
 class SequencedSixSidedDieRange(PositiveIntRange):
-    SIDES: ClassVar[Literal[6]] = 6
+    SIDES: ClassVar[PositiveInt] = 6
 
-    @validator("*", allow_reuse=True)
+    @field_validator("*")
+    @classmethod
     def assert_digits_in_range_for_six_sided_die(cls, v: PositiveInt) -> PositiveInt:
         if not all(1 <= int(d) <= cls.SIDES for d in str(v)):
-            msg = f"All digits must be within [1, {cls.SIDES}, was {v}"
+            msg = f"All digits must be within [1, {cls.SIDES}], was {v}"
             raise ValueError(msg)
 
         return v

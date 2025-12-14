@@ -18,23 +18,25 @@ class TestLayoutGraph(unittest.TestCase):
     def setUpClass(cls) -> None:
         # Store hulk & layout
         space_hulk_file = cls.output_folder / "space_hulk.json"
-        space_hulk_file.write_text(cls._space_hulk.json(exclude_none=True, indent=2))
+        space_hulk_file.write_text(cls._space_hulk.model_dump_json(exclude_none=True, indent=2))
         cls._layout.save(directory=cls.output_folder, filename="space_hulk_layout.dot")
 
     def setUp(self) -> None:
         self.space_hulk = copy(self._space_hulk)
         self.layout = copy(self._layout)
 
-    def test_number_properties_on_all_rooms_hulk_expect_correct_numbers_returned(self) -> None:
+    def test_number_properties_on_all_rooms_expect_correct_numbers_returned(self) -> None:
+        expected_number_of_nodes = 21
         with self.subTest(i="Number of nodes"):
-            self.assertEqual(self.layout.number_of_nodes, 21)
+            assert self.layout.number_of_nodes == expected_number_of_nodes
+
         with self.subTest(i="Number of edges"):
-            self.assertEqual(self.layout.number_of_edges, 22)
+            assert self.layout.number_of_edges == expected_number_of_nodes + 1
 
     def test_str_with_same_comment_on_multiple_calls_expect_comment_unchanged_after_each_call(self) -> None:
         expected_comment = self.layout.comment
         _ = str(self.layout)
-        self.assertEqual(expected_comment, self.layout.comment)
+        assert expected_comment == self.layout.comment
 
     def test_render_all_possible_engines_expect_no_errors(self) -> None:
         for engine in GraphvizEngine:
@@ -48,12 +50,12 @@ class TestLayoutGraph(unittest.TestCase):
     def test_layout_edge_type_property_access_expect_set_type_returned(self) -> None:
         for expected_value in GraphvizEdgeType:
             self.layout.edge_type = expected_value
-            self.assertEqual(expected_value, self.layout.edge_type)
+            assert expected_value == self.layout.edge_type
 
     def test_layout_engine_property_access_expect_set_engine_returned(self) -> None:
         for expected_value in GraphvizEngine:
             self.layout.layout_engine = expected_value
-            self.assertEqual(expected_value, self.layout.layout_engine)
+            assert expected_value == self.layout.layout_engine
 
     def test_render_to_file_as_pdf_expect_no_errors(self) -> None:
         self.layout.render_to_file(file_name=self.output_folder / f"space_hulk.{LayoutFileType.PDF.value}")
