@@ -108,4 +108,5 @@ strict = true
 convention = "numpy"
 
 [tool.semantic_release]
+tag_format = "{version}"
 version_variables = ["pyproject.toml:version"]
