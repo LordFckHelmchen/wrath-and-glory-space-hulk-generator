@@ -1,10 +1,10 @@
 import logging
 import mimetypes
+import tomllib
 from pathlib import Path
 from random import randint
 
 import streamlit as st
-import toml
 
 from src.app.layout_file_creator import create_combined_file
 from src.app.layout_file_creator import create_layout_preview_file
@@ -92,8 +92,8 @@ def update_metrics() -> None:
 
 @st.cache_data
 def get_app_version() -> str:
-    with Path("pyproject.toml").open(encoding="utf-8") as pyproject_toml_file:
-        pyproject_toml = toml.load(pyproject_toml_file)
+    with Path("pyproject.toml").open(encoding="utf-8") as fp:
+        pyproject_toml = tomllib.load(fp)
     return pyproject_toml["project"]["version"]
 
 
