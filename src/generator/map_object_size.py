@@ -55,7 +55,7 @@ class MapObjectSize(BaseModel):
         return self.x * self.y
 
     def __setitem__(self, key: str, value: MapObjectSizeInt | UnitOfMeasurement) -> None:
-        if (key in ["x", "y"] and not isinstance(value, MapObjectSizeInt)) or (
+        if (key in {"x", "y"} and not isinstance(value, MapObjectSizeInt)) or (
             key == "unit" and not isinstance(value, UnitOfMeasurement)
         ):
             msg = f"Unsupported type '{type(value)}' for attribute '{key}'"
@@ -92,7 +92,7 @@ class MapObjectSizeConstraint(BaseModel):
         return y or info.data["x"]
 
     def __setitem__(self, key: str, value: MapObjectDimensionConstraint | UnitOfMeasurement) -> None:
-        if (key in ["x", "y"] and not isinstance(value, MapObjectDimensionConstraint)) or (
+        if (key in {"x", "y"} and not isinstance(value, MapObjectDimensionConstraint)) or (
             key == "unit" and not isinstance(value, UnitOfMeasurement)
         ):
             msg = f"Unsupported type '{type(value)}' for attribute '{key}'"

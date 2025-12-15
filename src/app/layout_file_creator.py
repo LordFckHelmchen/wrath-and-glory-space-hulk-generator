@@ -21,8 +21,14 @@ def create_layout_preview_file(space_hulk: SpaceHulk, _layout: ILayout) -> str: 
 
     Parameters
     ----------
-    space_hulk: The space hulk; used for caching, e.g. to detect if there are changes.
-    _layout: The current layouter to render the file on.
+    space_hulk
+        The space hulk (used for hashing in Streamlit cache).
+    _layout
+        The current layouter to render the file on (ignored during hashing in Streamlit cache).
+
+    Returns
+    -------
+    The path to the created preview file (used for hashing in Streamlit cache).
     """
     file_name = make_file_name(LayoutFileType.PNG, postfix="_preview")
 
@@ -32,7 +38,19 @@ def create_layout_preview_file(space_hulk: SpaceHulk, _layout: ILayout) -> str: 
 
 @st.cache_data
 def create_combined_file(space_hulk: SpaceHulk, _layout: ILayout) -> str:
-    """Create a full file with space hulk description & rendered layout"""
+    """
+    Create a full file with space hulk description & rendered layout.
+
+    Parameters
+    ----------
+    space_hulk
+        The space hulk (used for hashing in Streamlit cache).
+        The current layouter to render the file on (ignored during hashing in Streamlit cache).
+
+    Returns
+    -------
+    The path to the created preview file (used for hashing in Streamlit cache).
+    """
     file_name = make_file_name(LayoutFileType.PDF)
 
     # Merge description & layout into single PDF

@@ -1,0 +1,68 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+default_install_hook_types:
+  - commit-msg
+  - pre-commit
+exclude: "^src/layouter/de_broglie_layouter/DeBroglie_v2.+" # Exclude DeBroglie files
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-illegal-windows-names
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-yaml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+      - id: pretty-format-json
+        args:
+          - --autofix
+      - id: trailing-whitespace
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 88cb1bdc3f975bf753e85082b4784f6119fd3b15  # frozen: 0.9.11
+    hooks:
+      - id: uv-lock # Check lock files
+      - id: uv-sync # Sync. local .venv
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: fa1ed65ba95bfa7771a71003a9d74402541f5a5c  # frozen: v0.14.6
+    hooks:
+      - id: ruff-check # Run the linter & fix fixable issues
+        args:
+          - --fix
+      - id: ruff-format
+
+  - repo: https://github.com/hukkin/mdformat
+    rev: 2d496dbc18e31b83a1596685347ffe0b6041daf0  # frozen: 1.0.0
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-beautysh # Use beautysh to format shell code blocks
+          - mdformat-config # Format JSON, TOML & YAML code blocks
+          - mdformat-footnote # Format footnotes
+          - mdformat-front-matters # Format front matters
+          - mdformat-gfm # Github Flavored Markdown
+          - mdformat-ruff # Use ruff to lint code blocks
+        exclude: "(CHANGELOG|^tests/assets/space_hulk_markdown_for_test)\\.md$" # Exclude auto-generated CHANGELOG & test asset
+        args:
+          - --number
+          - --wrap=120
+          - --end-of-line=keep
+
+  - repo: https://github.com/espressif/conventional-precommit-linter
+    rev: 7bc85936608ba0ae03887bb6e110555535d1c3ac  # frozen: v1.10.0
+    hooks:
+      - id: conventional-precommit-linter
+        stages:
+          - commit-msg
+        args:
+          - --allow-breaking
+          - --types=build,chore,ci,docs,feat,fix,refactor,revert,test # Keep types in sync with .github/workflows/validate_pr_title.yml

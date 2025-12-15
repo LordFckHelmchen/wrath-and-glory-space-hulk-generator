@@ -4,14 +4,14 @@
 
 - [Users](#users)
 - [Basic Use Cases](#basic-use-cases)
-    - [Generate Space Hulks](#generate-space-hulks)
-    - [Review Space Hulks](#review-space-hulks)
-    - [Export Space Hulks](#export-space-hulks)
+  - [Generate Space Hulks](#generate-space-hulks)
+  - [Review Space Hulks](#review-space-hulks)
+  - [Export Space Hulks](#export-space-hulks)
 - [Advanced Use Cases](#advanced-use-cases)
-    - [Modify Space Hulks](#modify-space-hulks)
-    - [Store & Load Space Hulks](#store--load-space-hulks)
-    - [Generate Space Hulks from set of existing space hulks](#generate-space-hulks-from-set-of-existing-space-hulks)
-    - [Log user actions to optimize UX](#log-user-actions-to-optimize-ux)
+  - [Modify Space Hulks](#modify-space-hulks)
+  - [Store & Load Space Hulks](#store--load-space-hulks)
+  - [Generate Space Hulks from set of existing space hulks](#generate-space-hulks-from-set-of-existing-space-hulks)
+  - [Log user actions to optimize UX](#log-user-actions-to-optimize-ux)
 
 ## Users
 
@@ -27,7 +27,7 @@
 ```mermaid
 flowchart TD
     GM[Game Master] --uses--> GENERATE
-    
+
     GENERATE --extends to--o GENERATE_WITH_DESCRIPTION
 
     subgraph GENERATE[Use Case: Generate Space Hulk]
@@ -35,7 +35,7 @@ flowchart TD
         Generate -.contains.-> GenerateEvents([Generate events])
         Generate -.contains.-> GenerateLayout([Generate layout])
     end
-    
+
     subgraph GENERATE_WITH_DESCRIPTION[Use Case: Generate Space Hulk With Description]
         GenerateWithDescription([Generate with description])
         GenerateWithDescription -.contains.-> GenerateName([Generate name])
@@ -48,7 +48,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     GM[Game Master] --uses--> REVIEW
-    
+
     subgraph REVIEW[Use Case: Review Space Hulk]
         Review([Review space hulk])
         Review -.contains.->ReviewText([Review text])
@@ -61,7 +61,7 @@ flowchart TD
 ```mermaid
 flowchart TD
     GM[Game Master] --uses--> EXPORT
-    
+
     subgraph EXPORT[Use Case: Export Space Hulk]
         Export([Export space hulk])
         Export -.contains.-> CreateFile([Create file])
@@ -105,15 +105,15 @@ train an AI model to generate descriptions & names based on the existing ones.
 ```mermaid
 flowchart TD
     GM[Game Master] --uses--> GENERATE_WITH_DESCRIPTION
-    
+
     GENERATE_WITH_DESCRIPTION --extends to--o GENERATE_FROM_EXISTING --uses--> IO
 
     subgraph IO[Use Case: Store/Load Space Hulk]
     end
-    
+
     subgraph GENERATE_WITH_DESCRIPTION[Use Case: Generate Space Hulk With Description]
     end
-    
+
     subgraph GENERATE_FROM_EXISTING[Use Case: Generate Space Hulk From Existing Data]
         GenerateFromExisting([Generate from existing data])
     end

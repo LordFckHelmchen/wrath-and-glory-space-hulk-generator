@@ -8,8 +8,9 @@ readme = "README.md"
 keywords = ["graphviz", "rpg-tool", "streamlit", "wrathandglory", "wrath-and-glory", "space-hulk-board-game"]
 classifiers = [
 "Development Status :: 5 - Production/Stable",
+"Framework :: Pydantic",
 "Programming Language :: Python",
-"Programming Language :: Python :: 3.9",
+"Programming Language :: Python :: 3.13",
 ]
 
 requires-python = "~=3.13.0" # Keep in sync with ruff.target-version below & streamlit app settings!
@@ -31,12 +32,10 @@ Repository = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-gene
 
 [dependency-groups]
 dev = [
-    "fawltydeps>=0.20.0",
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
     "pytest-emoji>=0.2.0",
     "pytest-md>=0.2.0",
-    "ruff>=0.14.9",        # Pinned to make ruff-action work - if changed, also change in .github/workflows/code_checks.yml
     "toml>=0.10.2",
 ]
 
@@ -47,19 +46,17 @@ omit = ["tests/*"]
 [tool.coverage.report]
 fail_under = 74
 
-[tool.fawltydeps]
-ignore_unused = [
-    "fawltydeps",
-    "ruff",
-    "pytest",
-    "pytest-cov",
-    "pytest-emoji",
-    "pytest-md",
+[tool.pytest.ini_options]
+addopts = "--cov"
+testpaths = [
+    "tests",
 ]
 
 [tool.ruff]
-target-version = "py313" # Keep in sync with requires-python above
+# Via pre-commit hooks
 line-length = 120
+target-version = "py313" # Keep in sync with requires-python above
+preview = true
 
 [tool.ruff.format]
 docstring-code-format = true
@@ -67,23 +64,30 @@ skip-magic-trailing-comma = true
 
 [tool.ruff.lint]
 select = ["ALL"]
+# Top-level ignores
 ignore = [
+    "AIR",     # Disable all Airflow-related rules - not relevant here
     "ANN002", # Missing function annotation for *args
     "ANN003", # Missing function annotation for **kwargs
     "COM812", # Trailing comma rule - recommended to be ignored by ruff
+    "CPY001", # TODO(djm): https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/issues/31
     "D",      # pydocstyle warnings
+    "FAST",    # Disable all FastAPI-related rules - not relevant here
     "FIX002", # TODO comments
     "G004",   # f-strings in logging
-    "TC00",   # Don't use TYPE_CHECKING blocks - too much issues in py3.9
     "S311",   # We have no cryptographic code - so don't check for security of random operations
+    "TC00",   # Don't use TYPE_CHECKING blocks - too much issues in py3.9
 ]
 
 [tool.ruff.lint.per-file-ignores]
+# Test code
 "test_*.py" = [
-    "SLF",    # Private member access
-    "S101",   # Bare asserts (pytest-style)
-    "S603",   # Untrusted subprocess input
-    "T201",   # Print output
+    "PLR6301", # Don't complain about potentially static functions (used for grouping via unittest classes)
+    "S101",    # Allow bare asserts in actual tests (used by Pytest)
+    "S40",     # Security issues - not relevant for test code
+    "S603",    # Untrusted subprocess input
+    "SLF",     # Private member access
+    "T201",    # Allow prints in tests
 ]
 
 [tool.ruff.lint.isort]

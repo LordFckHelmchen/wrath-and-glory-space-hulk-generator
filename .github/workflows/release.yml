@@ -1,7 +1,7 @@
 name: "Semantic release"
 
 
-on: 
+on:
   push:
     branches:
       - main

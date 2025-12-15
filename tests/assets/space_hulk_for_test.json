@@ -1,12 +1,11 @@
 {
-  "origins": {
+  "hazards": {
     "event_count_constraint": {
-      "minimum": 1,
-      "maximum": 4
+      "maximum": 5
     },
     "events": [
       {
-        "name": "Imperial"
+        "name": "Gravitational Surges"
       }
     ]
   },
@@ -16,8 +15,19 @@
     },
     "events": [
       {
-        "name": "Rogue Psykers",
-        "description": "A cabal of rogue psykers hiding from the Imperium"
+        "description": "A cabal of rogue psykers hiding from the Imperium",
+        "name": "Rogue Psykers"
+      }
+    ]
+  },
+  "origins": {
+    "event_count_constraint": {
+      "maximum": 4,
+      "minimum": 1
+    },
+    "events": [
+      {
+        "name": "Imperial"
       }
     ]
   },
@@ -33,187 +43,177 @@
   },
   "rooms": {
     "event_count_constraint": {
-      "minimum": 1,
-      "maximum": 100
+      "maximum": 100,
+      "minimum": 1
     },
     "events": [
       {
         "name": "Supply Cache",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Reliquary",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Warp-Tainted Chamber",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Vast Hangar",
         "size": {
+          "unit": "m",
           "x": 20,
-          "y": 20,
-          "unit": "m"
+          "y": 20
         }
       },
       {
         "name": "Impossible Stairwells",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Vertical Shaft",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Compressed Junction",
         "size": {
+          "unit": "m",
           "x": 5,
-          "y": 5,
-          "unit": "m"
+          "y": 5
         }
       },
       {
         "name": "Weapons Silo",
         "size": {
+          "unit": "m",
           "x": 10,
-          "y": 10,
-          "unit": "m"
+          "y": 10
         }
       },
       {
         "name": "Tangled Piping",
         "size": {
+          "unit": "m",
           "x": 5,
-          "y": 5,
-          "unit": "m"
+          "y": 5
         }
       },
       {
         "name": "Endless Labyrinth",
         "size": {
+          "unit": "m",
           "x": 5,
-          "y": 5,
-          "unit": "m"
+          "y": 5
         }
       },
       {
         "name": "Damaged Consoles",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Worrisome Lever",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Unknown Technology",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Unmarked Graveyard",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Hull Breach",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Jammed Doorways",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Communications Array",
         "size": {
+          "unit": "m",
           "x": 3,
-          "y": 3,
-          "unit": "m"
+          "y": 3
         }
       },
       {
         "name": "Derelict Engines",
         "size": {
+          "unit": "m",
           "x": 10,
-          "y": 10,
-          "unit": "m"
+          "y": 10
         }
       },
       {
         "name": "Dead End",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Life Support",
         "size": {
+          "unit": "m",
           "x": 2,
-          "y": 2,
-          "unit": "m"
+          "y": 2
         }
       },
       {
         "name": "Medical Bay",
         "size": {
+          "unit": "m",
           "x": 5,
-          "y": 5,
-          "unit": "m"
+          "y": 5
         }
-      }
-    ]
-  },
-  "hazards": {
-    "event_count_constraint": {
-      "maximum": 5
-    },
-    "events": [
-      {
-        "name": "Gravitational Surges"
       }
     ]
   }

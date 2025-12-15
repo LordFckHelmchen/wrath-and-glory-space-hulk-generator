@@ -1,29 +1,44 @@
 {
-  "table_name": "Origins",
   "event_count_constraint": {
-    "minimum": 1,
-    "maximum": 4
+    "maximum": 4,
+    "minimum": 1
   },
   "events": [
     {
-      "range": {"minimum": 11, "maximum": 33},
-      "name": "Imperial"
+      "name": "Imperial",
+      "range": {
+        "maximum": 33,
+        "minimum": 11
+      }
     },
     {
-      "range": {"minimum": 34, "maximum": 46},
-      "name": "Chaos"
+      "name": "Chaos",
+      "range": {
+        "maximum": 46,
+        "minimum": 34
+      }
     },
     {
-      "range": {"minimum": 51, "maximum": 54},
-      "name": "Aeldari"
+      "name": "Aeldari",
+      "range": {
+        "maximum": 54,
+        "minimum": 51
+      }
     },
     {
-      "range": {"minimum": 55, "maximum": 62},
-      "name": "Ork"
+      "name": "Ork",
+      "range": {
+        "maximum": 62,
+        "minimum": 55
+      }
     },
     {
-      "range": {"minimum": 63, "maximum": 66},
-      "name": "Mixed Origin"
+      "name": "Mixed Origin",
+      "range": {
+        "maximum": 66,
+        "minimum": 63
+      }
     }
-  ]
+  ],
+  "table_name": "Origins"
 }

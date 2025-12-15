@@ -44,7 +44,7 @@ class TestApp(unittest.TestCase):
         def curl_app() -> int:
             sleep(retry_wait_in_sec)  # Always wait to be ready.
             response = run(curl_cmd, check=False, stderr=PIPE, text=True, timeout=retry_wait_in_sec)
-            if response.stderr != "":
+            if response.stderr:
                 print(f"Curl had difficulties: '{response.stderr}'")
             return response.returncode
 

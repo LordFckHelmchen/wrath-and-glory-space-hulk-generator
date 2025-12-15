@@ -92,7 +92,7 @@ def update_metrics() -> None:
 
 @st.cache_data
 def get_app_version() -> str:
-    with Path("pyproject.toml").open() as pyproject_toml_file:
+    with Path("pyproject.toml").open(encoding="utf-8") as pyproject_toml_file:
         pyproject_toml = toml.load(pyproject_toml_file)
     return pyproject_toml["project"]["version"]
 

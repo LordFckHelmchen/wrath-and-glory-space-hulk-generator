@@ -1,28 +1,43 @@
 {
-  "table_name": "Hazards",
   "event_count_constraint": {
     "maximum": 5
   },
   "events": [
     {
-      "range": {"minimum": 1, "maximum": 2},
-      "name": "Gravitational Surges"
+      "name": "Gravitational Surges",
+      "range": {
+        "maximum": 2,
+        "minimum": 1
+      }
     },
     {
-      "range": {"minimum": 3, "maximum": 3},
-      "name": "Collapsing Inwards"
+      "name": "Collapsing Inwards",
+      "range": {
+        "maximum": 3,
+        "minimum": 3
+      }
     },
     {
-      "range": {"minimum": 4, "maximum": 4},
-      "name": "Warp Twisted"
+      "name": "Warp Twisted",
+      "range": {
+        "maximum": 4,
+        "minimum": 4
+      }
     },
     {
-      "range": {"minimum": 5, "maximum": 5},
-      "name": "Genestealer Trap"
+      "name": "Genestealer Trap",
+      "range": {
+        "maximum": 5,
+        "minimum": 5
+      }
     },
     {
-      "range": {"minimum": 6, "maximum": 6},
-      "name": "Into the Warp"
+      "name": "Into the Warp",
+      "range": {
+        "maximum": 6,
+        "minimum": 6
+      }
     }
-  ]
+  ],
+  "table_name": "Hazards"
 }
