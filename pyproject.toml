@@ -1,6 +1,6 @@
 [project]
 name = "wrath-and-glory-space-hulk-generator"
-version = "2.2.0"
+version = "2.2.1"
 description = "Generates Space Hulks based on the tables provided in the Redacted Records rulebook of Cubicle 7"
 authors = [{name = "LordFckHelmchen", email = "dj_mack@gmx.de"}]
 license = "GPL-3.0-or-later"

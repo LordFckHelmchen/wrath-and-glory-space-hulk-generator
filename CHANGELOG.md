@@ -2,6 +2,32 @@
 
 <!-- version list -->
 
+## v2.2.1 (2025-12-15)
+
+### Bug Fixes
+
+- Use builtin tomllib in app instead of undeclared toml
+  ([`2623638`](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/commit/26236381104078174d2727a11f3431f1bc3b17b3))
+
+### Build System
+
+- Switch to prek, update ruff rules & ci
+  ([`c403a1b`](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/commit/c403a1bc142b27bbab189a04d50dd78bbeceff66))
+
+### Continuous Integration
+
+- Update uv.lock during release
+  ([`543eac6`](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/commit/543eac6e1f6fdca30122ff74f8babddf0f4445ee))
+
+### Documentation
+
+- Remove DeBroglie docs from repo
+  ([`389f823`](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/commit/389f823e7875422d7b2bcb111b19677943f41019))
+
+- Update README
+  ([`94aeb2d`](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/commit/94aeb2d6180a79a45de1b3a3d22539a457562030))
+
+
 ## v2.2.0 (2025-12-14)
 
 ### Features
