@@ -18,7 +18,7 @@ class TestSchemaGeneration(unittest.TestCase):
     def generate_schema(cls, schema_cls: ModelMetaclass) -> None:
         schema_file = cls.output_folder / f"{schema_cls.__name__}.json"
         with schema_file.open("w") as schema_file:
-            json.dump(schema_cls.schema(), schema_file, indent=2, default=pydantic_encoder)
+            json.dump(schema_cls.model_json_schema(), schema_file, indent=2, default=pydantic_encoder)
 
     def test_generate_json_schemas_expect_no_errors(self) -> None:
         for schema_cls in [MapObjectSizeConstraint, RandomTable, SequencedDie, SpaceHulk]:

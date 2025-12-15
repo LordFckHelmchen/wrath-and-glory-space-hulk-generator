@@ -4,6 +4,7 @@ from math import ceil
 from math import log10
 from random import randint
 from typing import ClassVar
+from typing import Self
 
 from pydantic import BaseModel
 from pydantic import Field
@@ -23,7 +24,7 @@ class SequencedDie(BaseModel):
     number_of_dice: PositiveInt = Field(exclude=True)
 
     @classmethod
-    def from_die_type(cls, die_type: DieType) -> SequencedDie:
+    def from_die_type(cls, die_type: DieType) -> Self:
         match die_type:
             case DieType.D6:
                 return cls(sides=6, number_of_dice=1)
@@ -68,7 +69,7 @@ class SequencedDie(BaseModel):
         return roll_2 == self._make_roll_from_sequence(next_roll_to_1_single_rolls)
 
     @classmethod
-    def from_events(cls, events: list) -> SequencedDie:
+    def from_events(cls, events: list) -> Self:
         if len(events) == 0:
             msg = "Events list must be non-empty!"
             raise ValueError(msg)

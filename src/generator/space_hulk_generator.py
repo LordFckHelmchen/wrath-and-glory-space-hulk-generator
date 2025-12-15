@@ -28,7 +28,7 @@ class SpaceHulkGenerator:
         tables = {}
         for table in fields(SpaceHulkTables):
             table_file = table_folder / table_name_glob_pattern.replace("*", table.name)
-            tables[table.name] = RandomTable.parse_file(table_file)
+            tables[table.name] = RandomTable.model_validate_json(table_file.read_text(encoding="utf-8"))
 
         self._tables = SpaceHulkTables(**tables)
 

@@ -28,7 +28,7 @@ class SpaceHulk(BaseModel):
         return len(self.rooms)
 
     def __iter__(self) -> Generator[tuple[str, RandomTableEventCollection]]:
-        for field in self.__fields__:
+        for field in SpaceHulk.model_fields:
             field_value = getattr(self, field)
             if isinstance(field_value, RandomTableEventCollection):
                 yield field, getattr(self, field)

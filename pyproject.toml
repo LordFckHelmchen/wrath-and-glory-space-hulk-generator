@@ -12,7 +12,7 @@ classifiers = [
 "Programming Language :: Python :: 3.9",
 ]
 
-requires-python = "==3.14.2" # Keep in sync with ruff.target-version below
+requires-python = "~=3.13.0" # Keep in sync with ruff.target-version below & streamlit app settings!
 dependencies = [
     "fpdf>=1.7.2",
     "graphviz>=0.21.0",
@@ -31,12 +31,12 @@ Repository = "https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-gene
 
 [dependency-groups]
 dev = [
-    "fawltydeps>=0.13.3",
+    "fawltydeps>=0.20.0",
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
     "pytest-emoji>=0.2.0",
     "pytest-md>=0.2.0",
-    "ruff>=0.14.8",        # Pinned to make ruff-action work - if changed, also change in .github/workflows/code_checks.yml
+    "ruff>=0.14.9",        # Pinned to make ruff-action work - if changed, also change in .github/workflows/code_checks.yml
     "toml>=0.10.2",
 ]
 
@@ -58,7 +58,7 @@ ignore_unused = [
 ]
 
 [tool.ruff]
-target-version = "py314" # Keep in sync with requires-python above
+target-version = "py313" # Keep in sync with requires-python above
 line-length = 120
 
 [tool.ruff.format]

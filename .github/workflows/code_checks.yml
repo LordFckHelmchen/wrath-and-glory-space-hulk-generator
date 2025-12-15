@@ -38,6 +38,6 @@ jobs:
     steps:
       - uses: astral-sh/ruff-action@57714a7c8a2e59f32539362ba31877a1957dded1  # v3.5.1
         with:
-          version: 0.14.8  # Pinned to match pyproject.toml - if changed, also change in pyproject.toml
+          version: 0.14.9  # Pinned to match pyproject.toml - if changed, also change in pyproject.toml
       - run: ruff check
       - run: ruff format --check --diff
