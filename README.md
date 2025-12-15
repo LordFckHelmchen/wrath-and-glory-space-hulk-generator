@@ -4,8 +4,7 @@
 ![release (latest SemVer)](https://img.shields.io/github/v/release/LordFckHelmchen/wrath-and-glory-space-hulk-generator?sort=semver)
 [![Code checks](https://img.shields.io/github/actions/workflow/status/LordFckHelmchen/wrath-and-glory-space-hulk-generator/code_checks.yml?label=checks)](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/actions/workflows/code_checks.yml)
 [![Coverage Status](https://coveralls.io/repos/github/LordFckHelmchen/wrath-and-glory-space-hulk-generator/badge.svg?branch=djm/add_pytest)](https://coveralls.io/github/LordFckHelmchen/wrath-and-glory-space-hulk-generator?branch=djm/add_pytest)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v0.json)](https://github.com/charliermarsh/ruff)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 The _Wrath & Glory Space Hulk Generator_ contains a random map generator for [Cubicle7](https://cubicle7games.com)'s
 Warhammer
@@ -14,14 +13,11 @@ game _[Wrath & Glory](https://cubicle7games.com/our-games/wrath-glory)_.
 
 ## State
 
-Active Development
+Maintained
 
 ## Description
 
-The code contains the generator as well as a streamlit app for a simple website hosting the generator that can be found
-[here](https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main).
-
-![Screenshot.png](docs/Screenshot.png)
+This repository contains the generator as well as the app that is hosted at the [Streamlit app](https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main).
 
 A description of the app is given in [APP_ABOUT.md](docs/APP_ABOUT.md).
 
