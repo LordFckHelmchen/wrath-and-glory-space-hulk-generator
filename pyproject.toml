@@ -96,5 +96,11 @@ strict = true
 convention = "numpy"
 
 [tool.semantic_release]
+# Via .github/workflows/release.yml
+# Update uv.lock upon release
+build_command = """
+    uv lock --upgrade-package "$PACKAGE_NAME"
+    git add uv.lock
+"""
 tag_format = "{version}"
-version_variables = ["pyproject.toml:version"]
+version_toml = ["pyproject.toml:project.version"]
