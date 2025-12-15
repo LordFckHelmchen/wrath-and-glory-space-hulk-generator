@@ -1,6 +1,16 @@
 name: "Code checks"
 
-on: ["push", "pull_request"]
+on:
+  pull_request:
+    types:
+      - edited
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+
 
 jobs:
   unittests:
@@ -17,7 +27,7 @@ jobs:
         uses: pavelzw/pytest-action@510c5e90c360a185039bea56ce8b3e7e51a16507  # v2.2.0
         with:
           custom-pytest: "uv run pytest"
-          custom-arguments: "--cov-report term --cov-report lcov:coverage.lcov --cov"
+          custom-arguments: "--cov-report term --cov-report lcov:coverage.lcov"
           verbose: true
           job-summary: true
           report-title: "Test Report"
@@ -33,11 +43,8 @@ jobs:
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b  # v2.3.6
 
   linting:
-    name: Linting (ruff)
+    name: Linting (prek)
     runs-on: ubuntu-latest
     steps:
-      - uses: astral-sh/ruff-action@57714a7c8a2e59f32539362ba31877a1957dded1  # v3.5.1
-        with:
-          version: 0.14.9  # Pinned to match pyproject.toml - if changed, also change in pyproject.toml
-      - run: ruff check
-      - run: ruff format --check --diff
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
+      - uses: j178/prek-action@91fd7d7cf70ae1dee9f4f44e7dfa5d1073fe6623  # v1.0.11

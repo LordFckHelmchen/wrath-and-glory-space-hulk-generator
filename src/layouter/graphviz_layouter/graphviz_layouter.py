@@ -58,7 +58,7 @@ class GraphvizLayouter(ICreateLayouts):
             graphviz properties for the layout. Default: DEFAULT_GRAPH_PROPERTIES
         """
         self.max_number_of_connections_per_room = max_number_of_connections_per_room
-        self.graph_properties = (graph_properties if graph_properties else {}) | DEFAULT_GRAPH_PROPERTIES
+        self.graph_properties = (graph_properties or {}) | DEFAULT_GRAPH_PROPERTIES
 
     @staticmethod
     def _get_other_room(current_room: RandomTableEvent, space_hulk: SpaceHulk) -> RandomTableEvent:

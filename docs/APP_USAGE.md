@@ -19,12 +19,12 @@ multiplied by the number of origins.
 This determines what kind of layouter is used to draw the map of the rolled space hulk. Current options are:
 
 - _GraphvizLayouter_
-  
-  This layouter uses the [Graphviz](https://graphviz.org) backend to render an actual graph of the
-  generated space hulk. Each node in the graph reflects a room rolled on the random table. The rooms are rendered to
-  scale, e.g. you get an actual feeling for the size of a _Vast Hanger_ vs. a _Damaged Consoles_.
-  The edges are the corridors between the rooms and can be rendered in several different ways (e.g edged vs. curved).
-  This allows for different looks of the map, for example for Eldar a more rounded look might make sense.
+
+  This layouter uses the [Graphviz](https://graphviz.org) backend to render an actual graph of the generated space hulk.
+  Each node in the graph reflects a room rolled on the random table. The rooms are rendered to scale, e.g. you get an
+  actual feeling for the size of a _Vast Hanger_ vs. a _Damaged Consoles_. The edges are the corridors between the rooms
+  and can be rendered in several different ways (e.g edged vs. curved). This allows for different looks of the map, for
+  example for Eldar a more rounded look might make sense.
 
 - _DeBroglieLayouter_
 
@@ -56,9 +56,9 @@ _NOTE_: These options are a subset of graphviz's [_Layout Engines_](https://grap
 
 Determines how the rooms are connected, e.g. how the hallways are drawn.
 
-- _ortho_ produces rectangular connections, that look most like "built hallways". If the number of rooms is large,
-  this might fail due to overlapping edges, especially with the _circo_ engine. In such cases the layout will simply
-  fallback to straight lines.
+- _ortho_ produces rectangular connections, that look most like "built hallways". If the number of rooms is large, this
+  might fail due to overlapping edges, especially with the _circo_ engine. In such cases the layout will simply fallback
+  to straight lines.
 - _spline_ makes curved lines, that might have less overlap than the straight lines.
 - _line_ makes simple, straight lines between the rooms. This works best with _circo_.
 
@@ -70,7 +70,7 @@ Only available of the according _Layouter type_ is selected. This layouter curre
 
 ### Space Hulk
 
-This section allows you to 
+This section allows you to
 
 - *Create new hulk?*
 
@@ -83,8 +83,9 @@ This section allows you to
 - *Download PDF*
 
   This lets you download the generated space hulk and the created map
-  - The *GraphvizLayouter* generates a vectorized (read "high-resolution") map 
+
+  - The *GraphvizLayouter* generates a vectorized (read "high-resolution") map
   - The *DeBroglieLayouter* only creates a (rather low-res) bitmap
 
-Initially, only the _Create new hulk?_ option is available. After you created a first
-hulk, the other two options become visible.
+Initially, only the _Create new hulk?_ option is available. After you created a first hulk, the other two options become
+visible.

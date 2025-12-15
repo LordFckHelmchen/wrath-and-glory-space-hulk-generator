@@ -1,28 +1,43 @@
 {
-  "table_name": "Purposes",
   "event_count_constraint": {
     "maximum": 4
   },
   "events": [
     {
-      "range": {"minimum": 11, "maximum": 13},
-      "name": "Escape/Hijack"
+      "name": "Escape/Hijack",
+      "range": {
+        "maximum": 13,
+        "minimum": 11
+      }
     },
     {
-      "range": {"minimum": 21, "maximum": 26},
-      "name": "Infect/Subsume"
+      "name": "Infect/Subsume",
+      "range": {
+        "maximum": 26,
+        "minimum": 21
+      }
     },
     {
-      "range": {"minimum": 31, "maximum": 45},
-      "name": "Consume/Harvest"
+      "name": "Consume/Harvest",
+      "range": {
+        "maximum": 45,
+        "minimum": 31
+      }
     },
     {
-      "range": {"minimum": 51, "maximum": 54},
-      "name": "Raid/Steal"
+      "name": "Raid/Steal",
+      "range": {
+        "maximum": 54,
+        "minimum": 51
+      }
     },
     {
-      "range": {"minimum": 55, "maximum": 66},
-      "name": "Defend/Protect"
+      "name": "Defend/Protect",
+      "range": {
+        "maximum": 66,
+        "minimum": 55
+      }
     }
-  ]
+  ],
+  "table_name": "Purposes"
 }

@@ -5,11 +5,10 @@
 [![Code checks](https://img.shields.io/github/actions/workflow/status/LordFckHelmchen/wrath-and-glory-space-hulk-generator/code_checks.yml?label=checks)](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/actions/workflows/code_checks.yml)
 [![Coverage Status](https://coveralls.io/repos/github/LordFckHelmchen/wrath-and-glory-space-hulk-generator/badge.svg?branch=djm/add_pytest)](https://coveralls.io/github/LordFckHelmchen/wrath-and-glory-space-hulk-generator?branch=djm/add_pytest)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![prek](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/j178/prek/master/docs/assets/badge-v0.json)](https://github.com/j178/prek)
 
 The _Wrath & Glory Space Hulk Generator_ contains a random map generator for [Cubicle7](https://cubicle7games.com)'s
-Warhammer
-40k role-playing
-game _[Wrath & Glory](https://cubicle7games.com/our-games/wrath-glory)_.
+Warhammer 40k role-playing game _[Wrath & Glory](https://cubicle7games.com/our-games/wrath-glory)_.
 
 ## State
 
@@ -17,7 +16,8 @@ Maintained
 
 ## Description
 
-This repository contains the generator as well as the app that is hosted at the [Streamlit app](https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main).
+This repository contains the generator as well as the app that is hosted at the
+[Streamlit app](https://share.streamlit.io/lordfckhelmchen/wrath-and-glory-space-hulk-generator/main).
 
 A description of the app is given in [APP_ABOUT.md](docs/APP_ABOUT.md).
 
@@ -35,13 +35,12 @@ Currently, there is no stand-alone installation. To locally use the project, e.g
 
 ## Contributing
 
-If you have any improvement suggestions or feature requests or if you found bugs, simply open
-an [issue](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/issues).
+If you have any improvement suggestions or feature requests or if you found bugs, simply open an
+[issue](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/issues).
 
-Or event better create
-a [pull request](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/pulls) (PR) with the
-recommended code change.
-If you create a PR, Please make sure to add/update the [unittests](tests) accordingly.
+Or event better create a [pull request](https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/pulls)
+(PR) with the recommended code change. If you create a PR, Please make sure to add/update the [unittests](tests)
+accordingly.
 
 ### Unittests
 
@@ -51,23 +50,13 @@ Run the unittests via pytest + coverage with:
 uv run pytest --cov
 ```
 
-### Linting
+### Linting & Formatting
 
-Linting is done with [ruff](https://github.com/charliermarsh/ruff) because it's so fast and convenient. To check the
-code run:
-
-```bash
-uv run ruff check .
-```
-
-If you want to auto-fix fixable issues is the `--fix` flag in addition.
-
-### Formatting
-
-The code is [black](https://github.com/psf/black) as my soul, so format it accordingly with:
+[Prek](https://prek.j178.dev) is used for linting and formatting the code via pre-commit hooks. To run the checks
+manually, use:
 
 ```bash
-uv run ruff format .
+prek run --all-files
 ```
 
 ## License

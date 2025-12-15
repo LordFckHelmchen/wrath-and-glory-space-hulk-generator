@@ -1,4 +1,4 @@
-import pickle
+import pickle  # noqa: S403  # Pickle is safe here - just a test helper
 import shutil
 from pathlib import Path
 
@@ -22,11 +22,11 @@ def create_clean_test_folder(folder_name: str) -> Path:
 
 
 def load_space_hulk(file_name: Path = TEST_HULK_FILE) -> SpaceHulk:
-    return SpaceHulk.model_validate_json(file_name.read_text())
+    return SpaceHulk.model_validate_json(file_name.read_text(encoding="utf-8"))
 
 
 def load_space_hulk_markdown(file_name: Path = TEST_HULK_MARKDOWN_FILE) -> str:
-    return file_name.read_text()
+    return file_name.read_text(encoding="utf-8")
 
 
 def load_space_hulk_layout(file_name: Path = TEST_HULK_LAYOUT_FILE) -> LayoutGraph:

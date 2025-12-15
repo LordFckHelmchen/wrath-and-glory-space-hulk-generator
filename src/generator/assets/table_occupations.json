@@ -1,57 +1,87 @@
 {
-  "table_name": "Occupations",
   "event_count_constraint": {
     "maximum": 100
   },
   "events": [
     {
-      "range": {"minimum": 11, "maximum": 13},
+      "description": "A lost cult who believe the Emperor is dead",
       "name": "Lost Cult",
-      "description": "A lost cult who believe the Emperor is dead"
+      "range": {
+        "maximum": 13,
+        "minimum": 11
+      }
     },
     {
-      "range": {"minimum": 14, "maximum": 16},
+      "description": "Aeldari in deep meditative stasis",
       "name": "Aeldari",
-      "description": "Aeldari in deep meditative stasis"
+      "range": {
+        "maximum": 16,
+        "minimum": 14
+      }
     },
     {
-      "range": {"minimum": 21, "maximum": 22},
+      "description": "A Genestealer cult of 4th-5th generation",
       "name": "Genestealers",
-      "description": "A Genestealer cult of 4th-5th generation"
+      "range": {
+        "maximum": 22,
+        "minimum": 21
+      }
     },
     {
-      "range": {"minimum": 23, "maximum": 26},
+      "description": "Cultists of Chaos cursed with longevity",
       "name": "Chaos Cultists",
-      "description": "Cultists of Chaos cursed with longevity"
+      "range": {
+        "maximum": 26,
+        "minimum": 23
+      }
     },
     {
-      "range": {"minimum": 31, "maximum": 34},
+      "description": "A cabal of rogue psykers hiding from the Imperium",
       "name": "Rogue Psykers",
-      "description": "A cabal of rogue psykers hiding from the Imperium"
+      "range": {
+        "maximum": 34,
+        "minimum": 31
+      }
     },
     {
-      "range": {"minimum": 35, "maximum": 36},
-      "name": "Purestrain Genestealers"
+      "name": "Purestrain Genestealers",
+      "range": {
+        "maximum": 36,
+        "minimum": 35
+      }
     },
     {
-      "range": {"minimum": 41, "maximum": 43},
+      "description": "Chaos Space Marines preparing to summon a Greater Daemon",
       "name": "Chaos Space Marines",
-      "description": "Chaos Space Marines preparing to summon a Greater Daemon"
+      "range": {
+        "maximum": 43,
+        "minimum": 41
+      }
     },
     {
-      "range": {"minimum": 44, "maximum": 46},
+      "description": "A band of Orks who have descended into internecine civil war",
       "name": "Orks",
-      "description": "A band of Orks who have descended into internecine civil war"
+      "range": {
+        "maximum": 46,
+        "minimum": 44
+      }
     },
     {
-      "range": {"minimum": 51, "maximum": 56},
+      "description": "A society of feral mutant Humans",
       "name": "Feral Humans",
-      "description": "A society of feral mutant Humans"
+      "range": {
+        "maximum": 56,
+        "minimum": 51
+      }
     },
     {
-      "range": {"minimum": 61, "maximum": 66},
+      "description": "An Explorator force, supported by Battle Servitors and Kastelan Robots",
       "name": "Explorator force",
-      "description": "An Explorator force, supported by Battle Servitors and Kastelan Robots"
+      "range": {
+        "maximum": 66,
+        "minimum": 61
+      }
     }
-  ]
+  ],
+  "table_name": "Occupations"
 }
