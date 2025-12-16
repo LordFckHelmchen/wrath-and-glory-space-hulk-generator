@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2025 The Wrath & Glory Space Hulk Generator contributors
+
+
 import logging
 from dataclasses import fields
 from pathlib import Path

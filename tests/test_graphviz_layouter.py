@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2025 The Wrath & Glory Space Hulk Generator contributors
+
+
 import unittest
 
 from src.layouter.graphviz_layouter.graphviz_edge_type import GraphvizEdgeType
