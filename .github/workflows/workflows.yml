@@ -1,7 +1,12 @@
-name: "Semantic release"
-
+name: "Workflows"
 
 on:
+  pull_request:
+    types:
+      - edited
+      - opened
+      - reopened
+      - synchronize
   push:
     branches:
       - main
@@ -22,6 +27,7 @@ jobs:
 
   release:
     needs: [unittests, linting]
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-release-${{ github.ref_name }}
