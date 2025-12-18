@@ -1,4 +1,4 @@
-name: "Workflows"
+name: Workflows
 
 on:
   pull_request:
@@ -26,33 +26,10 @@ jobs:
     uses: ./.github/workflows/linting.yml
 
   release:
+    name: Release
     needs: [unittests, linting]
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-release-${{ github.ref_name }}
-      cancel-in-progress: false
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    uses: ./.github/workflows/release.yml
+    secrets: inherit
     permissions:
       contents: write
-
-    steps:
-      # Note: We checkout the repository at the branch that triggered the workflow.
-      # Python Semantic Release will automatically convert shallow clones to full clones
-      # if needed to ensure proper history evaluation. However, we forcefully reset the
-      # branch to the workflow sha because it is possible that the branch was updated
-      # while the workflow was running, which prevents accidentally releasing un-evaluated
-      # changes.
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
-        with:
-          ref: ${{ github.ref_name }}
-
-      - name: Setup | Force release branch to be at workflow sha
-        run: git reset --hard ${{ github.sha }}
-
-      - name: Setup | Install uv
-        uses: astral-sh/setup-uv@1e862dfacbd1d6d858c55d9b792c756523627244  # v7.1.4
-
-      - name: Action | Semantic Version Release
-        run: uvx python-semantic-release version
