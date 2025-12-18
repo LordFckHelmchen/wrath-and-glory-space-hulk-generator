@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 LordFckHelmchen
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import logging
 from dataclasses import fields
 from pathlib import Path

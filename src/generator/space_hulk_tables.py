@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 LordFckHelmchen
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 from dataclasses import dataclass
 
 from .random_table import RandomTable

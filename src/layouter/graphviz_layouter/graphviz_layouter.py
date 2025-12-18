@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 LordFckHelmchen
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import random
 from copy import copy
 from random import randint

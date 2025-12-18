@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 LordFckHelmchen
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import json
 import shutil
 import subprocess  # noqa: S404  # Required for calling De Broglie executable

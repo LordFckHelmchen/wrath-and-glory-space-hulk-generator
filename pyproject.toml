@@ -70,7 +70,6 @@ ignore = [
     "ANN002", # Missing function annotation for *args
     "ANN003", # Missing function annotation for **kwargs
     "COM812", # Trailing comma rule - recommended to be ignored by ruff
-    "CPY001", # TODO(djm): https://github.com/LordFckHelmchen/wrath-and-glory-space-hulk-generator/issues/31
     "D",      # pydocstyle warnings
     "FAST",    # Disable all FastAPI-related rules - not relevant here
     "FIX002", # TODO comments

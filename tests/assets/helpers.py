@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 LordFckHelmchen
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 import pickle  # noqa: S403  # Pickle is safe here - just a test helper
 import shutil
 from pathlib import Path
