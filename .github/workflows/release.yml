@@ -5,13 +5,23 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 # default: least privileged permissions across all jobs
 permissions:
   contents: read
 
 jobs:
+  unittests:
+    name: Unittests
+    uses: ./.github/workflows/unittest.yml
+
+  linting:
+    name: Linting
+    uses: ./.github/workflows/linting.yml
+
   release:
+    needs: [unittests, linting]
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-release-${{ github.ref_name }}
