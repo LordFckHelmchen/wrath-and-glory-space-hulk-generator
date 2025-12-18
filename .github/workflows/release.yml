@@ -16,7 +16,8 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-release-${{ github.ref_name }}
       cancel-in-progress: false
-
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     permissions:
       contents: write
 
@@ -38,9 +39,4 @@ jobs:
         uses: astral-sh/setup-uv@1e862dfacbd1d6d858c55d9b792c756523627244  # v7.1.4
 
       - name: Action | Semantic Version Release
-        # Adjust tag with desired version if applicable.
-        uses: python-semantic-release/python-semantic-release@02f2a5c74dbb6aa2989f10fc4af12cd8e6bf025f  # v10.5.2
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          git_committer_name: github-actions
-          git_committer_email: actions@users.noreply.github.com
+        run: uvx python-semantic-release version
