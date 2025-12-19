@@ -8,8 +8,8 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-   sodipodi:docname="corridorCornered_with_roomSmall_symF.svg"
-   inkscape:export-filename="/home/djm/Documents/wrath-and-glory-space-hulk-generator/tiles/corridorCornered_with_roomSmall_symF.png"
+   sodipodi:docname="intersection3way_with_corner_symE.svg"
+   inkscape:export-filename="/home/djm/Documents/wrath-and-glory-space-hulk-generator/tiles/intersection3way_with_corner_symE.png"
    inkscape:export-xdpi="25.4"
    inkscape:export-ydpi="25.4"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -27,9 +27,9 @@
      inkscape:document-units="mm"
      showgrid="true"
      inkscape:snap-global="true"
-     inkscape:zoom="7.2407734"
-     inkscape:cx="91.633857"
-     inkscape:cy="83.692717"
+     inkscape:zoom="5.1200001"
+     inkscape:cx="78.222655"
+     inkscape:cy="105.07812"
      inkscape:window-width="2880"
      inkscape:window-height="1557"
      inkscape:window-x="0"
@@ -48,7 +48,7 @@
      inkscape:showpageshadow="true"
      borderlayer="true"
      inkscape:snap-page="true"
-     height="35mm">
+     inkscape:snap-grids="true">
     <inkscape:grid
        type="xygrid"
        id="grid824"
@@ -288,6 +288,20 @@
          d="M 5.77,0 -2.88,5 V -5 Z"
          id="path16338-6-9-1-6-9-4" />
     </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleOutS-3-8-6-53"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="TriangleOutS"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.2)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path16338-6-9-1-5" />
+    </marker>
   </defs>
   <g
      inkscape:label="Layer 1"
@@ -314,8 +328,8 @@
        transform="translate(109.99999,-394.99999)" />
     <path
        style="fill:#ffffff;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -2335.25,2849.75 v 20.0002 h 5 v 14.9998 h 5 l 0,-25 h -5 v -10 z"
-       id="hallway_straight_cornered"
-       sodipodi:nodetypes="ccccccccc" />
+       d="m -2315.25,2864.75 h -10 v -5 h -5 l 1e-4,-10 h -5.0001 v 35 h 5.0001 l -1e-4,-10 h 5 v -5 h 10 z"
+       id="t_cross"
+       sodipodi:nodetypes="ccccccccccccc" />
   </g>
 </svg>

@@ -8,8 +8,8 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-   sodipodi:docname="intersection3way_with_roomSmall_symE.svg"
-   inkscape:export-filename="/home/djm/Documents/wrath-and-glory-space-hulk-generator/tiles/intersection3way_with_roomSmall_symE.png"
+   sodipodi:docname="corridorTurn_with_corner_symL.svg"
+   inkscape:export-filename="/home/djm/Documents/wrath-and-glory-space-hulk-generator/tiles/corridorTurn_with_corner_symL.png"
    inkscape:export-xdpi="25.4"
    inkscape:export-ydpi="25.4"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -27,9 +27,9 @@
      inkscape:document-units="mm"
      showgrid="true"
      inkscape:snap-global="true"
-     inkscape:zoom="5.1200001"
-     inkscape:cx="78.222655"
-     inkscape:cy="105.07812"
+     inkscape:zoom="2.5600001"
+     inkscape:cx="23.242187"
+     inkscape:cy="-32.812499"
      inkscape:window-width="2880"
      inkscape:window-height="1557"
      inkscape:window-x="0"
@@ -328,8 +328,8 @@
        transform="translate(109.99999,-394.99999)" />
     <path
        style="fill:#ffffff;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -2315.25,2864.75 h -10 v -5 h -5 l 1e-4,-10 h -5.0001 v 35 h 5.0001 l -1e-4,-10 h 5 v -5 h 10 z"
-       id="t_cross"
-       sodipodi:nodetypes="ccccccccccccc" />
+       d="m -2330.25,2849.75 v 10 h 5 v 5 h 10 v 5 h -20 v -20 z"
+       id="corner"
+       sodipodi:nodetypes="ccccccccc" />
   </g>
 </svg>
