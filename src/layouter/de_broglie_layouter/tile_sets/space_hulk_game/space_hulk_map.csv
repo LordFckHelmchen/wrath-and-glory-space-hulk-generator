@@ -1,0 +1,22 @@
+Room Number,Room Name,Room Description,Assigned Tile Type
+1,Communications Array,,corridorCornered_with_roomSmallElongated_symF
+2,Compressed Junction,,corridorCornered_with_roomSmall_symF
+3,Damaged Consoles,,corridorStraight_with_roomLarge_symI
+4,Dead End,,corridorStraight_with_room_symI
+5,Derelict Engines,,corridorTurn_with_roomElongated_symL
+6,Endless Labyrinth,,corridorTurn_with_roomSmall_symL
+7,Hull Breach,,corridorTurn_with_room_symL
+8,Impossible Stairwells,,deadEnd_with_roomEnlongated_symT
+9,Jammed Doorways,,deadEnd_with_roomLargeWidening_symT
+10,Life Support,,deadEnd_with_roomSmall_symF
+11,Medical Bay,,intersection3way_with_roomSmall_symE
+12,Reliquary,,intersection3way_with_room_symE
+13,Supply Cache,,intersection4wayAsym_with_roomLarge_symF
+14,Tangled Piping,,intersection4wayAsym_with_roomSmall_symF
+15,Unknown Technology,,intersection4way_with_room_symX
+16,Unmarked Graveyard,,corridorCornered_with_roomSmallElongated_symF
+17,Vast Hangar,,corridorCornered_with_roomSmall_symF
+18,Vertical Shaft,,corridorStraight_with_roomLarge_symI
+19,Warp-Tainted Chamber,,corridorStraight_with_room_symI
+20,Weapons Silo,,corridorTurn_with_roomElongated_symL
+21,Worrisome Lever,,corridorTurn_with_roomSmall_symL
