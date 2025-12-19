@@ -157,7 +157,7 @@ class DeBroglieLayoutWrapper(ILayout):
         """
         csv_path = self._output_file.with_suffix(".csv")
 
-        with csv_path.open("w", newline="") as csvfile:
+        with csv_path.open("w", newline="", encoding="utf-8") as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(["Room Number", "Room Name", "Room Description", "Assigned Tile Type"])
 

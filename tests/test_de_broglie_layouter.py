@@ -79,7 +79,7 @@ class TestDeBroglieLayouter(unittest.TestCase):
         csv_file = self.layouter.output_file.with_suffix(".csv")
 
         # Read CSV and check rooms
-        with csv_file.open("r") as f:
+        with csv_file.open("r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             rows = list(reader)
 
@@ -99,7 +99,7 @@ class TestDeBroglieLayouter(unittest.TestCase):
         csv_file = self.layouter.output_file.with_suffix(".csv")
 
         # Read CSV and check tile assignments
-        with csv_file.open("r") as f:
+        with csv_file.open("r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             rows = list(reader)
 
