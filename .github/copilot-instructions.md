@@ -34,9 +34,12 @@ random tables from Redacted Records rulebook and renders maps using Graphviz (ve
 
 ## CI/CD Pipeline
 
-**code_checks.yml** (PRs and main): Unittests (pytest + Coveralls) and Linting (prek) run in parallel. Both must pass.
+**unittest.yml**, **linting.yml** (PRs and main): Unittests (pytest + Coveralls) and Linting (prek) run in parallel.
+Both must pass.
 
-**release.yml** (main only): Python Semantic Release versioning, updates uv.lock. Requires conventional commits.
+**release.yml** (main only): Python Semantic Release versioning, updates uv.lock. Requires conventional commits. Uses
+`uvx python-semantic-release version` to update the version, tag the release commit, generate CHANGELOG.md, and create
+GitHub releases.
 
 ## Project Structure
 
