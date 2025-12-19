@@ -30,6 +30,5 @@ jobs:
     needs: [unittests, linting]
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     uses: ./.github/workflows/release.yml
-    secrets: inherit
-    permissions:
-      contents: write
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}

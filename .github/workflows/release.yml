@@ -2,6 +2,12 @@ name: Release
 
 on:
   workflow_call:
+    secrets:
+      GH_TOKEN:
+        required: true
+
+permissions:
+  contents: write
 
 jobs:
   release:
@@ -12,8 +18,6 @@ jobs:
       cancel-in-progress: false
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
-    permissions:
-      contents: write
 
     steps:
       # Note: We checkout the repository at the branch that triggered the workflow.
