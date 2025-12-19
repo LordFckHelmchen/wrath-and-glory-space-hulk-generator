@@ -1,0 +1,5 @@
+# CODEOWNERS file for wrath-and-glory-space-hulk-generator
+# This file defines code ownership for automatic review requests
+
+# Default owner for everything in the repository
+* @LordFckHelmchen
