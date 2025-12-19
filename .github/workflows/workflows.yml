@@ -1,0 +1,35 @@
+name: Workflows
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# default: least privileged permissions across all jobs
+permissions:
+  contents: read
+
+jobs:
+  unittests:
+    name: Unittests
+    uses: ./.github/workflows/unittest.yml
+
+  linting:
+    name: Linting
+    uses: ./.github/workflows/linting.yml
+
+  release:
+    name: Release
+    needs: [unittests, linting]
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/release.yml
+    permissions:
+      contents: write
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}

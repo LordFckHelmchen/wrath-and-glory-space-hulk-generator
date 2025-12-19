@@ -1,16 +1,7 @@
-name: "Code checks"
+name: Unittests
 
 on:
-  pull_request:
-    types:
-      - edited
-      - opened
-      - reopened
-      - synchronize
-  push:
-    branches:
-      - main
-
+  workflow_call:
 
 jobs:
   unittests:
@@ -41,10 +32,3 @@ jobs:
           path: tests/generated_streamlit_http_get_response.html
       - name: Upload coverage (Coveralls)
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b  # v2.3.6
-
-  linting:
-    name: Linting (prek)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
-      - uses: j178/prek-action@91fd7d7cf70ae1dee9f4f44e7dfa5d1073fe6623  # v1.0.11

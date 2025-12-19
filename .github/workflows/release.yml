@@ -1,25 +1,23 @@
-name: "Semantic release"
-
+name: Semantic release
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    secrets:
+      GH_TOKEN:
+        required: true
 
-# default: least privileged permissions across all jobs
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   release:
+    name: Semantic release
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-release-${{ github.ref_name }}
       cancel-in-progress: false
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
-    permissions:
-      contents: write
 
     steps:
       # Note: We checkout the repository at the branch that triggered the workflow.
