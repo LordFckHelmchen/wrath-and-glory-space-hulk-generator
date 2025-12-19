@@ -47,7 +47,7 @@
           "yminus",
           "yplus"
         ],
-        "corridorStraight_with_bridge_symE": [
+        "corridorStraight_with_roomAndHole_symE": [
           "yminus",
           "yplus"
         ],
@@ -211,9 +211,9 @@
     },
     {
       "multiplyFrequency": 0.0017,
-      "src": "corridorStraight_with_bridge_symE.png",
+      "src": "corridorStraight_with_roomAndHole_symE.png",
       "tileSymmetry": "E",
-      "value": "corridorStraight_with_bridge_symE"
+      "value": "corridorStraight_with_roomAndHole_symE"
     },
     {
       "multiplyFrequency": 0.0075,

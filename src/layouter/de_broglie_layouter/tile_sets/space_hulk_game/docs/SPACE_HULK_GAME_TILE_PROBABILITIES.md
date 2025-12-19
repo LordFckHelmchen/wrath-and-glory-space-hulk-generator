@@ -38,7 +38,7 @@ flowchart LR
     specialIntersection --"2\n(p=0.17)"--> deadEnd_with_hole_symT["deadEnd_with_hole_symT\n(pTotal=0.0017)"]
     specialIntersection --"3\n(p=0.17)"--> intersection4way_widening_symI["intersection4way_widening_symI\n(pTotal=0.0017)"]
     specialIntersection --"4\n(p=0.17)"--> corridorStraight_widening_symT["corridorStraight_widening_symT\n(pTotal=0.0017)"]
-    specialIntersection --"5\n(p=0.17)"--> corridorStraight_with_bridge_symE["corridorStraight_with_bridge_symE\n(pTotal=0.0017)"]
+    specialIntersection --"5\n(p=0.17)"--> corridorStraight_with_roomAndHole_symE["corridorStraight_with_roomAndHole_symE\n(pTotal=0.0017)"]
     specialIntersection --"6\n(p=0.17)"--> corridorStraightWide_symI["corridorStraightWide_symI\n(pTotal=0.0017)"]
 
     start --"6\n(p=0.17)"--> room[[Room\n<small>roll 1d6</small>]]
