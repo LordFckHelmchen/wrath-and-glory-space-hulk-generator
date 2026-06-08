@@ -1,0 +1,661 @@
+{
+  "$defs": {
+    "Model": {
+      "description": "See https://boristhebrave.github.io/DeBroglie/articles/config_files.html#model-config",
+      "properties": {
+        "n": {
+          "description": "[Overlapping] Shorthand for setting NX, NY, NZ.",
+          "type": "integer"
+        },
+        "nx": {
+          "description": "[Overlapping] Rectangle size along x-axis (default 2).",
+          "type": "integer"
+        },
+        "ny": {
+          "description": "[Overlapping] Rectangle size along y-axis (default 2).",
+          "type": "integer"
+        },
+        "nz": {
+          "description": "[Overlapping] Rectangle size along z-axis (default 2).",
+          "type": "integer"
+        },
+        "type": {
+          "description": "Model type: 'overlapping' uses Wang tiles, 'adjacent' uses explicit adjacency.",
+          "enum": [
+            "overlapping",
+            "adjacent"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "SourceType": {
+      "description": "The type of the source. This can be one of the following:\n- Sample: When using a sample and src is the sample file\n- BitmapSet: When using a 2D-tile set (src should be ommitted)\n- VoxSet: When using a 3D-tile set (src should be ommitted)",
+      "enum": [
+        "Sample",
+        "BitmapSet",
+        "VoxSet"
+      ],
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
+  "description": "Config file for DeBroglie - see https://boristhebrave.github.io/DeBroglie/articles/config_files.html#file-format",
+  "properties": {
+    "adjacencies": {
+      "description": "Explicit adjacency rules.",
+      "items": {
+        "properties": {
+          "dest": {
+            "description": "Tiles on dest side.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "direction": {
+            "description": "Adjacency direction (e.g. 'XPlus').",
+            "type": "string"
+          },
+          "src": {
+            "description": "Tiles on source side.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "animate": {
+      "description": "If set, dumps output snapshots during generation.",
+      "type": "boolean"
+    },
+    "autoAdjacency": {
+      "description": "Automatically detect adjacencies.",
+      "type": "boolean"
+    },
+    "autoAdjacencyTolerance": {
+      "description": "Threshold for automatic adjacency.",
+      "type": "number"
+    },
+    "backtrack": {
+      "description": "If set, enables backtracking.",
+      "type": "boolean"
+    },
+    "baseDirectory": {
+      "description": "Base directory for src and dest.",
+      "type": "string"
+    },
+    "constraints": {
+      "description": "Constraints placed on the output.",
+      "items": {
+        "oneOf": [
+          {
+            "properties": {
+              "endPointTiles": {
+                "description": "Tiles that must be connected.",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "endPoints": {
+                "description": "Endpoints for paths - points to connect.",
+                "items": {
+                  "properties": {
+                    "x": {
+                      "description": "X coordinate",
+                      "type": "integer"
+                    },
+                    "y": {
+                      "description": "Y coordinate",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "tile": {
+                "description": "Shorthand for 'tiles' with one value.",
+                "type": "string"
+              },
+              "tiles": {
+                "description": "Tiles 'on the path'.",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": {
+                "const": "path",
+                "description": "Ensures set of tiles form a path."
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          {
+            "properties": {
+              "endPointTiles": {
+                "description": "Tiles that must be connected.",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "endPoints": {
+                "description": "Endpoints for edged path.",
+                "items": {
+                  "properties": {
+                    "x": {
+                      "type": "integer"
+                    },
+                    "y": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "exits": {
+                "additionalProperties": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "description": "Tile exit mapping.",
+                "type": "object"
+              },
+              "type": {
+                "const": "edgedPath",
+                "description": "Path constraint using edges."
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          {
+            "properties": {
+              "ban": {
+                "description": "Ban tile(s) from specified area. If false, only permit them there.",
+                "type": "boolean"
+              },
+              "excludeSides": {
+                "description": "Sides to exclude (same format as sides, default empty).",
+                "type": "string"
+              },
+              "invertArea": {
+                "description": "Invert area of border constraint.",
+                "type": "boolean"
+              },
+              "sides": {
+                "description": "Comma-separated: 'xmin', 'xmax', 'ymin', 'ymax', 'zmin', 'zmax'.",
+                "type": "string"
+              },
+              "tile": {
+                "description": "Shorthand for 'tiles'.",
+                "type": "string"
+              },
+              "tiles": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": {
+                "const": "border",
+                "description": "Restrict or ban tiles on specified area sides."
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          {
+            "properties": {
+              "point": {
+                "properties": {
+                  "x": {
+                    "type": "integer"
+                  },
+                  "y": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y"
+                ],
+                "type": "object"
+              },
+              "tile": {
+                "description": "Shorthand for 'tiles'.",
+                "type": "string"
+              },
+              "tiles": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": {
+                "const": "fixedTile",
+                "description": "Force a tile at a specific point."
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          {
+            "properties": {
+              "axes": {
+                "description": "Axes to limit (default: all).",
+                "items": {
+                  "enum": [
+                    "x",
+                    "y",
+                    "z"
+                  ],
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "maxCount": {
+                "description": "Maximum allowed consecutive tiles.",
+                "type": "integer"
+              },
+              "tile": {
+                "type": "string"
+              },
+              "tiles": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": {
+                "const": "maxConsecutive",
+                "description": "Limits number of consecutive placements of a tile."
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          {
+            "properties": {
+              "type": {
+                "description": "Mirror symmetry constraints.",
+                "enum": [
+                  "mirrorx",
+                  "mirrory",
+                  "mirror"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          {
+            "properties": {
+              "comparison": {
+                "description": "How to compare count. Allowed: 'AtLeast', 'AtMost', 'Exactly'.",
+                "enum": [
+                  "AtLeast",
+                  "AtMost",
+                  "Exactly"
+                ],
+                "type": "string"
+              },
+              "count": {
+                "description": "Count to compare against.",
+                "type": "integer"
+              },
+              "eager": {
+                "description": "If true, tries to fill empty positions as early as possible.",
+                "type": "boolean"
+              },
+              "tiles": {
+                "description": "Tiles to count.",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": {
+                "const": "count",
+                "description": "Ensure the count of specified tiles relates to Count."
+              }
+            },
+            "required": [
+              "type",
+              "comparison",
+              "count",
+              "tiles"
+            ]
+          },
+          {
+            "properties": {
+              "minDistance": {
+                "description": "Minimum Manhattan distance.",
+                "type": "integer"
+              },
+              "tiles": {
+                "description": "Tiles to separate.",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": {
+                "const": "separation",
+                "description": "Separate all tiles in set by minimum distance."
+              }
+            },
+            "required": [
+              "type",
+              "tiles",
+              "minDistance"
+            ]
+          },
+          {
+            "properties": {
+              "minDistance": {
+                "description": "Minimum Manhattan distance.",
+                "type": "integer"
+              },
+              "tiles1": {
+                "description": "First set of tiles.",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "tiles2": {
+                "description": "Second set of tiles.",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "type": {
+                "const": "pairSparation",
+                "description": "Ensure two tile sets are separated by minimum distance."
+              }
+            },
+            "required": [
+              "type",
+              "tiles1",
+              "tiles2",
+              "minDistance"
+            ]
+          },
+          {
+            "properties": {
+              "pathSpec": {
+                "properties": {
+                  "relevantCells": {
+                    "items": {
+                      "properties": {
+                        "x": {
+                          "type": "integer"
+                        },
+                        "y": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "relevantTiles": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "tiles": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "type": {
+                    "description": "Path spec type.",
+                    "enum": [
+                      "path",
+                      "edgedPath"
+                    ]
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "type": "object"
+              },
+              "type": {
+                "const": "connected",
+                "description": "All relevant cells must be connected (single region)."
+              }
+            },
+            "required": [
+              "type",
+              "pathSpec"
+            ]
+          },
+          {
+            "properties": {
+              "pathSpec": {
+                "properties": {
+                  "relevantCells": {
+                    "items": {
+                      "properties": {
+                        "x": {
+                          "type": "integer"
+                        },
+                        "y": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "relevantTiles": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "tiles": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "type": {
+                    "description": "Path spec type.",
+                    "enum": [
+                      "path",
+                      "edgedPath"
+                    ]
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "type": "object"
+              },
+              "type": {
+                "description": "All relevant cells must form a loop or be acyclic.",
+                "enum": [
+                  "loop",
+                  "acyclic"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "pathSpec"
+            ]
+          }
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "depth": {
+      "description": "Output z size.",
+      "type": "integer"
+    },
+    "dest": {
+      "description": "The file to write the result to.",
+      "type": "string"
+    },
+    "ground": {
+      "description": "Shorthand for border constraints: bottom set to this tile, banned everywhere else.",
+      "type": "string"
+    },
+    "height": {
+      "description": "Output y size.",
+      "type": "integer"
+    },
+    "model": {
+      "$ref": "#/$defs/Model",
+      "description": "The model to use (overlapping or adjacent)."
+    },
+    "padTile": {
+      "description": "Experimental.",
+      "type": "string"
+    },
+    "periodic": {
+      "description": "Shorthand for periodicX/Y/Z.",
+      "type": "boolean"
+    },
+    "periodicInput": {
+      "description": "Shorthand for setting periodicInputX/Y/Z.",
+      "type": "boolean"
+    },
+    "periodicInputX": {
+      "description": "Input wraps on x axis.",
+      "type": "boolean"
+    },
+    "periodicInputY": {
+      "description": "Input wraps on y axis.",
+      "type": "boolean"
+    },
+    "periodicInputZ": {
+      "description": "Input wraps on z axis.",
+      "type": "boolean"
+    },
+    "periodicX": {
+      "description": "Output wraps on x axis.",
+      "type": "boolean"
+    },
+    "periodicY": {
+      "description": "Output wraps on y axis.",
+      "type": "boolean"
+    },
+    "periodicZ": {
+      "description": "Output wraps on z axis.",
+      "type": "boolean"
+    },
+    "reflectionalSymmetry": {
+      "description": "Reflect sample input.",
+      "type": "boolean"
+    },
+    "rotationalSymmetry": {
+      "description": "Times to rotate the input.",
+      "type": "integer"
+    },
+    "src": {
+      "description": "The file to load as the initial sample. Only used for sample based formats. See https://boristhebrave.github.io/DeBroglie/articles/config_files.html#supported-formats",
+      "type": "string"
+    },
+    "srcType": {
+      "$ref": "#/$defs/SourceType",
+      "description": "Specifies the type of the source to choose from."
+    },
+    "symmetry": {
+      "description": "Shorthand for ReflectionalSymmetry, RotationalSymmetry.",
+      "type": "integer"
+    },
+    "tiles": {
+      "description": "Per-tile information, see DeBroglie docs.",
+      "items": {
+        "properties": {
+          "multiplyFrequency": {
+            "description": "Scales the frequency of the configured tile, using MultiplyFrequency.",
+            "type": "number"
+          },
+          "reflectX": {
+            "description": "X reflection of this tile.",
+            "type": "string"
+          },
+          "reflectY": {
+            "description": "Y reflection of this tile.",
+            "type": "string"
+          },
+          "rotateCcw": {
+            "description": "Tile after counterclockwise rotation.",
+            "type": "string"
+          },
+          "rotateCw": {
+            "description": "Tile after clockwise rotation.",
+            "type": "string"
+          },
+          "rotationTreatment": {
+            "description": "Rotation handling for tile.",
+            "type": "string"
+          },
+          "src": {
+            "description": "File representing this tile.",
+            "type": "string"
+          },
+          "tileSymmetry": {
+            "description": "Symmetry for tile.",
+            "type": "string"
+          },
+          "value": {
+            "description": "Tile ID or name.",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "width": {
+      "description": "Output x size.",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "Model",
+    "Constraints"
+  ],
+  "title": "DeBroglie Config",
+  "type": "object"
+}

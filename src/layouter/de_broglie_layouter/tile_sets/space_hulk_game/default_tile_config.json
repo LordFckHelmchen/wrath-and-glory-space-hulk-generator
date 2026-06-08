@@ -1,15 +1,19 @@
 {
+  "$schema": "../../cli-config-schema.json",
   "autoAdjacency": true,
   "autoAdjacencyTolerance": 0,
+  "backtrack": true,
   "baseDirectory": "generated",
   "constraints": [
     {
+      "$comment": "Force empty tiles on the borders",
       "tiles": [
         "empty_symX"
       ],
       "type": "border"
     },
     {
+      "$comment": "Force at least one entry point",
       "comparison": "AtLeast",
       "count": 1,
       "tiles": [
@@ -18,6 +22,7 @@
       "type": "count"
     },
     {
+      "$comment": "Define path exits for each tile type",
       "exits": {
         "corridorCornered_overlapping2_symF": [
           "yminus",
@@ -35,7 +40,7 @@
           "yminus",
           "yplus"
         ],
-        "corridorStraightWidening_symI": [
+        "corridorStraightWide_symI": [
           "yminus",
           "yplus"
         ],
@@ -211,19 +216,19 @@
     },
     {
       "multiplyFrequency": 0.0017,
-      "src": "corridorStraight_with_roomAndHole_symE.png",
+      "src": "rooms/corridorStraight_with_roomAndHole_symE.png",
       "tileSymmetry": "E",
       "value": "corridorStraight_with_roomAndHole_symE"
     },
     {
       "multiplyFrequency": 0.0075,
-      "src": "corridorStraight_with_room_symI.png",
+      "src": "rooms/corridorStraight_with_room_symI.png",
       "tileSymmetry": "I",
       "value": "corridorStraight_with_room_symI"
     },
     {
       "multiplyFrequency": 0.035,
-      "src": "corridorStraight_with_roomLarge_symI.png",
+      "src": "rooms/corridorStraight_with_roomLarge_symI.png",
       "tileSymmetry": "I",
       "value": "corridorStraight_with_roomLarge_symI"
     },
@@ -241,13 +246,13 @@
     },
     {
       "multiplyFrequency": 0.0075,
-      "src": "corridorTurn_with_room_symL.png",
+      "src": "rooms/corridorTurn_with_room_symL.png",
       "tileSymmetry": "L",
       "value": "corridorTurn_with_room_symL"
     },
     {
       "multiplyFrequency": 0.0275,
-      "src": "corridorTurn_with_roomElongated_symL.png",
+      "src": "rooms/corridorTurn_with_roomElongated_symL.png",
       "tileSymmetry": "L",
       "value": "corridorTurn_with_roomElongated_symL"
     },
@@ -277,19 +282,19 @@
     },
     {
       "multiplyFrequency": 0.0556,
-      "src": "deadEnd_with_roomEnlongated_symT.png",
+      "src": "rooms/deadEnd_with_roomEnlongated_symT.png",
       "tileSymmetry": "T",
       "value": "deadEnd_with_roomEnlongated_symT"
     },
     {
       "multiplyFrequency": 0.0556,
-      "src": "deadEnd_with_roomLargeWidening_symT.png",
+      "src": "rooms/deadEnd_with_roomLargeWidening_symT.png",
       "tileSymmetry": "T",
       "value": "deadEnd_with_roomLargeWidening_symT"
     },
     {
       "multiplyFrequency": 0.0556,
-      "src": "deadEnd_with_roomSmall_symF.png",
+      "src": "rooms/deadEnd_with_roomSmall_symF.png",
       "tileSymmetry": "F",
       "value": "deadEnd_with_roomSmall_symF"
     },
@@ -313,7 +318,7 @@
     },
     {
       "multiplyFrequency": 0.0467,
-      "src": "intersection3way_with_room_symE.png",
+      "src": "rooms/intersection3way_with_room_symE.png",
       "tileSymmetry": "E",
       "value": "intersection3way_with_room_symE"
     },
@@ -349,7 +354,7 @@
     },
     {
       "multiplyFrequency": 0.0267,
-      "src": "intersection4way_with_room_symX.png",
+      "src": "rooms/intersection4way_with_room_symX.png",
       "tileSymmetry": "X",
       "value": "intersection4way_with_room_symX"
     },
@@ -361,7 +366,7 @@
     },
     {
       "multiplyFrequency": 0.02,
-      "src": "intersection4wayAsym_with_roomLarge_symF.png",
+      "src": "rooms/intersection4wayAsym_with_roomLarge_symF.png",
       "tileSymmetry": "F",
       "value": "intersection4wayAsym_with_roomLarge_symF"
     }

@@ -2,7 +2,6 @@
   "$schema": "../../cli-config-schema.json",
   "autoAdjacency": true,
   "autoAdjacencyTolerance": 0,
-  "backtrack": true,
   "baseDirectory": "generated",
   "constraints": [
     {
@@ -167,117 +166,31 @@
       "type": "edgedPath"
     },
     {
+      "type": "count",
       "comparison": "Exactly",
       "count": 1,
       "tiles": [
+        "corridorStraight_with_roomLarge_symI",
         "corridorTurn_with_roomElongated_symL",
-        "deadEnd_with_roomSmall_symF"
-      ],
-      "type": "count"
+        "deadEnd_with_roomLargeWidening_symT",
+        "intersection3way_with_room_symE"
+      ]
     },
     {
+      "type": "count",
       "comparison": "Exactly",
       "count": 2,
-      "tiles": [
-        "corridorStraight_with_roomLarge_symI",
-        "deadEnd_with_roomEnlongated_symT",
-        "intersection4wayAsym_with_roomLarge_symF",
-        "intersection4way_with_room_symX"
-      ],
-      "type": "count"
-    },
-    {
-      "comparison": "Exactly",
-      "count": 5,
-      "tiles": [
-        "corridorStraight_with_roomLarge_symI"
-      ],
-      "type": "count"
-    },
-    {
-      "comparison": "Exactly",
-      "count": 6,
-      "tiles": [
-        "corridorStraight_with_roomAndHole_symE"
-      ],
-      "type": "count"
-    },
-    {
-      "comparison": "Exactly",
-      "count": 7,
-      "tiles": [
-        "corridorTurn_with_room_symL",
-        "intersection3way_with_room_symE"
-      ],
-      "type": "count"
-    },
-    {
-      "comparison": "Exactly",
-      "count": 8,
-      "tiles": [
-        "deadEnd_with_roomLargeWidening_symT",
-        "intersection4wayAsym_with_roomLarge_symF"
-      ],
-      "type": "count"
-    },
-    {
-      "comparison": "Exactly",
-      "count": 10,
-      "tiles": [
-        "corridorStraight_with_room_symI",
-        "corridorTurn_with_roomElongated_symL"
-      ],
-      "type": "count"
-    },
-    {
-      "comparison": "Exactly",
-      "count": 12,
-      "tiles": [
-        "deadEnd_with_roomSmall_symF"
-      ],
-      "type": "count"
-    },
-    {
-      "comparison": "Exactly",
-      "count": 13,
-      "tiles": [
-        "intersection4way_with_room_symX"
-      ],
-      "type": "count"
-    },
-    {
-      "comparison": "Exactly",
-      "count": 14,
       "tiles": [
         "deadEnd_with_roomEnlongated_symT"
-      ],
-      "type": "count"
+      ]
     },
     {
-      "comparison": "Exactly",
-      "count": 1,
-      "tiles": [
-        "corridorStraight_with_roomLarge_symI",
-        "corridorTurn_with_roomElongated_symL"
-      ],
-      "type": "count"
-    },
-    {
-      "comparison": "Exactly",
-      "count": 2,
-      "tiles": [
-        "corridorStraight_with_roomAndHole_symE",
-        "corridorStraight_with_room_symI"
-      ],
-      "type": "count"
-    },
-    {
+      "type": "count",
       "comparison": "Exactly",
       "count": 4,
       "tiles": [
-        "intersection4wayAsym_with_roomLarge_symF"
-      ],
-      "type": "count"
+        "deadEnd_with_roomSmall_symF"
+      ]
     }
   ],
   "dest": "../space_hulk_map.png",
@@ -328,18 +241,6 @@
       "value": "corridorStraight_widening_symT"
     },
     {
-      "multiplyFrequency": 0.0017,
-      "src": "rooms/corridorStraight_with_roomAndHole_symE.png",
-      "tileSymmetry": "E",
-      "value": "corridorStraight_with_roomAndHole_symE"
-    },
-    {
-      "multiplyFrequency": 0.0075,
-      "src": "rooms/corridorStraight_with_room_symI.png",
-      "tileSymmetry": "I",
-      "value": "corridorStraight_with_room_symI"
-    },
-    {
       "multiplyFrequency": 0.035,
       "src": "rooms/corridorStraight_with_roomLarge_symI.png",
       "tileSymmetry": "I",
@@ -388,6 +289,25 @@
       "value": "deadEnd_with_hole_symT"
     },
     {
+      "multiplyFrequency": 0.0556,
+      "src": "rooms/deadEnd_with_roomEnlongated_symT.png",
+      "tileSymmetry": "T",
+      "value": "deadEnd_with_roomEnlongated_symT"
+    },
+    {
+      "multiplyFrequency": 0.0556,
+      "src": "rooms/deadEnd_with_roomLargeWidening_symT.png",
+      "tileSymmetry": "T",
+      "value": "deadEnd_with_roomLargeWidening_symT"
+    },
+    {
+      "multiplyFrequency": 0.0556,
+      "src": "rooms/deadEnd_with_roomSmall_symF.png",
+      "tileSymmetry": "F",
+      "value": "deadEnd_with_roomSmall_symF"
+    },
+    {
+      "multiplyFrequency": 0.0001,
       "src": "empty_symX.png",
       "tileSymmetry": "X",
       "value": "empty_symX"
@@ -403,6 +323,12 @@
       "src": "intersection3way_symE.png",
       "tileSymmetry": "E",
       "value": "intersection3way_symE"
+    },
+    {
+      "multiplyFrequency": 0.0467,
+      "src": "rooms/intersection3way_with_room_symE.png",
+      "tileSymmetry": "E",
+      "value": "intersection3way_with_room_symE"
     },
     {
       "multiplyFrequency": 0.0467,
@@ -439,12 +365,6 @@
       "src": "intersection4wayAsym_symF.png",
       "tileSymmetry": "F",
       "value": "intersection4wayAsym_symF"
-    },
-    {
-      "multiplyFrequency": 0.02,
-      "src": "rooms/intersection4wayAsym_with_roomLarge_symF.png",
-      "tileSymmetry": "F",
-      "value": "intersection4wayAsym_with_roomLarge_symF"
     }
   ],
   "width": 21
